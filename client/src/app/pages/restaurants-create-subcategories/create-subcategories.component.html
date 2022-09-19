@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4>Zgjedh nënkategoritë</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="companyFormGroup" (submit)="addCompany()">
+          <div class="form-row">
+            <div class="form-row">
+              <div class="col-12">
+                <h6 class="ml-2">Lista e nënkategorive</h6>
+              </div>
+            </div>
+            <div class="col-12" formArrayName="productsList">
+              <div *ngFor="let address of productsList.controls; let i=index" class="mt-3">
+                  <div class="form-row" [formGroupName]="i">
+                    <div class="form-group col-md-3">
+                      <label for="companyAdress">Nënkategoria</label>
+                      <select class="custom-select" name="subcategoryId" formControlName="subcategoryId" [ngClass]="{'is-invalid': (getCompanyFormGroup.productsList?.controls[i].controls.subcategoryId?.errors && submittedCompany) || ( getCompanyFormGroup.productsList?.controls[i]?.controls?.subcategoryId?.touched &&  getCompanyFormGroup.productsList?.controls[i]?.controls?.subcategoryId?.errors)}">
+                        <option value="">Zgjedh nënkategorinë</option>
+                        <option value="{{cat._id}}" id="{{cat._id}}" *ngFor="let cat of subcategories">{{cat.name}}</option>
+                      </select>
+                      <div class="invalid-feedback"
+                        *ngIf="(getCompanyFormGroup.productsList?.controls[i]?.controls?.subcategoryId?.errors?.required && submittedCompany) || ( getCompanyFormGroup.productsList?.controls[i]?.controls?.subcategoryId?.touched &&  getCompanyFormGroup.productsList?.controls[i]?.controls?.subcategoryId?.errors?.required)">
+                          Ju lutemi, zgjedhni nënkategorinë
+                      </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="companyAdress">Kodi i kategorisë</label>
+                      <input type="text" name="categoryCode" formControlName="categoryCode" [ngClass]="{'is-invalid': (getCompanyFormGroup.productsList?.controls[i].controls?.categoryCode?.errors && submittedCompany) || ( getCompanyFormGroup.productsList?.controls[i]?.controls?.categoryCode.touched &&  getCompanyFormGroup.productsList?.controls[i]?.controls?.categoryCode?.errors)}" class="form-control">
+                      <div class="invalid-feedback"
+                          *ngIf="(getCompanyFormGroup.productsList?.controls[i].controls.categoryCode?.errors?.required && submittedCompany) || ( getCompanyFormGroup.productsList?.controls[i]?.controls?.categoryCode?.touched &&  getCompanyFormGroup.productsList?.controls[i]?.controls?.categoryCode?.errors?.required)">
+                            Ju lutemi, shkruani kodin e kategorisë
+                      </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="companyAdress">Kodi i nënkategorisë</label>
+                      <input type="text" name="subCategoryCode" formControlName="subCategoryCode" [ngClass]="{'is-invalid': (getCompanyFormGroup.productsList?.controls[i].controls?.subCategoryCode?.errors && submittedCompany) || ( getCompanyFormGroup.productsList?.controls[i]?.controls?.subCategoryCode.touched &&  getCompanyFormGroup.productsList?.controls[i]?.controls?.subCategoryCode?.errors)}" class="form-control">
+                      <div class="invalid-feedback"
+                          *ngIf="(getCompanyFormGroup.productsList?.controls[i].controls.subCategoryCode?.errors?.required && submittedCompany) || ( getCompanyFormGroup.productsList?.controls[i]?.controls?.subCategoryCode?.touched &&  getCompanyFormGroup.productsList?.controls[i]?.controls?.subCategoryCode?.errors?.required)">
+                            Ju lutemi, shkruani kodin e nënkategorisë
+                      </div>
+                    </div>
+                    <button class="btn btn-sm btn-primary" *ngIf="i != 0" (click)="removeAddress($event,i)"> - </button>
+                    <div class="border my-3 w-100 mt-4"></div>
+                  </div>
+              </div>
+            </div> 
+          </div>
+          <button class="btn btn-primary" (click)="addAddress($event)"> + </button>
+          <div class="float-right">
+            <button class="btn">Ruaj</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

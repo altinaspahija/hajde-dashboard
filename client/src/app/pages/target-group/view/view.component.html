@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Target grupi</h4>
+            </div>
+            <div *ngIf="targetGroup" class="card-body">
+                <div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="name">Titulli</label>
+                            <input
+                                type="text" 
+                                class="form-control" 
+                                name="title"
+                                value="{{targetGroup.title}}"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-row">
+
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Emri
+                                </th>
+                                <th>
+                                    Mbiemri
+                                </th>
+                                <th>
+                                    Tel
+                                </th>
+                                <th class="text-right">
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tg of targetGroupClients">
+                                    <td>
+                                        <span>{{tg._id}}</span>
+                                    </td>
+                                    <td>{{tg.firstName}}</td>
+                                    <td>{{tg.lastName}}</td>
+                                    <td>{{tg.phone}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row mt-3 mb-3">
+          <div class="col-3">
+            <input type="text" class="form-control hajde-input" placeholder="Emri dhe mbiemri" [(ngModel)]="name" (keyup)="search()">
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control hajde-input" placeholder="Telefoni" [(ngModel)]="phone" (keyup)="search()">
+          </div>
+          <div class="col-3">
+            <select class="custom-select hajde-input hajde-select" [(ngModel)]="status"  (change)="changeStatus()">
+              <option value="">Statusi</option>
+              <option value="true">Aktiv</option>
+              <option value="false">Jo Aktiv</option>
+            </select>
+          </div>
+          <div class="col-3">
+            <div class="float-right"> 
+               <button class="btn btn-primary" (click)="exportCouriers()">Eksporto</button>
+               <button class="btn " [routerLink]="['create']">Regjistro korier</button>
+             </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Emri dhe mbiemri
+              </th>
+              <th>
+                Telefoni
+              </th>
+              <th>
+                Statusi
+              </th>
+              <th>
+                Regjisturar më
+               </th>
+              <th class="text-right">
+              
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let courier of couriers">
+                <td>
+                 <a [routerLink]="[courier._id]">{{courier.fullName}}</a>
+                </td>
+                <td>
+                  {{courier.phone}}
+                </td>
+                <td>
+                  {{courier.isActive ? 'Aktiv' : 'Jo Aktiv'}}
+                </td>
+                <td>
+                  {{courier.createdAt | date:'dd.MM.yyyy'}}
+                </td>
+                <td class="text-right">
+                  <button class="btn btn-sm btn-secondary mr-2"  [routerLink]="[courier._id,'edit']" >Ndrysho</button>
+                  <button class="btn btn-sm btn-secondary mr-2"  *ngIf="!courier.isActive"  (click)="activate(courier._id)" >Aktivizo</button>
+                  <button class="btn btn-sm btn-secondary mr-2"  *ngIf="courier.isActive"  (click)="deactivate(courier._id)" >Deaktivizo</button>
+                  <button class="btn btn-sm btn-secondary" (click)="delete(courier._id)">Fshi</button>
+                </td>
+              </tr>
+              <tr *ngIf="couriers?.length ==0">
+                <td colspan="5" class="text-center">
+                  Nuk ka të dhana
+                </td>
+              </tr> 
+            </tbody>
+          </table>
+          <div class="row mt-2" *ngIf="pages != 0 && pages != 1">
+            <div class="col-12">
+              <div class="float-right mr-3">
+                <nav class="" aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <li class="page-item couriers-pagination">
+                      <a class="page-link"  aria-label="Previous" (click)="prevPage($event)">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Prev</span>
+                      </a>
+                    </li>
+                      <li class="page-item couriers-pagination" [ngClass]="{active: i+1 == currentPage }" *ngFor="let item of arrayOne(pages); let i = index;"><a class="page-link" [attr.data-pagenumber]="i+1" (click)="changePage($event)" >{{i+1}}</a></li>
+                      
+                    <li class="page-item couriers-pagination">
+                      <a class="page-link"  aria-label="Next" (click)="nextPage($event)">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</div>

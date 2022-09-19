@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Ndrysho shfrytezuesin</h4>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="form">
+                    <div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="name">Emri</label>
+                                <input type="text" formControlName="firstName" class="form-control" placeholder="" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="name">Mbiemri</label>
+                                <input type="text" formControlName="lastName" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="name">Email</label>
+                                <input type="email" formControlName="email" class="form-control" placeholder="" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="name">Fjalekalimi</label>
+                                <div class="d-flex">
+                                    <input type="password" formControlName="password" class="form-control" placeholder="" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row mt-2">
+                            <div class="form-group col-md-2">
+                                <select class="form-control" formControlName="role" name="role" id="role">
+                                    <option value="" selected>Zgjedh rolin</option>
+                                    <option value="restaurant">Restaurant</option>
+                                    <option value="company">Market</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex" *ngIf="form.value['role'] === 'admin'">
+
+                            <div class="col-md-3 p-0">
+                                <label for="companyAdress">Shteti</label>
+
+                                <div>
+                                    <app-countries [selected]="form.value && form.value.country" (onCountryChange)="handleCountryChange($event)"></app-countries>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="companyAdress">Qyteti</label>
+                                <div>
+                                    <app-cities [selected]="form.value && form.value.city" [cities]="cities" (onCityChange)="handleCityChange($event)">
+                                    </app-cities>
+                                </div>
+                                <div class="invalid-feedback"
+                                    *ngIf="(form.city?.errors?.required) || ( form.city?.touched &&  form.city?.errors?.required)">
+                                    Ju lutemi, shkruani qytetin e kompanisë
+                                </div>
+                            </div>
+                        </div>
+
+                        <span style="color: #555; font-size: 12px" *ngIf="form.value['role'] === 'admin'"><i>* Nese vendoset shteti dhe qyteti, atehere vetem per ate shtet / qytet i sheh senet ..</i></span>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-2 is-user-active">
+                                <input class="form-check-input" type="checkbox" formControlName="isActive"
+                                    class="form-control" />
+                                <label for="name">Aktiv</label>
+                            </div>
+                        </div>
+                        <div class="form-row">
+
+                            <div class="col-12 d-flex flex-row-reverse">
+                                <button type="button" class="btn btn-secondary float-right"
+                                    (click)="save()">Ruaj</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

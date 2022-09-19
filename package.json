@@ -1,0 +1,55 @@
+{
+  "name": "hajde-app-admin-dashboard",
+  "version": "1.5.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/hajde-app/admin-dashboard.git"
+  },
+  "author": "Cupigano Ventures LTD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/hajde-app/admin-dashboard/issues"
+  },
+  "homepage": "https://gitlab.com/hajde-app/admin-dashboard#readme",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1.0",
+    "@mapbox/mapbox-gl-geocoder": "^5.0.1",
+    "aws-sdk": "^2.964.0",
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "file-type": "^16.1.0",
+    "firebase-admin": "^10.0.0",
+    "google-libphonenumber": "^3.2.22",
+    "google-spreadsheet": "^3.1.15",
+    "googleapis": "^66.0.0",
+    "helmet": "^4.2.0",
+    "intl-tel-input": "^17.0.13",
+    "json2csv": "^5.0.6",
+    "jsonwebtoken": "^8.5.1",
+    "mapbox-gl": "^2.9.1",
+    "moment": "^2.29.3",
+    "mongoose": "^5.13.15",
+    "morgan": "^1.10.0",
+    "ngx-intl-tel-input": "^3.1.1",
+    "node-schedule": "^2.0.0",
+    "nodemailer": "^6.7.5",
+    "papaparse": "^5.3.0",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "pino": "^7.11.0",
+    "pino-pretty": "^7.6.1",
+    "qrcode": "^1.5.0",
+    "sharp": "^0.30.6",
+    "socket.io": "^4.4.0",
+    "speakeasy": "^2.0.0",
+    "uuid": "^8.3.2",
+    "xlsx": "^0.16.9"
+  }
+}

@@ -1,0 +1,16 @@
+<form [formGroup]="form">
+    <div>
+        <select class="custom-select form-control" name="currency" formControlName="currency"
+            [ngClass]="{'is-invalid': (currencyControl?.errors) || ( currencyControl?.touched &&  currencyControl?.errors)}">
+            <option selected value="">Currency</option>
+            <option value="EUR">Euro</option>
+            <option value="ALL">Lek</option>
+            <option value="MKD">Denar</option>
+        </select>
+    
+        <div class="invalid-feedback"
+            *ngIf="(currencyControl?.errors?.required) || ( currencyControl?.touched &&  currencyControl?.errors?.required)">
+            Ju lutemi, shkruani valuten
+        </div>
+    </div>
+</form>

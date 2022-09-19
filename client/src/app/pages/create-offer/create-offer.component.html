@@ -1,0 +1,703 @@
+<nav ngbNav #nav="ngbNav" class="nav-tabs">
+  <ng-container ngbNavItem>
+    <a ngbNavLink>Zbritje me përqindje</a>
+    <ng-template ngbNavContent>
+      <form [formGroup]="percentFormGroup" (submit)="savePercent()">  
+        <div class="form-row">
+          <div class="form-group col-md-5">
+            <label for="offerProvider">Ofruesi ofertës</label>
+            <select [attr.disabled]="percentageRestaurantMarketAllSelected ? '' : null" class="custom-select" name="percent_offerProvider" formControlName="percent_offerProvider"  [ngClass]="{'is-invalid': (getPercentFormGroup.percent_offerProvider?.errors && submittedPercent) || ( getPercentFormGroup.percent_offerProvider?.touched &&  getPercentFormGroup.percent_offerProvider?.errors)}" (change)="changeOffer($event)">
+              <option value="">Zgjedhe ofruesin</option>
+              <option value="hajde">Hajde</option>
+              <option value="market">Market</option>
+              <option value="restaurant">Restaurant</option>
+            </select>
+            <div class="invalid-feedback"
+              *ngIf="(getPercentFormGroup.percent_offerProvider?.errors?.required && submittedPercent) || ( getPercentFormGroup.percent_offerProvider?.touched &&  getPercentFormGroup.percent_offerProvider?.errors?.required)">
+              Ju lutemi, zgjedhni ofruesin e ofertës
+            </div>
+          </div>
+          <div class="form-group col-md-1 d-flex justify-content-center align-items-center mt-4" *ngIf="comps?.length > 0">
+            <div>
+              <input type="checkbox" class="form-check-input" id="percentageRestaurantMarketAllSelected"
+                [value]="percentageRestaurantMarketAllSelected"
+                (change)="percentageRestaurantMarketAllSelectedChange(percentageRestaurantMarketAllSelected)"
+              >
+              <label class="form-check-label" for="percentageRestaurantMarketAllSelected">Të gjithë</label>
+            </div>
+          </div>
+          <div class="form-group col-md-6" *ngIf="comps?.length > 0">
+            <label for="offerProvider">Marketi / Restaruanti</label>
+            <ng-select [readonly]="percentageRestaurantMarketAllSelected" [multiple]="true" [items]="comps" bindLabel="name" bindValue="_id" formControlName="percent_companyId"
+                [ngClass]="{'is-invalid': (getPercentFormGroup.percent_companyId?.errors && submittedPercent) || ( getPercentFormGroup.percent_companyId?.touched &&  getPercentFormGroup.percent_companyId?.errors)}"
+                name="percent_companyId">
+              </ng-select>
+            <div class="invalid-feedback"
+                      *ngIf="(getPercentFormGroup.percent_companyId?.errors?.required && submittedPercent) || ( getPercentFormGroup.percent_companyId?.touched &&  getPercentFormGroup.percent_companyId?.errors?.required)">
+                      Ju lutemi, zgjedhni marketin / restaruantin
+                </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="descriptions">Përshkrimi</label>
+            <textarea name="percent_description" formControlName="percent_description"
+              [ngClass]="{'is-invalid': (getPercentFormGroup.percent_description?.errors && submittedPercent) || ( getPercentFormGroup.percent_description?.touched &&  getPercentFormGroup.percent_description?.errors)}"
+              class="form-control" cols="30" rows="100"></textarea>
+            <div class="invalid-feedback"
+              *ngIf="(getPercentFormGroup.percent_description?.errors?.required && submittedPercent) || ( getPercentFormGroup.percent_description?.touched &&  getPercentFormGroup.percent_description?.errors?.required)">
+              Ju lutemi, shkruani përshkrimin e ofertes
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-3" >
+            <label for="offerProvider">Shteti</label>
+            <select class="custom-select" name="percent_country" formControlName="percent_country"  [ngClass]="{'is-invalid': (getPercentFormGroup.percent_country?.errors && submittedPercent) || ( getPercentFormGroup.percent_country?.touched &&  getPercentFormGroup.percent_country?.errors)}">
+              <option value="">Zgjedhe shtetin</option>
+              <option value="Kosovë">Kosovë</option>
+              <option value="Shqiperië">Shqiperië</option>
+            </select>
+            <div class="invalid-feedback"
+                      *ngIf="(getPercentFormGroup.percent_country?.errors?.required && submittedPercent) || ( getPercentFormGroup.percent_country?.touched &&  getPercentFormGroup.percent_country?.errors?.required)">
+                      Ju lutemi, zgjedhni shtetin
+                </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="offerProvider">Përqindja</label>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Përqindja"  aria-describedby="basic-addon2" name="percent_discountAmount" formControlName="percent_discountAmount"  [ngClass]="{'is-invalid': (getPercentFormGroup.percent_discountAmount?.errors && submittedPercent) || ( getPercentFormGroup.percent_discountAmount?.touched &&  getPercentFormGroup.percent_discountAmount?.errors)}">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">%</span>
+              </div>
+            </div>
+            <div class="invalid-feedback"
+                      *ngIf="(getPercentFormGroup.percent_discountAmount?.errors?.required && submittedPercent) || ( getPercentFormGroup.percent_discountAmount?.touched &&  getPercentFormGroup.percent_discountAmount?.errors?.required)">
+                      Ju lutemi, shkruani përqindjen
+                </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="offerProvider">Vlera minimale për ofertën</label>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Vlera"  aria-describedby="basic-addon2" name="percent_minValue" formControlName="percent_minValue"  [ngClass]="{'is-invalid': (getPercentFormGroup.percent_minValue?.errors && submittedPercent) || ( getPercentFormGroup.percent_minValue?.touched &&  getPercentFormGroup.percent_minValue?.errors)}">
+              <div class="input-group-append">
+                
+                <span class="input-group-text" id="basic-addon2">{{getPercentFormGroup?.percent_country?.value == "Kosovë" ? '€' : 'Lekë'}}</span>
+              </div>
+            </div>
+            <div class="invalid-feedback"
+                      *ngIf="(getPercentFormGroup.percent_minValue?.errors?.required && submittedPercent) || ( getPercentFormGroup.percent_minValue?.touched &&  getPercentFormGroup.percent_minValue?.errors?.required)">
+                      Ju lutemi, shkruani vlerën minimale për ofertën
+                </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="offerProvider">Vlera maksimamle që mund të zbritet</label>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Vlera"  aria-describedby="basic-addon2" name="percent_maxValue" formControlName="percent_maxValue"  [ngClass]="{'is-invalid': (getPercentFormGroup.percent_maxValue?.errors && submittedPercent) || ( getPercentFormGroup.percent_maxValue?.touched &&  getPercentFormGroup.percent_maxValue?.errors)}">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">{{getPercentFormGroup?.percent_country?.value == "Kosovë" ? '€' : 'Lekë'}}</span>
+              </div>
+            </div>
+            <div class="invalid-feedback"
+                      *ngIf="(getPercentFormGroup.percent_maxValue?.errors?.required && submittedPercent) || ( getPercentFormGroup.percent_maxValue?.touched &&  getPercentFormGroup.percent_maxValue?.errors?.required)">
+                      Ju lutemi, shkruani Vlera maksimamle që mund të zbritet
+                </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="free-delivery">Free Delivery</label>
+          <input type="checkbox" formControlName="percent_freeDelivery" id="free-delivery" class="ml-3" style="height: 15px; position: relative; top: 3px" />
+        </div>
+
+        <div class="form-group col-4 p-0">
+          <label for="produktet">Produktet:</label>
+          <ng-select [multiple]="true" [items]="products" bindLabel="name" bindValue="_id" formControlName="percent_products" name="percent_products">
+          </ng-select>
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group col-md-5">
+            
+            <label for="offerProvider">Target grupi</label>
+            <app-target-groups-select
+              [selected]="percentTargetGroupValue.value"
+              (change)="percentTargetGroupChanged($event)">
+            </app-target-groups-select>
+
+            <!-- <select class="custom-select" name="percent_targetGroup" formControlName="percent_targetGroup"  [ngClass]="{'is-invalid': (getPercentFormGroup.percent_targetGroup?.errors && submittedPercent) || ( getPercentFormGroup.percent_targetGroup?.touched &&  getPercentFormGroup.percent_targetGroup?.errors)}">
+              <option value="">Zgjedhe target grupin</option>
+              <option value="newUsers">Përdoruesit e ri</option>
+              <option value="nonActiveUsers">Përdoruesit jo aktiv</option>
+              <option value="activeUserWithOneBuy">Përdoruesit aktiv me një blerje</option>
+              <option value="activeUsers">Përdoruesit aktiv</option>
+              <option value="activeUsersWithManyBuysForWeek">Përdoruesit aktiv me shumë blerje për jave</option>
+              <option value="activeRepetitiveUsersNonWeekly">Përdorues aktivë të përsëritur jo çdo javë</option>
+              <option value="allUsers">Të gjithë pëdoruesit</option>
+            </select>
+            -->
+            <div class="invalid-feedback"
+                  *ngIf="(getPercentFormGroup.percent_targetGroup?.errors?.required && submittedPercent) || ( getPercentFormGroup.percent_targetGroup?.touched &&  getPercentFormGroup.percent_targetGroup?.errors?.required)">
+                  Ju lutemi, zgjedhni target grupin
+            </div> 
+        
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-12">
+            <label for="">Ka periudhë kohore:</label>
+          </div>
+          
+          <div class="col-md-12">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline1" name="percent_hasPeriod" formControlName="percent_hasPeriod"  class="custom-control-input" value="true">
+              <label class="custom-control-label" for="customRadioInline1">Po</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline2" name="percent_hasPeriod" formControlName="percent_hasPeriod"  class="custom-control-input" value="false">
+              <label class="custom-control-label" for="customRadioInline2">Jo</label>
+            </div>
+            <div class="invalid-feedback"
+                  *ngIf="(getPercentFormGroup.percent_hasPeriod?.errors?.required && submittedPercent) || ( getPercentFormGroup.percent_hasPeriod?.touched &&  getPercentFormGroup.percent_hasPeriod?.errors?.required)">
+                  Ju lutemi, zgjedhni një vlerë
+            </div>
+          </div>
+        </div>
+        <div class="form-row mt-3" *ngIf="getPercentFormGroup.percent_hasPeriod?.value != 'false'">
+          <div class="col">
+                <label for="">Nga</label>
+                <input type="date" class="form-control" placeholder="Data filluese" name="percent_startDate" formControlName="percent_startDate" [ngClass]="{'is-invalid': (getPercentFormGroup.percent_startDate?.errors && submittedPercent) || ( getPercentFormGroup.percent_startDate?.touched &&  getPercentFormGroup.percent_startDate?.errors)}">
+                <div class="invalid-feedback" *ngIf="(getPercentFormGroup.percent_startDate?.errors?.required && submittedPercent) || ( getPercentFormGroup.percent_startDate?.touched &&  getPercentFormGroup.percent_startDate?.errors?.required)">
+                  Ju lutemi përzgjidhni një datë
+              </div>
+          </div>
+          <div class="col">
+            <label for="">Deri</label>
+              <input class="form-control" type="date"  [min]="getPercentFormGroup.percent_startDate?.value"  name="percent_endDate" formControlName="percent_endDate" [ngClass]="{'is-invalid': (getPercentFormGroup.percent_endDate?.errors && submittedPercent) || ( getPercentFormGroup.percent_endDate?.touched &&  getPercentFormGroup.percent_endDate?.errors)}">       
+              <div class="invalid-feedback" *ngIf="(getPercentFormGroup.percent_endDate?.errors?.required && submittedPercent) || ( getPercentFormGroup.toDate?.touched &&  getPercentFormGroup.toDate?.errors?.required)">
+                  Ju lutemi përzgjidhni një datë
+              </div>
+              <div class="invalid-feedback" *ngIf="(getPercentFormGroup.percent_endDate?.errors?.dateValidator && submittedPercent) || ( getPercentFormGroup.percent_endDate?.touched &&  getPercentFormGroup.percent_endDate?.errors?.dateValidator)">
+                'Data deri' duhet të jetë më e madhe se 'Data nga'
+              </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-12">
+            <div class="float-right">
+              <button class="btn btn-primary" type="submit">Ruaj</button>
+            </div>
+          </div>
+        </div>
+    </form>
+    </ng-template>
+  </ng-container>
+  <ng-container ngbNavItem>
+    <a ngbNavLink> Zbritje me vlerë</a>
+    <ng-template ngbNavContent>
+      <form [formGroup]="valueFormGroup" (submit)="saveValue()">  
+        <div class="form-row">
+          <div class="form-group col-md-5">
+            <label for="offerProvider">Ofruesi ofertës</label>
+            <select [attr.disabled]="discountRestaurantMarketAllSelected ? '' : null" class="custom-select" name="percent_offerProvider" formControlName="value_offerProvider"  [ngClass]="{'is-invalid': (getValueFormGroup.value_offerProvider?.errors && submittedValue) || ( getValueFormGroup.value_offerProvider?.touched &&  getValueFormGroup.value_offerProvider?.errors)}" (change)="changeOfferValue($event)">
+              <option value="">Zgjedhe ofruesin</option>
+              <option value="hajde">Hajde</option>
+              <option value="market">Market</option>
+              <option value="restaurant">Restaurant</option>
+            </select>
+            <div class="invalid-feedback"
+                      *ngIf="(getValueFormGroup.value_offerProvider?.errors?.required && submittedValue) || ( getValueFormGroup.value_offerProvider?.touched &&  getValueFormGroup.value_offerProvider?.errors?.required)">
+                      Ju lutemi, zgjedhni ofruesin e ofertës
+                </div>
+          </div>
+
+          <div class="form-group col-md-1 d-flex justify-content-center align-items-center mt-4" *ngIf="valComps?.length > 0">
+            <div>
+              <input type="checkbox" class="form-check-input" id="discountRestaurantMarketAllSelected"
+                [value]="discountRestaurantMarketAllSelected"
+                (change)="discountRestaurantMarketAllSelectedChange(discountRestaurantMarketAllSelected)"
+              >
+              <label class="form-check-label" for="discountRestaurantMarketAllSelected">Të gjithë</label>
+            </div>
+          </div>
+          <div class="form-group col-md-6" *ngIf="valComps?.length > 0">
+            <label for="offerProvider">Marketi / Restaruanti</label>
+            <ng-select [readonly]="discountRestaurantMarketAllSelected" [multiple]="true" [items]="valComps" bindLabel="name" bindValue="_id" formControlName="value_companyId"
+            [ngClass]="{'is-invalid': (getValueFormGroup.value_companyId?.errors && submittedPercent) || ( getValueFormGroup.value_companyId?.touched &&  getValueFormGroup.value_companyId?.errors)}"
+                name="value_companyId">
+              </ng-select>
+            <div class="invalid-feedback"
+            *ngIf="(getValueFormGroup.value_companyId?.errors?.required && submittedPercent) || ( getValueFormGroup.value_companyId?.touched &&  getValueFormGroup.value_companyId?.errors?.required)">
+                      Ju lutemi, zgjedhni marketin / restaruantin
+                </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="descriptions">Përshkrimi</label>
+            <textarea name="value_description" formControlName="value_description"
+              [ngClass]="{'is-invalid': (getValueFormGroup.value_description?.errors && submittedValue) || ( getValueFormGroup.value_description?.touched &&  getValueFormGroup.value_description?.errors)}"
+              class="form-control" cols="30" rows="100"></textarea>
+            <div class="invalid-feedback"
+              *ngIf="(getValueFormGroup.value_description?.errors?.required && submittedValue) || ( getValueFormGroup.value_description?.touched &&  getValueFormGroup.value_description?.errors?.required)">
+              Ju lutemi, shkruani përshkrimin e ofertes
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-3" >
+            <label for="offerProvider">Shteti</label>
+            <select class="custom-select" name="value_country" formControlName="value_country"  [ngClass]="{'is-invalid': (getValueFormGroup.value_country?.errors && submittedValue) || ( getValueFormGroup.value_country?.touched &&  getValueFormGroup.value_country?.errors)}">
+              <option value="">Zgjedhe shtetin</option>
+              <option value="Kosovë">Kosovë</option>
+              <option value="Shqiperië">Shqiperië</option>
+            </select>
+            <div class="invalid-feedback"
+                      *ngIf="(getValueFormGroup.value_country?.errors?.required && submittedValue) || ( getValueFormGroup.value_country?.touched &&  getValueFormGroup.value_country?.errors?.required)">
+                      Ju lutemi, zgjedhni shtetin
+                </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="offerProvider">Vlera</label>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Vlera"  aria-describedby="basic-addon2" name="value_discountAmount" formControlName="value_discountAmount"  [ngClass]="{'is-invalid': (getValueFormGroup.value_discountAmount?.errors && submittedValue) || ( getValueFormGroup.value_discountAmount?.touched &&  getValueFormGroup.value_discountAmount?.errors)}">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">{{getValueFormGroup?.value_country?.value == "Kosovë" ? '€' : 'Lekë'}}</span>
+              </div>
+            </div>
+            <div class="invalid-feedback"
+                      *ngIf="(getValueFormGroup.value_discountAmount?.errors?.required && submittedValue) || ( getValueFormGroup.value_discountAmount?.touched &&  getValueFormGroup.value_discountAmount?.errors?.required)">
+                      Ju lutemi, shkruani përqindjen
+                </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="offerProvider">Vlera minimale për ofertën</label>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Vlera"  aria-describedby="basic-addon2" name="value_minValue" formControlName="value_minValue"  [ngClass]="{'is-invalid': (getValueFormGroup.value_minValue?.errors && submittedValue) || ( getValueFormGroup.value_minValue?.touched &&  getValueFormGroup.value_minValue?.errors)}">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">{{getValueFormGroup?.value_country?.value== "Kosovë" ? '€' : 'Lekë'}}</span>
+              </div>
+            </div>
+            <div class="invalid-feedback"
+                      *ngIf="(getValueFormGroup.value_minValue?.errors?.required && submittedValue) || ( getValueFormGroup.value_minValue?.touched &&  getValueFormGroup.value_minValue?.errors?.required)">
+                      Ju lutemi, shkruani vlerën minimale për ofertën
+                </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="free-delivery">Free Delivery</label>
+          <input type="checkbox" formControlName="value_freeDelivery" id="free-delivery" class="ml-3" style="height: 15px; position: relative; top: 3px" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-5">
+
+            <label for="offerProvider">Target grupi</label>
+            <app-target-groups-select
+              [selected]="valueTargetGroupValue.value"
+              (change)="valueTargetGroupChanged($event)">
+            </app-target-groups-select>
+
+            <!-- <label for="offerProvider">Target grupi</label>
+            <select class="custom-select" name="value_targetGroup" formControlName="value_targetGroup"  [ngClass]="{'is-invalid': (getValueFormGroup.value_targetGroup?.errors && submittedValue) || ( getValueFormGroup.value_targetGroup?.touched &&  getValueFormGroup.value_targetGroup?.errors)}">
+              <option value="">Zgjedhe target grupin</option>
+              <option value="newUsers">Përdoruesit e ri</option>
+              <option value="nonActiveUsers">Përdoruesit jo aktiv</option>
+              <option value="activeUserWithOneBuy">Përdoruesit aktiv me një blerje</option>
+              <option value="activeUsers">Përdoruesit aktiv</option>
+              <option value="activeUsersWithManyBuysForWeek">Përdoruesit aktiv me shumë blerje për jave</option>
+              <option value="activeRepetitiveUsersNonWeekly">Përdorues aktivë të përsëritur jo çdo javë</option>
+              <option value="allUsers">Të gjithë pëdoruesit</option>
+            </select> -->
+
+            <div class="invalid-feedback"
+                  *ngIf="(getValueFormGroup.value_targetGroup?.errors?.required && submittedValue) || ( getValueFormGroup.value_targetGroup?.touched &&  getValueFormGroup.value_targetGroup?.errors?.required)">
+                  Ju lutemi, zgjedhni target grupin
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-12">
+            <label for="">Ka periudhë kohore:</label>
+          </div>
+          
+          <div class="col-md-12">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline1" name="value_hasPeriod" formControlName="value_hasPeriod"  class="custom-control-input" value="true">
+              <label class="custom-control-label" for="customRadioInline1">Po</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline2" name="value_hasPeriod" formControlName="value_hasPeriod"  class="custom-control-input" value="false">
+              <label class="custom-control-label" for="customRadioInline2">Jo</label>
+            </div>
+            <div class="invalid-feedback"
+                  *ngIf="(getValueFormGroup.value_hasPeriod?.errors?.required && submittedValue) || ( getValueFormGroup.value_hasPeriod?.touched &&  getValueFormGroup.value_hasPeriod?.errors?.required)">
+                  Ju lutemi, zgjedhni një vlerë
+            </div>
+          </div>
+        </div>
+        <div class="form-row mt-3" *ngIf="getValueFormGroup.value_hasPeriod?.value != 'false'">
+          <div class="col">
+                <label for="">Nga</label>
+                <input type="date" class="form-control" placeholder="Data filluese" name="value_startDate" formControlName="value_startDate" [ngClass]="{'is-invalid': (getValueFormGroup.value_startDate?.errors && submittedValue) || ( getValueFormGroup.value_startDate?.touched &&  getValueFormGroup.value_startDate?.errors)}">
+                <div class="invalid-feedback" *ngIf="(getValueFormGroup.value_startDate?.errors?.required && submittedValue) || ( getValueFormGroup.value_startDate?.touched &&  getValueFormGroup.value_startDate?.errors?.required)">
+                  Ju lutemi përzgjidhni një datë
+              </div>
+          </div>
+          <div class="col">
+            <label for="">Deri</label>
+              <input class="form-control" type="date"  [min]="getValueFormGroup.value_startDate?.value"  name="value_endDate" formControlName="value_endDate" [ngClass]="{'is-invalid': (getValueFormGroup.value_endDate?.errors && submittedValue) || ( getValueFormGroup.value_endDate?.touched &&  getValueFormGroup.value_endDate?.errors)}">       
+              <div class="invalid-feedback" *ngIf="(getValueFormGroup.value_endDate?.errors?.required && submittedValue) || ( getValueFormGroup.value_endDate?.touched && getValueFormGroup.value_endDate?.errors?.required)">
+                  Ju lutemi përzgjidhni një datë
+              </div>
+              <div class="invalid-feedback" *ngIf="(getValueFormGroup.value_endDate?.errors?.dateValidator && submittedValue) || ( getValueFormGroup.value_endDate?.touched &&  getValueFormGroup.value_endDate?.errors?.dateValidator)">
+                'Data deri' duhet të jetë më e madhe se 'Data nga'
+              </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-12">
+            <div class="float-right">
+              <button class="btn btn-primary" type="submit">Ruaj</button>
+            </div>
+          </div>
+        </div>
+    </form>
+    </ng-template>
+  </ng-container>
+  <ng-container ngbNavItem>
+    <a ngbNavLink>Produkt falas</a>
+    <ng-template ngbNavContent>
+      <form [formGroup]="productFormGroup" (submit)="saveProd()">  
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="offerProvider">Ofruesi ofertës</label>
+            <select class="custom-select" name="product_offerProvider" formControlName="product_offerProvider"  [ngClass]="{'is-invalid': (getProductFormGroup.product_offerProvider?.errors && submittedProd) || ( getProductFormGroup.product_offerProvider?.touched &&  getProductFormGroup.product_offerProvider?.errors)}" (change)="changeOfferProd()">
+              <option value="">Zgjedhe ofruesin</option>
+              <option value="market">Market</option>
+              <option value="restaurant">Restaurant</option>
+            </select>
+            <div class="invalid-feedback"
+                      *ngIf="(getProductFormGroup.product_offerProvider?.errors && submittedProd) || ( getProductFormGroup.product_offerProvide?.touched &&  getProductFormGroup.product_offerProvider?.errors?.required)">
+                      Ju lutemi, zgjedhni ofruesin e ofertës
+                </div>
+          </div>
+
+          <div class="form-group col-md-4" *ngIf="prodComps?.length > 0">
+            <label for="offerProvider">Marketi / Restaruanti</label>
+            <ng-select (change)="getAllProd($event)" [readonly]="productFreeRestaurantMarketAllSelected" [multiple]="false" [items]="prodComps" bindLabel="name" bindValue="_id" formControlName="product_companyId"
+            [ngClass]="{'is-invalid': (getProductFormGroup.product_companyId?.errors && submittedProd) || ( getProductFormGroup.product_companyId?.touched &&  getProductFormGroup.product_companyId?.errors)}"
+                name="percent_companyId">
+              </ng-select>
+            <div class="invalid-feedback"
+                *ngIf="(getProductFormGroup.product_companyId?.errors?.required && submittedProd) || ( getProductFormGroup.product_companyId?.touched &&  getProductFormGroup.product_companyId?.errors?.required)">
+                    Ju lutemi, zgjedhni marketin / restaruantin
+                </div>
+          </div>
+
+          <div class="form-group col-md-4" *ngIf="prods?.length > 0">
+            <label for="offerProvider">Produktet</label>
+            <ng-select [readonly]="productFreeRestaurantMarketAllSelected" [multiple]="false" [items]="prods" bindLabel="name" bindValue="_id" formControlName="product_productId"
+            [ngClass]="{'is-invalid': (getProductFormGroup.product_productId?.errors && submittedProd) || ( getProductFormGroup.product_productId?.touched &&  getProductFormGroup.product_productId?.errors)}"
+                name="product_productId">
+              </ng-select>
+            <div class="invalid-feedback"
+            *ngIf="(getProductFormGroup.product_productId?.errors?.required && submittedProd) || ( getProductFormGroup.product_productId?.touched &&  getProductFormGroup.product_productId?.errors?.required)">
+            Ju lutemi, zgjedhni produktin
+                </div>
+          </div>
+      
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="descriptions">Përshkrimi</label>
+            <textarea name="product_description" formControlName="product_description"
+              [ngClass]="{'is-invalid': (getProductFormGroup.product_description?.errors && submittedProd) || ( getProductFormGroup.product_description?.touched &&  getProductFormGroup.product_description?.errors)}"
+              class="form-control" cols="30" rows="100"></textarea>
+            <div class="invalid-feedback"
+              *ngIf="(getProductFormGroup.product_description?.errors?.required && submittedProd) || ( getProductFormGroup.product_description?.touched &&  getProductFormGroup.product_description?.errors?.required)">
+              Ju lutemi, shkruani përshkrimin e ofertes
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-3" >
+            <label for="offerProvider">Shteti</label>
+            <select class="custom-select" name="product_country" formControlName="product_country"  [ngClass]="{'is-invalid': (getProductFormGroup.product_country?.errors && submittedProd) || ( getProductFormGroup.product_country?.touched &&  getProductFormGroup.product_country?.errors)}">
+              <option value="">Zgjedhe shtetin</option>
+              <option value="Kosovë">Kosovë</option>
+              <option value="Shqiperië">Shqiperië</option>
+            </select>
+            <div class="invalid-feedback"
+                      *ngIf="(getProductFormGroup.product_country?.errors && submittedProd) || ( getProductFormGroup.product_country?.touched &&  getProductFormGroup.product_country?.errors?.required)">
+                      Ju lutemi, zgjedhni shtetin
+                </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="offerProvider">Vlera minimale për ofertën</label>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Vlera"  aria-describedby="basic-addon2" name="product_minValue" formControlName="product_minValue"  [ngClass]="{'is-invalid': (getProductFormGroup.product_minValue?.errors && submittedProd) || ( getProductFormGroup.product_minValue?.errors?.touched &&  getProductFormGroup.product_minValuee?.errors)}">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">{{getProductFormGroup?.product_country?.value== "Kosovë" ? '€' : 'Lekë'}}</span>
+              </div>
+            </div>
+            <div class="invalid-feedback"
+                      *ngIf="(getProductFormGroup.product_minValue?.errors && submittedProd) || ( getProductFormGroup.product_minValue?.errors?.touched &&  getProductFormGroup.product_minValue?.errors?.required)">
+                      Ju lutemi, shkruani vlerën minimale për ofertën
+                </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="free-delivery">Free Delivery</label>
+          <input type="checkbox" formControlName="product_freeDelivery" id="free-delivery" class="ml-3" style="height: 15px; position: relative; top: 3px" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-5">
+
+            <label for="offerProvider">Target grupi</label>
+            <app-target-groups-select
+              [selected]="freeProductTargetGroupValue.value"
+              (change)="freeProductTargetGroupChanged($event)">
+            </app-target-groups-select>
+
+            <!-- <label for="offerProvider">Target grupi</label>
+            <select class="custom-select" name="product_targetGroup" formControlName="product_targetGroup"  [ngClass]="{'is-invalid': (getProductFormGroup.product_targetGroup?.errors && submittedProd) || ( getProductFormGroup.product_targetGroup?.touched &&  getProductFormGroup.product_targetGroup?.errors)}">
+              <option value="">Zgjedhe target grupin</option>
+              <option value="newUsers">Përdoruesit e ri</option>
+              <option value="nonActiveUsers">Përdoruesit jo aktiv</option>
+              <option value="activeUserWithOneBuy">Përdoruesit aktiv me një blerje</option>
+              <option value="activeUsers">Përdoruesit aktiv</option>
+              <option value="activeUsersWithManyBuysForWeek">Përdoruesit aktiv me shumë blerje për jave</option>
+              <option value="activeRepetitiveUsersNonWeekly">Përdorues aktivë të përsëritur jo çdo javë</option>
+              <option value="allUsers">Të gjithë pëdoruesit</option>
+            </select> -->
+
+            <div class="invalid-feedback"
+                  *ngIf="(getProductFormGroup.product_targetGroup?.errors && submittedProd) || ( getProductFormGroup.product_targetGroup?.touched &&  getProductFormGroup.product_targetGroup?.errors?.required)">
+                  Ju lutemi, zgjedhni target grupin
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-12">
+            <label for="">Ka periudhë kohore:</label>
+          </div>
+          
+          <div class="col-md-12">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline1" name="product_hasPeriod" formControlName="product_hasPeriod"  class="custom-control-input" value="true">
+              <label class="custom-control-label" for="customRadioInline1">Po</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline2" name="product_hasPeriod" formControlName="product_hasPeriod"  class="custom-control-input" value="false">
+              <label class="custom-control-label" for="customRadioInline2">Jo</label>
+            </div>
+            <div class="invalid-feedback"
+                  *ngIf="(getProductFormGroup.product_hasPeriod?.errors?.required && submittedProd) || ( getProductFormGroup.product_hasPeriod?.touched &&  getProductFormGroup.product_hasPeriod?.errors?.required)">
+                  Ju lutemi, zgjedhni një vlerë
+            </div>
+          </div>
+        </div>
+        <div class="form-row mt-3" *ngIf="getProductFormGroup.product_hasPeriod?.value != 'false'">
+          <div class="col">
+                <label for="">Nga</label>
+                <input type="date" class="form-control" placeholder="Data filluese" name="product_startDate" formControlName="product_startDate" [ngClass]="{'is-invalid': (getProductFormGroup.product_startDate?.errors && submittedProd) || ( getProductFormGroup.product_startDate.touched &&  getProductFormGroup.product_startDate?.errors)}">
+                <div class="invalid-feedback" *ngIf="(getProductFormGroup.product_startDate?.errors && submittedProd) || ( getProductFormGroup.product_startDate?.touched &&  getProductFormGroup.product_startDate?.errors?.required)">
+                  Ju lutemi përzgjidhni një datë
+              </div>
+          </div>
+          <div class="col">
+            <label for="">Deri</label>
+              <input class="form-control" type="date"  [min]="getProductFormGroup.product_startDate?.value"  name="product_endDate" formControlName="product_endDate" [ngClass]="{'is-invalid': (getProductFormGroup.product_endDate?.errors && submittedProd) || ( getProductFormGroup.product_endDate?.touched &&  getProductFormGroup.product_endDate?.errors)}">       
+              <div class="invalid-feedback" *ngIf="(getValueFormGroup.value_endDate?.errors?.required && submittedValue) || ( getValueFormGroup.value_endDate?.touched && getValueFormGroup.value_endDate?.errors?.required)">
+                  Ju lutemi përzgjidhni një datë
+              </div>
+              <div class="invalid-feedback" *ngIf="(getProductFormGroup.product_endDate?.errors && submittedProd) || ( getProductFormGroup.product_endDate?.touched &&  getProductFormGroup.product_endDate?.errors?.dateValidator)">
+                'Data deri' duhet të jetë më e madhe se 'Data nga'
+              </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-12">
+            <div class="float-right">
+              <button class="btn btn-primary" type="submit">Ruaj</button>
+            </div>
+          </div>
+        </div>
+    </form>
+    </ng-template>
+  </ng-container>
+  <ng-container ngbNavItem>
+    <a ngbNavLink>Fituesi i zbirtjës me përqindje</a>
+    <ng-template ngbNavContent>
+      <form [formGroup]="winnerFormGroup" (submit)="saveWinner()">  
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="offerProvider">Ofruesi ofertës</label>
+            <select class="custom-select" name="winner_offerProvider" formControlName="winner_offerProvider"  [ngClass]="{'is-invalid': (getWinnerFormGroup.winner_offerProvider?.errors && submittedWinner) || ( getWinnerFormGroup.winner_offerProvider?.touched &&  getWinnerFormGroup.winner_offerProvider?.errors)}" (change)="changeOfferWinner($event)">
+              <option value="">Zgjedhe ofruesin</option>
+              <option value="hajde">Hajde</option>
+              <option value="market">Market</option>
+              <option value="restaurant">Restaurant</option>
+            </select>
+            <div class="invalid-feedback"
+                      *ngIf="(getWinnerFormGroup.winner_offerProvider?.errors && submittedWinner) || ( getWinnerFormGroup.winner_offerProvider?.touched &&  getWinnerFormGroup.winner_offerProvider?.errors?.required)">
+                      Ju lutemi, zgjedhni ofruesin e ofertës
+                </div>
+          </div>
+        
+          <div class="form-group col-md-4" *ngIf="winnerComps?.length > 0">
+            <label for="offerProvider">Marketi / Restaruanti</label>
+            <select class="custom-select" name="winner_companyId" formControlName="winner_companyId"  [ngClass]="{'is-invalid': (getWinnerFormGroup.winner_companyId?.errors && submittedWinner) || ( getWinnerFormGroup.winner_companyId?.touched &&  getWinnerFormGroup.winner_companyId?.errors)}">
+              <option value="">Zgjedhe Marketin / Restaruantin</option>
+              <option value="{{item._id}}" *ngFor="let item of winnerComps">{{ item.name ? item.name : item.company}}</option>
+            </select>
+            <div class="invalid-feedback"
+                      *ngIf="(getWinnerFormGroup.winner_companyId?.errors?.required && submittedWinner) || ( getWinnerFormGroup.winner_companyId?.touched &&  getWinnerFormGroup.winner_companyId?.errors?.required)">
+                      Ju lutemi, zgjedhni marketin / restaruantin
+                </div>
+          </div>
+          
+            <div class="form-group col-md-8">
+              <label for="offerProvider">Klienti</label>
+              <ng-select [items]="clients" bindLabel="fullName" bindValue="_id" formControlName="winner_userId"
+                [ngClass]="{'is-invalid': (getWinnerFormGroup.winner_userId?.errors && submittedWinner) || ( getWinnerFormGroup.winner_userId?.touched &&  getWinnerFormGroup.winner_userId?.errors)}"
+                name="winner_userId">
+              </ng-select>
+              <div class="invalid-feedback"
+                *ngIf="(getWinnerFormGroup.winner_userId?.errors?.required && submittedWinner) || ( getWinnerFormGroup.winner_userId?.touched &&  getWinnerFormGroup.winner_userId?.errors?.required)">
+                Ju lutemi, zgjedhni klientin
+              </div>
+            </div>
+           
+            <div class="form-group col-md-12">
+              <label for="descriptions">Përshkrimi</label>
+              <textarea name="winner_description" formControlName="winner_description" [ngClass]="{'is-invalid': (getWinnerFormGroup.winner_description?.errors && submittedWinner) || ( getWinnerFormGroup.winner_description?.touched &&  getWinnerFormGroup.winner_description?.errors)}" class="form-control" cols="30" rows="100"></textarea>
+              <div class="invalid-feedback"
+                *ngIf="(getWinnerFormGroup.winner_description?.errors?.required && submittedWinner) || ( getWinnerFormGroup.winner_description?.touched &&  getWinnerFormGroup.winner_description?.errors?.required)">
+                  Ju lutemi, shkruani përshkrimin e ofertes
+              </div>
+            </div>
+
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="offerProvider">Shteti</label>
+            <select class="custom-select" name="winner_country" formControlName="winner_country"  [ngClass]="{'is-invalid': (getWinnerFormGroup.winner_country?.errors && submittedWinner) || (getWinnerFormGroup.winner_country?.touched &&  getWinnerFormGroup.winner_country?.errors)}">
+              <option value="">Zgjedhe shtetin</option>
+              <option value="Kosovë">Kosovë</option>
+              <option value="Shqiperië">Shqiperië</option>
+            </select>
+            <div class="invalid-feedback"
+                      *ngIf="(getWinnerFormGroup.winner_country?.errors?.required && submittedWinner) || ( getWinnerFormGroup.winner_country?.touched &&  getWinnerFormGroup.winner_country?.errors?.required)">
+                      Ju lutemi, zgjedhni shtetin
+                </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="offerProvider">Përqindja</label>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Përqindja"  aria-describedby="basic-addon2" name="winner_discountAmount" formControlName="winner_discountAmount"  [ngClass]="{'is-invalid': (getWinnerFormGroup.winner_discountAmount?.errors && submittedWinner) || ( getWinnerFormGroup.winner_discountAmount?.touched &&  getWinnerFormGroup.winner_discountAmount?.errors)}">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">%</span>
+              </div>
+            </div>
+            <div class="invalid-feedback"
+                      *ngIf="(getWinnerFormGroup.winner_discountAmount?.errors?.required && submittedWinner) || ( getWinnerFormGroup.winner_discountAmount?.touched &&  getWinnerFormGroup.winner_discountAmount?.errors?.required)">
+                      Ju lutemi, shkruani përqindjen
+                </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="offerProvider">Vlera minimale për ofertën</label>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Vlera"  aria-describedby="basic-addon2" name="winner_minValue" formControlName="winner_minValue"  [ngClass]="{'is-invalid': (getWinnerFormGroup.winner_minValue?.errors && submittedWinner) || (getWinnerFormGroup.winner_minValue?.touched &&  getWinnerFormGroup.winner_minValue?.errors)}">
+              <div class="input-group-append">
+                
+                <span class="input-group-text" id="basic-addon2">{{getWinnerFormGroup?.winner_country?.value == "Kosovë" ? '€' : 'Lekë'}}</span>
+              </div>
+            </div>
+            <div class="invalid-feedback"
+                      *ngIf="(getWinnerFormGroup.winner_minValue?.errors?.required && submittedWinner) || ( getWinnerFormGroup.winner_minValue?.touched &&  getWinnerFormGroup.winner_minValue?.errors?.required)">
+                      Ju lutemi, shkruani vlerën minimale për ofertën
+                </div>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="offerProvider">Vlera maksimamle që mund të zbritet</label>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="Vlera"  aria-describedby="basic-addon2" name="winner_maxValue" formControlName="winner_maxValue"  [ngClass]="{'is-invalid': (getWinnerFormGroup.winner_maxValue?.errors && submittedWinter) || ( getWinnerFormGroup.winner_maxValue?.touched &&  getWinnerFormGroup.winner_maxValue?.errors)}">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">{{getWinnerFormGroup?.winner_country?.value == "Kosovë" ? '€' : 'Lekë'}}</span>
+              </div>
+            </div>
+            <div class="invalid-feedback"
+                      *ngIf="(getWinnerFormGroup.winner_maxValue?.errors?.required && submittedPercent) || ( getWinnerFormGroup.winner_maxValue?.touched &&  getWinnerFormGroup.winner_maxValue?.errors?.required)">
+                      Ju lutemi, shkruani Vlera maksimamle që mund të zbritet
+                </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-12">
+            <label for="">Ka periudhë kohore:</label>
+          </div>
+          
+          <div class="col-md-12">
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline1" name="winner_hasPeriod" formControlName="winner_hasPeriod"  class="custom-control-input" value="true">
+              <label class="custom-control-label" for="customRadioInline1">Po</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input type="radio" id="customRadioInline2" name="winner_hasPeriod" formControlName="winner_hasPeriod"  class="custom-control-input" value="false">
+              <label class="custom-control-label" for="customRadioInline2">Jo</label>
+            </div>
+            <div class="invalid-feedback"
+                  *ngIf="(getWinnerFormGroup.winner_hasPeriod?.errors?.required && submittedWinner) || ( getWinnerFormGroup.winner_hasPeriod?.touched &&  getWinnerFormGroup.winner_hasPeriod?.errors?.required)">
+                  Ju lutemi, zgjedhni një vlerë
+            </div>
+          </div>
+        </div>
+        <div class="form-row mt-3" *ngIf="getWinnerFormGroup.winner_hasPeriod?.value != 'false'">
+          <div class="col">
+                <label for="">Nga</label>
+                <input type="date" class="form-control" placeholder="Data filluese" name="winner_startDate" formControlName="winner_startDate" [ngClass]="{'is-invalid': (getWinnerFormGroup.winner_startDate?.errors && submittedWinner) || ( getWinnerFormGroup.winner_startDate?.touched &&  getWinnerFormGroup.winner_startDate?.errors)}">
+                <div class="invalid-feedback" *ngIf="(getWinnerFormGroup.winner_startDate?.errors?.required && submittedWinner) || ( getWinnerFormGroup.winner_startDate?.touched &&  getWinnerFormGroup.winner_startDate?.errors?.required)">
+                  Ju lutemi përzgjidhni një datë
+              </div>
+          </div>
+          <div class="col">
+            <label for="">Deri</label>
+              <input class="form-control" type="date"  [min]="getWinnerFormGroup.winner_startDate?.value"  name="winner_endDate" formControlName="winner_endDate" [ngClass]="{'is-invalid': (getWinnerFormGroup.winner_endDate?.errors && submittedWinner) || ( getWinnerFormGroup.winner_endDate?.touched &&  getWinnerFormGroup.winner_endDate?.errors)}">       
+              <div class="invalid-feedback" *ngIf="(getWinnerFormGroup.winner_endDate?.errors?.required && submittedWinner) || ( getWinnerFormGroup.winner_endDate?.touched &&  getWinnerFormGroup.winner_endDate?.errors?.required)">
+                  Ju lutemi përzgjidhni një datë
+              </div>
+              <div class="invalid-feedback" *ngIf="(getWinnerFormGroup.winner_endDate?.errors?.dateValidator && submittedWinner) || ( getWinnerFormGroup.winner_endDate?.touched && getWinnerFormGroup.winner_endDate?.errors?.dateValidator)">
+                'Data deri' duhet të jetë më e madhe se 'Data nga'
+              </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group mt-3 col-md-12 d-flex justify-content-center generate-random-client">
+            <button (click)="generateRandomClient()" type="button" style="width: 300px" class="btn btn-primary hajde-btn" >Perzgjedh nje klient random</button>
+            <button (click)="generateRandomClientFromDb()" type="button" style="width: 300px" class="btn btn-primary hajde-btn" >Perzgjedh random klient qe ploteson kushtet minimale</button>  
+          </div>
+
+          <div class="col-12">
+            <div class="float-right">
+              <button class="btn btn-primary" type="submit">Ruaj</button>
+            </div>
+          </div>
+        </div>
+    </form>
+    </ng-template>
+  </ng-container>
+</nav>
+
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4>Ndrysho banerin</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="bannerFormGroup" (submit)="addBanner()">
+          <div class="form-group">
+
+              <div class="form-group d-flex">
+                <div class="col-md-3">
+                  <label for="companyAdress">Shteti</label>
+  
+                  <div>
+                    <app-countries [selected]="country" (onCountryChange)="handleCountryChange($event)"></app-countries>
+                  </div>
+  
+                  <!-- <input type="text" name="country" formControlName="country" [ngClass]="{'is-invalid': (getBannerFormGroup.addresses?.controls[i].controls?.country?.errors) || ( getBannerFormGroup.addresses?.controls[i]?.controls?.country.touched &&  getBannerFormGroup.addresses?.controls[i]?.controls?.country?.errors)}" class="form-control"> -->
+                  <div class="invalid-feedback"
+                    *ngIf="(getBannerFormGroup.country?.errors?.required) || ( getBannerFormGroup.country?.touched &&  getBannerFormGroup?.country?.errors?.required)">
+                    Ju lutemi, shkruani shtetin e kompanisë
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label for="companyAdress">Qyteti</label>
+                  <div>
+                    <app-cities [selected]="city" [cities]="cities" (onCityChange)="handleCityChange($event)"></app-cities>
+                  </div>
+                  <div class="invalid-feedback"
+                    *ngIf="(getBannerFormGroup.city?.errors?.required) || ( getBannerFormGroup.city?.touched &&  getBannerFormGroup.city?.errors?.required)">
+                    Ju lutemi, shkruani qytetin e kompanisë
+                  </div>
+                </div>
+              </div>
+
+            <div class="form-group d-flex">
+              <div class="col-md-2">
+                <label for="offerProvider">Ofruesi Banerit</label>
+                <select class="custom-select" name="supplierType" formControlName="supplierType"
+                  [ngClass]="{'is-invalid': (getBannerFormGroup.companyId?.errors) || ( getBannerFormGroup.companyId?.touched &&  getBannerFormGroup.companyId?.errors)}"
+                  (change)="changeSupplierType($event)">
+                  <option selected disabled>Zgjedhe ofruesin</option>
+                  <option value="market">Market</option>
+                  <option value="restaurant">Restaurant</option>
+                </select>
+                <div class="invalid-feedback"
+                  *ngIf="(getBannerFormGroup.companyId?.errors?.required) || ( getBannerFormGroup.companyId?.touched &&  getBannerFormGroup.companyId?.errors?.required)">
+                  Ju lutemi, zgjedhni tipin e ofruesit
+                </div>
+              </div>
+
+              <div class="col-md-6" *ngIf="comps && comps.length > 0">
+                <label for="offerProvider">Marketi / Restaruanti</label>
+                <ng-select [multiple]="false" [items]="comps" bindLabel="name" bindValue="_id"
+                  formControlName="companyId"
+                  [ngClass]="{'is-invalid': (getBannerFormGroup.companyId?.errors) || ( getBannerFormGroup.companyId?.touched &&  getBannerFormGroup.companyId?.errors)}"
+                  name="companyId">
+                </ng-select>
+                <div class="invalid-feedback"
+                  *ngIf="(getBannerFormGroup.companyId?.errors?.required) || ( getBannerFormGroup.companyId?.touched &&  getBannerFormGroup.companyId?.errors?.required)">
+                  Ju lutemi, zgjedhni marketin / restaruantin
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ml-3">
+            <label for="title" class="mr-2">Titulli</label><br>
+            <textarea name="title" formControlName="title" id="title" cols="100" rows="2"></textarea>
+          </div>
+
+          <div class="d-flex">
+            <div>
+              <img class="p-3 ml-5" style="width: 200px; height: 200px;" src="{{imageUrl}}" alt="Banner">
+            </div>
+            <div class="col-md-1 m-2">
+              <label for="logo" class="mr-2">Baneri</label><br>
+              <input type="file" id="logo" (change)="onFileChange($event, 'logo')">
+            </div>
+          </div>
+
+          <button class="btn btn-primary" type="submit">Ruaj</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

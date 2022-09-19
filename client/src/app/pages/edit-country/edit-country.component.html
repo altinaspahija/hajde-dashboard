@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Editimi i shtetit</h4>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="countryFormGroup" (submit)="addCountry()">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="name">Emri i shtetit</label>
+                            <input type="text" class="form-control" name="country" formControlName="name"
+                                [ngClass]="{'is-invalid': (nameControl?.errors && submittedCountry) || ( nameControl?.touched &&  nameControl?.errors)}">
+                            <div class="invalid-feedback"
+                                *ngIf="(nameControl?.errors?.required && submittedCountry) || ( nameControl?.touched &&  nameControl?.errors?.required)">
+                                Ju lutemi, shkruani emrin e shtetit
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label for="abbv">Iniciale</label>
+                            <input type="text" name="abbv" formControlName="abbv"
+                                [ngClass]="{'is-invalid': (abbvControl?.errors && submittedCountry) || ( abbvControl?.touched &&  abbvControl?.errors)}"
+                                class="form-control">
+                            <div class="invalid-feedback"
+                                *ngIf="(abbvControl?.errors?.required && submittedCountry) || ( abbvControl?.touched &&  abbvControl?.errors?.required)">
+                                Ju lutemi, shkruani shkurtesen e shtetit
+                            </div>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="prefix">Prefiksi</label>
+                            <input type="text" name="prefix" formControlName="prefix"
+                                [ngClass]="{'is-invalid': (prefixControl?.errors && submittedCountry) || ( prefixControl?.touched &&  prefixControl?.errors)}"
+                                class="form-control">
+                            <div class="invalid-feedback"
+                                *ngIf="(prefixControl?.errors?.required && submittedCountry) || ( prefixControl?.touched &&  prefixControl?.errors?.required)">
+                                Ju lutemi, shkruani prefiksin
+                            </div>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="currency">Monedha</label>
+                            
+                            <app-currency [form]="countryFormGroup" [control]="countryFormGroup.get('currency')"></app-currency>
+
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="currency">Qmimi i transportit</label>
+                            <input type="number" name="transportPrice" formControlName="transportPrice"
+                                [ngClass]="{'is-invalid': (transportPriceControl?.errors && submittedCountry) || ( transportPriceControl?.touched &&  transportPriceControl?.errors)}"
+                                class="form-control">
+                            <div class="invalid-feedback"
+                                *ngIf="(transportPriceControl?.errors?.required && submittedCountry) || ( transportPriceControl?.touched &&  transportPriceControl?.errors?.required)">
+                                Ju lutemi, shkruani qmimin e transportit
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="d-block pt-3">Shto qytetin</h6>
+                    <div class="form-row col-12">
+                        <div class="form-group col-md-2">
+                            <label for="city">Emri i qytetit</label>
+                            <input type="text" name="city" formControlName="city"
+                                [ngClass]="{'is-invalid': (cityControl?.errors && submittedCountry) || ( cityControl?.touched &&  cityControl?.errors)}"
+                                class="form-control">
+                            <div class="invalid-feedback"
+                                *ngIf="(cityControl?.errors?.required && submittedCountry) || ( cityControl?.touched &&  cityControl?.errors?.required)">
+                                Ju lutemi, shkruani numrin e telefonit e kompanisë
+                            </div>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="capital">Eshte kryeqytet</label>
+                            <input style="margin-left: -4rem; margin-top: 10px" type="checkbox" name="capital" formControlName="capital"
+                                [ngClass]="{'is-invalid': (capitalControl?.errors && submittedCountry) || ( capitalControl?.touched &&  capitalControl?.errors)}"
+                                class="form-control">
+                            <div class="invalid-feedback"
+                                *ngIf="(capitalControl?.errors?.required && submittedCountry) || ( capitalControl?.touched &&  capitalControl?.errors?.required)">
+                                Ju lutemi, shkruani numrin e telefonit e kompanisë
+                            </div>
+                        </div>
+                        <div class="form-group col-md-2 pt-3">
+                            <button class="btn btn-primary" (click)="addCity($event)">Shto</button>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Emri i qytetit</th>
+                                <th scope="col">Eshte kryeqytet</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let city of citiesControl.value; let i = index">
+                                <th scope="row">
+                                    {{city.name}}
+                                </th>
+                                <td class="text-center">{{city.capital ? "✓": ""}}</td>
+                                <td><button (click)="removeCity(i)" class="btn btn-danger">Fshij</button></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                    <div class="float-right">
+                        <button class="btn" type="submit">Ruaj</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

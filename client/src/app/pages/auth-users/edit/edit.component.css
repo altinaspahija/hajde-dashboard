@@ -1,0 +1,13 @@
+.is-user-active {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.is-user-active > input {
+    position: relative;
+    right: 4rem;
+    bottom: 3px;
+}

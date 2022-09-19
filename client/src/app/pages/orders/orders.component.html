@@ -1,0 +1,156 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row mt-3 mb-3">
+          <div class="col-3">
+            <input type="text" class="form-control hajde-input " placeholder="Nr prosisë" [(ngModel)]="orderNr"  (keyup)="search()">
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control hajde-input " placeholder="Kompania" [(ngModel)]="company"  (keyup)="search()">
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control hajde-input " placeholder="Shpërndarësi" [(ngModel)]="courier"  (keyup)="search()">
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control hajde-input " placeholder="Klienti" [(ngModel)]="clientName"  (keyup)="search()">
+          </div>
+          <div class="col-3">
+            <input type="date" name="fromDate"  class="form-control hajde-input" [(ngModel)]="fromDate">
+          </div>
+          <div class="col-3">
+            <input type="date" name="toDate" [disabled]="!fromDate"  class="form-control hajde-input mt-3" [(ngModel)]="toDate" (change)="search()">
+          </div>
+          <div class="col-3">
+            <select class="custom-select hajde-input mt-3 " [(ngModel)]="status"  (change)="changeStatus()">
+              <option selected value="">Statusi</option>
+              <option value="PENDING">{{langStatus['PENDING']}}</option>
+              <option value="CONFIRM">{{langStatus['CONFIRM']}}</option>
+              <option value="IN_PROGRESS">{{langStatus['IN_PROGRESS']}}</option>
+              <option value="COMPLETED">{{langStatus['COMPLETED']}}</option>
+              <option value="ISSUE">{{langStatus['ISSUE']}}</option>
+              <option value="REJECTED">{{langStatus['REJECTED']}}</option>
+              <option value="CANCELLED">{{langStatus['CANCELLED']}}</option>
+            </select>
+
+            
+          </div>
+          <div class="col-3">
+            <button class="btn btn-primary"  [routerLink]="['create']">Krijo</button>
+            <button class="btn btn-primary" (click)="exportAdmin()">Eksporto</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    Nr porosisë
+                  </th>
+                  <th>
+                   Kompania
+                  </th>
+                  <th>Porositur nga</th>
+                  <th>
+                   Statusi
+                  </th>
+                  <th>
+                    Shpërndarësi
+                  </th>
+                  <th>
+                    Klienti
+                  </th>
+                  <th>
+                    Totali
+                   </th>
+                   <th>
+                    Zbritja
+                   </th>
+                   <th>
+                    Transport
+                   </th>
+                   <th>
+                     Porositurë më
+                   </th>
+                   <th>
+                    Data e dërgesës	
+                   </th>
+                   <th>
+
+                   </th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of orders">
+                    <td>
+                      <a class="table-link" [routerLink]="[order._id]">
+                        {{order.orderNumber}}</a>
+                    </td>
+                    <td>
+                      {{order.supplier.name}}
+                     </td>
+                     <td>
+                      <span *ngIf="order.whoOrder === 'company'">Kompania</span>
+                      <span *ngIf="order.whoOrder === 'restaurant'">Restauranti</span>
+                      <span *ngIf="order.whoOrder === 'admin'">Hajde (admin)</span>
+                     </td>
+                     <td>
+                      {{langStatus[order.status]}}
+                    </td>
+                     <td>
+                      {{order?.courier?.name}}
+                     </td>
+
+                    <td>
+                      {{order?.receiver?.firstName}} {{order?.receiver?.lastName}}
+                    </td>
+                    <td>
+                      {{order?.total | currency: order?.currency:'symbol':'1.2':'fr'}}
+                    </td>
+                    <td>
+                      {{order?.discount | currency: order?.currency:'symbol':'1.2':'fr'}}
+                    </td>
+                    <td>
+                      {{order?.transport | currency: order?.currency:'symbol':'1.2':'fr'}}
+                    </td>
+                    <td>
+                      {{order.orderDate | date:'dd.MM.yyyy hh:mm a'}}
+                    </td>
+                    <td>
+                      {{order.estimatedArrival | date:'dd.MM.yyyy hh:mm a'}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="orders?.length ===0 ">
+                    <td colspan="9" class="text-center">
+                      Nuk ka të dhëna
+                    </td>
+                  </tr> 
+                </tbody>
+              </table>
+            </div>
+            <div class="float-right mr-3" *ngIf="pages > 1">
+              <ul class="my-pagination">
+              <li>
+                <a class="page-link"  aria-label="Previous" (click)="prevPage($event)">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Prev</span>
+                </a>
+              </li>
+              <li> <input type="text" name="" id="" [disabled]="pages === 1"  (keyup)="changePage($event)" [(ngModel)]="currentPage">
+                <p> / {{pages}}</p>
+              </li>
+              <li>
+                <a class="page-link"  aria-label="Next" (click)="nextPage($event)">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>

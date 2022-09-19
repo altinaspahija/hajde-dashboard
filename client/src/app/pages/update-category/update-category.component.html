@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4>Ndrysho kategorin</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="categoriesFormGroup" (submit)="addCategory()">
+          <div class="form-row">
+            <div class="col-md-12">
+              <img src="{{image}}" class="img-fluid" alt="...">
+            </div>
+            <div class="col-md-12">
+              <label for="imageURL" class="mr-2">Baneri</label><br>
+              <input type="file" id="imageURL" (change)="onFileChange($event, 'imageURL')" >
+            </div>
+            <div class="col-md-6">
+              <label for="name">Emri</label>
+              <input type="text" name="name" formControlName="name" class="form-control">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="type">Tipi</label>
+            <select class="custom-select"  name="type" formControlName="type">
+              <option value="">Zgjedh Tipin</option>
+              <option value="market">Market</option>
+              <option value="restaurant">Restaurant</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="type">Statusi</label>
+            <select class="custom-select"  name="isActive" formControlName="isActive">
+              <option value="">Zgjedh Statusin</option>
+              <option value="true">Active</option>
+              <option value="false">Jo Active</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="type">Parent Category</label>
+            <select class="custom-select"  name="parentId" formControlName="parentId">
+              <option value="null">Zgjedh Parent Category</option>
+              <option value="{{cat._id}}" *ngFor="let cat of categories">{{cat?.name}}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="name">Category Code</label>
+            <input type="text" class="form-control" name="code" formControlName="code">
+        </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Ruaj</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div>
+    <select class="custom-select"
+        [attr.disabled]="disabled === true ? true : null"
+        [(ngModel)]="citySelected"
+        (change)="changeCity()">
+        <option value="">Zgjedhe qytetin</option>
+
+        <option *ngFor="let city of cities" [ngValue]="city.name">
+            {{city.name}}
+        </option>
+    </select>
+</div>

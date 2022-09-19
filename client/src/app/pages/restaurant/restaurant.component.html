@@ -1,0 +1,482 @@
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-6 justify-content-center">
+    <div class="card card-user">
+      <div class="card-header">
+        <div class="float-right">
+          <button class="btn btn-primary hajde-btn" [routerLink]="['/admin/restaurants',id,'edit']"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+          <button class="btn btn-primary hajde-btn" (click)="delete()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="card-body">
+       
+        <div class="author">
+          <div class="">
+            <div class="image-container d-flex flex-column justify-content-center align-items-center m-3">
+              <label for="logo">Logo</label>
+              <img id="logo" fallbackSrc="assets/img/angular.png" class="img-fluid hajde-company-logo" src="{{imageUrl}}{{company?.imageURL}}" alt="...">
+            </div>
+            <div class="image-container d-flex flex-column justify-content-center align-items-center m-3">
+              <label for="cover">Cover</label>
+              <img id="cover" fallbackSrc="assets/img/angular.png" class="img-fluid hajde-company-logo" src="{{imageUrl}}{{company?.coverURL}}" alt="...">
+            </div>
+            <h5 class="title">{{company?.name}}</h5>
+             <small>Linku:  <a href="{{company?.url}}">{{company?.url}}</a></small>
+             <br>
+             <small>Koha dërgesës: {{company?.deliveryTime}}</small>
+             <br>
+             <small>Tel: {{company?.phone}} </small>
+             <br>
+             <small><b>Llogaria:</b></small>
+             <br>
+             <small><b>Emri:</b> {{company?.account?.firstName}}  </small>
+             <small><b>Mbiemri:</b> {{company?.account?.lastName}} </small>
+             <br>
+             <small><b>Email:</b> {{company?.account?.email}} </small>
+             <br>
+             <small><b>Vlera minimale për porosi:</b> {{company?.minimumValueOrder}} </small>
+             <br>
+          </div>
+        </div>
+        <p class="description text-center">
+          {{company?.description}}
+        </p>
+      </div>
+      <div class="card-footer">
+        <hr>
+        <div class="button-container">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-6 mx-auto mr-auto">
+              <h5>{{orderCounter}}
+                <br>
+                <small class="info-data">Porosi</small>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 mb-2">
+    <h5>Porositë</h5>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3">
+    <input type="date" name="fromDate"  class="form-control hajde-input mb-3" [(ngModel)]="fromDate">
+  </div>
+  <div class="col-3">
+    <input type="date" name="toDate" [disabled]="!fromDate"  class="form-control hajde-input mb-3" [(ngModel)]="toDate" (change)="searchT()">
+  </div>
+  <div class="col-3">
+    <button class="btn btn-sm btn-primary btn-clear" *ngIf="fromDate && toDate"  (click)="clearQuery()">Pastro</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-3">
+    <button class="btn btn-primary" (click)="exportStats()">Eksporto</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-box-2 text-primary"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Numri total i porosive</p>
+              <p class="card-title">{{totalOrders}}
+                <p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+        <br>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-box-2 text-warning"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Numri i porosive në pritje</p>
+              <p class="card-title">{{pendingOrders}}
+                <p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-box-2 text-info"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Numri i porosive në progres</p>
+              <p class="card-title">{{inProgessOrders}}
+                <p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-box-2 text-success"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Numri i porosive të kompletuar</p>
+              <p class="card-title">{{completedOrders}}
+                <p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-box-2 text-danger"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Numri i porosive të refuzuar</p>
+              <p class="card-title">{{rejctedOrders}}
+                <p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-box-2 text-secondary"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Numri i porosive me probleme</p>
+              <p class="card-title">{{issueOrders}}
+                <p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-box-2 text-secondary"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Numri i porosive të anuluar</p>
+              <p class="card-title">{{cancelledOrders}}
+                <p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-money-coins text-success"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Shuma totale e fituar nga porositë</p>
+              <p class="card-title">{{revenue | currency: company?.currency:'symbol':'1.2':'fr'}}
+                <p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer ">
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+
+<div class="row">
+  <div class="col-12">
+  <h4>Produktet</h4>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row mt-3 mb-3">
+          <div class="col-2">
+            <input type="text" class="form-control hajde-input" placeholder="Emri" name="name" [(ngModel)]="name"  (keyup)="search()">
+          </div>
+          <div class="col-2">
+            <input type="text" class="form-control hajde-input" placeholder="Numri i produktit" name="productCode" [(ngModel)]="productCode"  (keyup)="search()">
+          </div>
+          
+          <div class="col-2">
+            <select class="form-control hajde-input" [(ngModel)]="status"  (change)="search()">
+              <option selected value="">Statusi</option>
+              <option selected value="true">Në stok</option>
+              <option selected value="false">Jasht stokut</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <div class="float-right">
+              <button class="btn btn-primary ml-2" [routerLink]="['import']">
+                Importo
+              </button>
+              <button class="btn btn-primary ml-2" (click)="exportCompany()">Eksporto</button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    Nr produktit
+                  </th>
+                  <th>
+                    Emri produktit
+                  </th>
+                  <th>
+                    Njësia
+                  </th>
+                  <th>
+                    Çmimi
+                  </th>
+                   <th>
+
+                   </th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of products">
+                    <td>
+                     {{product.productCode}}
+                    </td>
+                    <td>
+                      {{product.name}}
+                    </td>
+                    <td>
+                    {{product.unit}}
+                    </td>
+                    <td>
+                      {{product.price | currency: company?.currency:'symbol':'1.2':'fr'}}
+                    </td>
+
+                    <td class="d-flex">
+                      <div class="d-flex flex-row-reverse">
+                        <div class="d-flex flex-column justify-content-center align-items-center">
+                          <div class="custom-control custom-switch d-flex">
+                            <label class="custom-control mx-3" for="{{product._id}}">Inaktiv</label>
+                            <input type="checkbox" class="custom-control-input" id="{{product._id}}" [checked]="product.isAvailable" (change)="changeStatus(product._id, !product.isAvailable)">
+                            <label class="custom-control-label mx-4" for="{{product._id}}">Aktiv</label>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <button class="btn btn-sm ml-2" [routerLink]="['products',product._id]">
+                        Shiko
+                      </button>
+                     
+                      <button class="btn btn-sm ml-2" *ngIf="!product.isRecommended" (click)="makeReccomend(product._id, true)" >
+                        Rekomando
+                      </button>
+                      <button class="btn btn-sm ml-2" *ngIf="product.isRecommended" (click)="makeReccomend(product._id, false)" >
+                        Mos rekomando
+                      </button>
+                      <button class="btn btn-sm ml-2" (click)="deleteProduct(product._id)">
+                        Fshi
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="products?.length ===0 ">
+                    <td colspan="9" class="text-center">
+                      Nuk ka të dhëna
+                    </td>
+                  </tr> 
+                </tbody>
+              </table>
+            </div>
+            <div class="float-right mr-3" *ngIf="pages > 1">
+              <ul class="my-pagination">
+                <li>
+                  <a class="page-link"  aria-label="Previous" (click)="prevPage($event)">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Prev</span>
+                  </a>
+                </li>
+                <li> <input type="text" name="" id="" [disabled]="pages === 1"  (keyup)="changePage($event)" [(ngModel)]="currentPage">
+                  <p> / {{pages}}</p>
+                </li>
+                <li>
+                  <a class="page-link"  aria-label="Next" (click)="nextPage($event)">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12">
+  <h4>Kategoritë</h4>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row mt-3 mb-3">
+          <div class="col-2">
+            <input type="text" class="form-control hajde-input pr-2" placeholder="Emri" name="nameCat" [(ngModel)]="nameCat"  (keyup)="searchCat()">
+          </div>
+          
+          
+          <div class="col-2 mr-3">
+            <select class="form-control hajde-input" [(ngModel)]="statusCat"  (change)="searchCat()">
+              <option selected value="">Statusi</option>
+              <option selected value="true">Aktiv</option>
+              <option selected value="false">Jo aktiv</option>
+            </select>
+          </div>
+         
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    Kategoria
+                  </th>
+                  
+                   <th>
+
+                   </th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let cat of categories">
+                   
+                    <td>
+                      {{cat.category.name}}
+                    </td>
+                    
+
+                
+                    <td>
+                    
+                 
+                      <button class="btn btn-sm ml-2" *ngIf="cat.isActive" (click)="changeStatusCat(cat._id, false)" >
+                        Deaktivizo
+                      </button>
+                      <button class="btn btn-sm ml-2" *ngIf="!cat.isActive" (click)="changeStatusCat(cat._id, true)"  >
+                        Aktivizo
+                      </button>
+                      
+                    </td>
+                  </tr>
+                  <tr *ngIf="categories?.length ===0 ">
+                    <td colspan="9" class="text-center">
+                      Nuk ka të dhëna
+                    </td>
+                  </tr> 
+                </tbody>
+              </table>
+            </div>
+            <div class="float-right mr-3" *ngIf="pagesCat > 1">
+              <ul class="my-pagination">
+                <li>
+                  <a class="page-link"  aria-label="Previous" (click)="prevPageCat($event)">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Prev</span>
+                  </a>
+                </li>
+                <li> <input type="text" name="" id="" [disabled]="pagesCat === 1"  (keyup)="changePageCat($event)" [(ngModel)]="currentPageCat">
+                  <p> / {{pagesCat}}</p>
+                </li>
+                <li>
+                  <a class="page-link"  aria-label="Next" (click)="nextPageCat($event)">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

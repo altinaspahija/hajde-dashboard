@@ -1,0 +1,17 @@
+<form [formGroup]="myForm" (submit)="onSubmit()">
+    <div class="container" style="display:grid; place-items: center; height: 100vh;">
+        <div class="verfication d-flex flex-column align-items-center justify-content-center">
+            <span class="text-danger font-weight-bold text-center" *ngIf="error">{{error}}</span>
+            <img *ngIf="qrCode" [src]="qrCode" alt="QRCode">
+            <div *ngIf="otpCode" class="otp-code">
+                <label for="otp-code">- Ose -</label>
+                <label for="otp-code">OTP kodi manual</label>
+                <span id="otp-code">{{otpCode}}</span>
+            </div>
+            <label for="code">Ju lutem jepni OTP kodin</label>
+            <input class="p-1 otp-submit" style="max-width: 300px; text-align: center;" name="code" type="text"
+                placeholder="Code" formControlName="kodi" />
+            <button [disabled]="submitted" class="btn btn-primary hajde-btn" type="submit">Vazhdo</button>
+        </div>
+    </div>
+</form>

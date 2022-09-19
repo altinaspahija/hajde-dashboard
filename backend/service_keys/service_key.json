@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "vaulted-art-299417",
+  "private_key_id": "be41bb8fbd48af94fe484515cafb6de801e6716e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCawBQpNHQjqDC7\nZWHWnbO3M317N+MXlnT7a6WDxB3qsEYdWzyDfvZ+NsEomm+59fxCkRjwDbQbHU+/\nTMpeyTvYFKfXc8Id5B4uIV3SLRXpGgOFd2vXPWI7cs6bP+SniVTcIcxMQURXydSl\n4TXUSppeLqO9DUY2TX0QqfUwMRGdnFPU7SbQOkaOgZ2logpXymyuBH9TeDLpPz54\ndlD35RNmdEs6cq7Hg5HPGM0j3gnauYeV7Ugi2jP6UCNInyG8Txj5TNxuvVC0KEER\nURE+/uaRSuuTfk9WR+9/MGfvBCtI3Isq1NEiFhuRkEl/vfC+vFwpx1/k99bo7iVO\nhVMQITIlAgMBAAECggEABIFbFOgGCZO393y4IHtu5AKHwLKb1e/3b+puYyuug0qm\nf+xMErf7jSki7n+wiQV0VqvKwhJkD/YGgFdH/QJ2z4+qY0dne19M0aL/DENrw+GS\nAKy9YwLSfVCWW0a87XO+GLqTLBUqXDPwEPRBkPCrFdrdwX9FcAdJgNax4LlM/f2n\ngrk89Sbx9OlLSV6H71WhGWaFdfX7/ktnFgVpXFcVGO2LGQDnqZcvWp0VM9EAHqLO\nefqy7YcBVxt3DMT3XxicJdWWlx8nnABFAc5ExESJKHWCrHPe9SpC3e/QUksVa3az\nlfovik5IHm1buFs8TJIp//jsgiWxH8MxKNyNpLWTgQKBgQDXos49GPGHZovI2Of5\nGzAjvkZ/TzAGvLU2z4DfCSARNsyDHf6CdmsdL6zW7Gma0dbtgDsqBMeH6BtRXj7U\nTcQIVcdLBrTX5CQTneifKvEyeTI3zcZyeM5+Zc9jf+wcVFrzKvbZJhp8Kq+ABrv8\nfdDG9i7BFRZ6vqgpsvVr8AcLHQKBgQC3t6fPol3MDky/gvTtkKcbcr6whbK2ELZj\nx3uzLG3fTNGjz7UF4Iu3d6Xy4DdCidWSdzcYLvzR5HrWLXXARktM9N2HHTMKXkE5\nhCR6UzU6Ie9+YHrCba4IayHsABRXEO80nwaNp3p+CDkNZuZ+vrYbFjkGhHLmb3ay\nnGfaE1OMqQKBgDJnbNvdM7/ZmX0WLosM7uC7/lCN2wUIITexo0b/JA7CB2XyoeYu\n9fS5iyYl1r2IpTuYyLuWqGk9OP15ESihENx96HrCE42PV1t6gsCJ0h1hNPrUT7m8\nQVBMTgDNCwzILwY+GbtCa9hwRdugN1rase1/6Afb/Qgt/rLYkQNs9MiFAoGAJ6v5\nCNU++/l6iUB2M3axHzRACU5VsQsa16EUDTTi5P1pp74KkSJUCWJE65WPWUb6X45u\nz0IWRhzYibd3XfXP/OZDkBG2G98OpqTqW5/sNoltdhTPbXzRv++ie5voyIRXoz1T\n5PLteJm9+C7oRyZXnLHHzqh7R1d6gkdUBbt2p0ECgYBNLo5TuN+tN3uNIMTmRG3b\n9kq0GikCSebCv7WTFNsqardP9OW3KwxlmOQmsWvCHYuOUYdOAWO0MR1GgKZ2EMWw\nRYnblA6XWZ0SUZZ1zGJH/zweoowWDsbkGhAMaeb9/SM0tKBJcW99TbUJJK68Vt+d\nVUxLUVBGvtjQuHcqy1zUcg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "hajde-service-key@vaulted-art-299417.iam.gserviceaccount.com",
+  "client_id": "114123510850824550213",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/hajde-service-key%40vaulted-art-299417.iam.gserviceaccount.com"
+}

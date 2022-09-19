@@ -1,0 +1,60 @@
+<div *ngIf="!loading">
+    <div style="display: grid; place-items: center; margin-top: 20rem;">
+        <app-spinner></app-spinner>
+    </div>
+</div>
+<div *ngIf="loading">
+    <div class="row">
+        <div class="col-md-12">
+
+            <h3>Shfrytezuesit</h3>
+
+            <div class="card">
+                <div class="col-12">
+                    <div class="float-right">
+                        <button class="btn btn-primary" [routerLink]="['create']">Krijo nje llogari te re</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <th>
+                                    #
+                                </th>
+                                <th>Emri dhe mbiemri</th>
+                                <th>Email</th>
+                                <th>Roli</th>
+                                <th>Statusi</th>
+                                <th class="text-right">
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let account of accounts; let i = index;">
+                                    <td>{{i + 1}}</td>
+                                    <td>
+                                        <a [routerLink]="[account._id]">{{account.firstName}} {{account.lastName}}</a>
+                                    </td>
+                                    <td>{{account.email}}</td>
+                                    <td>{{account.role}}</td>
+                                    <td>{{account.isActive ? 'Aktiv' : 'Inaktiv'}}</td>
+                                    <td class="text-right">
+                                        <button class="btn btn-sm btn-secondary mr-2"
+                                            [routerLink]="[account._id,'edit']">Ndrysho</button>
+                                        <button *ngIf="!account.isActive" class="btn btn-sm btn-secondary mr-2"
+                                            (click)="enable(account._id)">Aktivizo</button>
+                                        <button *ngIf="account.isActive" class="btn btn-sm btn-secondary mr-2"
+                                            (click)="disable(account._id)">Blloko</button>
+                                        <button class="btn btn-sm btn-danger"
+                                            (click)="delete(account._id)">Fshi</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

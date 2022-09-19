@@ -1,0 +1,381 @@
+<div id="print-section">
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Kompania
+          </h6>
+        </div>
+        <div class="card-body">
+          <p><label for="" class="mr-2"><strong>Kompania:</strong></label> {{order?.supplier?.name}}</p>
+          <p><label for="" class="mr-2"><strong>Telefoni:</strong></label> {{order?.company?.phone}}</p>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Porosia: #{{order?.orderNumber}}
+          </h6>
+        </div>
+        <div class="card-body">
+          <p><label for="" class="mr-2"><strong>Statusi:</strong></label> {{langStatus[order?.status]}}</p>
+          <p><label for="" class="mr-2"><strong>Porositurë më:</strong></label> {{order?.orderDate | date:'dd.MM.yyyy'}}
+          </p>
+          <p><label for="" class="mr-2"><strong>Data e dërgesës :</strong></label> {{order?.estimatedArrival |
+            date:'dd.MM.yyyy'}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Korieri
+          </h6>
+        </div>
+        <div class="card-body">
+          <p><label for="" class="mr-2"><strong>Emri:</strong></label> {{order?.courier?.name}}</p>
+          <p><label for="" class="mr-2"><strong>Telefoni:</strong></label> {{order?.courier?.phone}}</p>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-6">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Klienti
+          </h6>
+        </div>
+        <div class="card-body">
+          <p><label for="" class="mr-2"><strong>Emri:</strong></label> {{order?.receiver?.firstName}}
+            {{order?.receiver?.lastName}}</p>
+          <p><label for="" class="mr-2"><strong>Telefoni:</strong></label> {{order?.receiver?.phone}}</p>
+          <p><label for="" class="mr-2">
+              <strong>Adresa:</strong></label>
+            {{order?.address?.street}}, {{order?.address?.city}}, {{order?.address?.country}}
+          </p>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="float-right">
+        <button *ngIf="order?.status == 'PENDING' || order?.status == 'IN_PROGRESS'" (click)="addNewProduc()"
+          class="btn btn-md ml-3">
+          Shto produkt
+        </button>
+        <button *ngIf="order?.status == 'PENDING' && order?.isConfirmed == false" (click)="confirmOrder()"
+          class="btn btn-md ml-3">
+          Konfirmo
+        </button>
+        <button *ngIf="order?.status == 'CONFIRM' && order?.isConfirmed == true" (click)="readyOrder()"
+          class="btn btn-md ml-3">
+          Porosia eshte gati
+        </button>
+        <button *ngIf="order?.status == 'PENDING'" (click)="rejectOrder()" class="btn btn-md ml-3">
+          Refuzo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row">
+    <div class="col-6" *ngFor="let product of products">
+      <div class="card" *ngIf="products.length > 0" id="{{product._id}}">
+        <div class="card-body">
+          <img *ngIf="product?.imageURL" src="{{product.imageURL}}" class="img-fluid img-cls mx-auto d-block" alt="...">
+          <span *ngIf="product?.productCode"><b>Kodi i produktit:</b> {{product?.productCode}}</span>
+          <form [formGroup]="productForms[product._id]" (submit)="updatePrdouct(product._id, product.price)">
+            <div class="form-group">
+              <label for="">Produkti:</label>
+              <ng-select [items]="options" bindLabel="name" bindValue="_id" formControlName="product_id"
+                [ngClass]="{'is-invalid': (getNProductFormGroup(product._id).product_id?.errors && submittedNProducts[product._id]) || ( getNProductFormGroup(product._id).product_id?.touched &&  getNProductFormGroup(product._id).product_id?.errors)}"
+                name="product_id">
+              </ng-select>
+              <div class="invalid-feedback"
+                *ngIf="(getNProductFormGroup(product._id).productId?.errors?.required && submittedNProducts[product._id]) || ( getNProductFormGroup(product._id).product_id?.touched &&  getNProductFormGroup(product._id).product_id?.errors?.required)">
+                Ju lutemi, zgjedhni produktin
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="">Sasia:</label>
+              <input class="form-control" type="number" formControlName='quantity'
+                [ngClass]="{'is-invalid': (getNProductFormGroup(product._id).quantity?.errors && submittedNProducts[product._id]) || ( getNProductFormGroup(product._id).quantity?.touched &&  getNProductFormGroup(product._id).quantity?.errors)}"><span
+                class="ml-1 mt-3">{{product.unit | titlecase}}</span>
+              <div class="invalid-feedback"
+                *ngIf="(getNProductFormGroup(product._id).quantity?.errors?.required && submittedNProducts[product._id]) || ( getNProductFormGroup(product._id).quantity?.touched &&  getNProductFormGroup(product._id).quantity?.errors?.required)">
+                Ju lutemi shtypeni sasinë
+              </div>
+              <div class="invalid-feedback"
+                *ngIf="(getNProductFormGroup(product._id).quantity?.errors?.max && submittedNProducts[product._id]) || ( getNProductFormGroup(product._id).quantity?.touched &&  getNProductFormGroup(product._id).quantity?.errors?.max)">
+                Sasia nuk mundet të jëtë më madhe se 100
+              </div>
+              <div class="invalid-feedback"
+                *ngIf="(getNProductFormGroup(product._id).quantity?.errors?.min && submittedNProducts[product._id]) || ( getNProductFormGroup(product._id).quantity?.touched &&  getNProductFormGroup(product._id).quantity?.errors?.min)">
+                Sasia nuk mundet të jëtë më vogël se 1
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="">Çmimi:</label>
+              <br>
+              {{(product.price) | currency: order?.currency:'symbol':'1.2':'fr'}}
+            </div>
+
+            <div class="float-right">
+              <button type="submit" class="btn btn-primary">Ruaj</button>
+              <button class="btn btn-primary" (click)="deleteProduct($event, product._id)">Fshi</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <div class="row">
+    <div class="col-12">
+      <div class="float-right">
+        <b>Transporti:</b> {{order?.transport}} {{order.currency}}<br>
+        <b>Totali: </b> {{order?.total | currency: order?.currency:'symbol':'1.2':'fr'}} <br>
+      </div>
+    </div>
+  </div> -->
+
+  <div *ngIf="order?.status == 'PENDING' && order?.typedProducts?.length > 0">
+    <div class="row">
+      <div class="col-12">
+        <h4>
+          Produktet e shkruara
+        </h4>
+      </div>
+
+      <div class="col-6" *ngFor="let product of order?.typedProducts">
+        <div class="card">
+          <div class="card-body">
+            <form [formGroup]="typedProductForms[product._id]"
+              (submit)="addTypedProduct(product._id, product.quantity)">
+
+              <label for="">Produkti:</label> <br>
+              {{product.name}}
+
+              <hr>
+              <label for="">Kërkoje Produktin:</label>
+              <ng-select [items]="options" bindLabel="name" bindValue="_id" formControlName="productId" name="productId"
+                [ngClass]="{'is-invalid': (getProductFormGroup(product._id).productId?.errors && submittedProducts[product._id]) || ( getProductFormGroup(product._id).productId?.touched &&  getProductFormGroup(product._id).productId?.errors)}">
+              </ng-select>
+              <div class="invalid-feedback"
+                *ngIf="(getProductFormGroup(product._id).productId?.errors?.required && submittedProducts[product._id]) || ( getProductFormGroup(product._id).productId?.touched &&  getProductFormGroup(product._id).productId?.errors?.required)">
+                Ju lutemi, zgjedhni produktin
+              </div>
+              <hr>
+              <label for="">Sasia:</label>
+              <br>
+              {{product.quantity}}
+              <br>
+              <input class="btn btn-primary" type="submit" value="Shto">
+              <button class="btn" (click)="deleteTproduct($event,product._id)">Fshi</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="row" *ngIf="order?.offers.length > 0 && Object.keys(order?.offers[0].offer).length > 0">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Oferta</th>
+                <th scope="col">Vlera</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let offer of order?.offers">
+                <td>{{offerTypes[offer.offer.offerType]}} {{getCompanyName(offer.offer)}}</td>
+                <td *ngIf="offer?.discount && offer?.offer?.offerType == 'percentDiscount'"> - {{(offer?.discount) |
+                  currency: order?.currency:'symbol':'1.2':'fr'}}</td>
+                <td *ngIf="offer?.discount && offer?.offer?.offerType == 'AmountDiscount'"> - {{(offer?.discount) |
+                  currency: order?.currency:'symbol':'1.2':'fr'}}</td>
+                <td *ngIf="!offer?.discount">Produkt falas</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6" *ngIf="order?.courierComment">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Komenti i korierit
+          </h6>
+        </div>
+        <div class="card-body">
+          <p>{{order?.courierComment}}</p>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="col-6" *ngIf="order?.clientComment">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Komenti i klientit
+          </h6>
+        </div>
+        <div class="card-body">
+          <p>{{order?.clientComment}}</p>
+        </div>
+
+
+      </div>
+    </div>
+    <div class="col-6" *ngIf="order?.status == 'ISSUE'">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Problemi {{order.issue}}
+          </h6>
+        </div>
+        <div class="card-body">
+          <p>{{order?.issue}}</p>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive mt-3">
+              <table class="table">
+                <thead class="text-primary">
+                  <tr>
+                    <th>
+                      Kodi i produktit
+                    </th>
+                    <th>
+                      Produkti
+                    </th>
+                    <th>
+                      Sasia
+                    </th>
+                    <th>
+                      Çmimi
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of order?.products">
+                    <td>
+                      {{product.productCode}}
+                    </td>
+                    <td>
+                      {{product.name}}
+                    </td>
+                    <td>
+                      {{product.quantity}}
+                    </td>
+                    <td>
+                      {{(product.price * product.quantity)}} {{order?.currency}}
+                    </td>
+                    <td class="d-flex flex-row-reverse">
+                      <button class="mx-1 btn btn-sm btn-danger" (click)="deleteProduct($event,product._id)">Fshi</button>
+                      <button class="mx-1 btn btn-sm btn-warning" (click)="editProduct(product._id)">Modifiko</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="float-right mt-3 mb-3 mr-3">
+                <b>Transporti:</b> {{order?.transport}} {{order?.currency}}<br>
+                <b>Totali: </b> {{order?.total | currency: order?.currency:'symbol':'1.2':'fr'}} <br>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<div *ngIf="modelVisisble && productSelected"
+  style="position: fixed; top: 0; left:0; width: 100%;height: 100%; z-index: 1029; background: rgba(0,0,0,0.5); overflow: hidden;">
+  <div style="width: 21rem;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%); position: relative;"
+    class="card" id="{{productSelected._id}}">
+    <span class="close-modal" style="z-index: 999;" (click)="closeModal()">x</span>
+    <div class="card-body">
+      <img *ngIf="productSelected?.imageURL" src="{{productSelected.imageURL}}"
+        class="p-3 img-fluid img-cls mx-auto d-block" alt="...">
+      <span *ngIf="productSelected?.productCode"><b>Kodi i produktit:</b> {{productSelected?.productCode}}</span>
+      <form [formGroup]="productForms[productSelected._id]"
+        (submit)="updatePrdouct(productSelected._id, productSelected.price)">
+        <div class="form-group">
+          <label for="">Produkti:</label>
+          <ng-select [items]="options" style="margin-top: 22px;" bindLabel="name" bindValue="_id"
+            formControlName="product_id"
+            [ngClass]="{'is-invalid': (getNProductFormGroup(productSelected._id).product_id?.errors && submittedNProducts[productSelected._id]) || ( getNProductFormGroup(productSelected._id).product_id?.touched &&  getNProductFormGroup(productSelected._id).product_id?.errors)}"
+            name="product_id">
+          </ng-select>
+          <div class="invalid-feedback"
+            *ngIf="(getNProductFormGroup(productSelected._id).productId?.errors?.required && submittedNProducts[productSelected._id]) || ( getNProductFormGroup(productSelected._id).product_id?.touched &&  getNProductFormGroup(productSelected._id).product_id?.errors?.required)">
+            Ju lutemi, zgjedhni produktin
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Sasia:</label>
+          <input class="form-control" type="number" formControlName='quantity'
+            [ngClass]="{'is-invalid': (getNProductFormGroup(productSelected._id).quantity?.errors && submittedNProducts[productSelected._id]) || ( getNProductFormGroup(productSelected._id).quantity?.touched &&  getNProductFormGroup(productSelected._id).quantity?.errors)}"><span
+            class="ml-1 mt-3">{{productSelected.unit | titlecase}}</span>
+          <div class="invalid-feedback"
+            *ngIf="(getNProductFormGroup(productSelected._id).quantity?.errors?.required && submittedNProducts[productSelected._id]) || ( getNProductFormGroup(productSelected._id).quantity?.touched &&  getNProductFormGroup(productSelected._id).quantity?.errors?.required)">
+            Ju lutemi shtypeni sasinë
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="(getNProductFormGroup(productSelected._id).quantity?.errors?.max && submittedNProducts[productSelected._id]) || ( getNProductFormGroup(productSelected._id).quantity?.touched &&  getNProductFormGroup(productSelected._id).quantity?.errors?.max)">
+            Sasia nuk mundet të jëtë më madhe se 100
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="(getNProductFormGroup(productSelected._id).quantity?.errors?.min && submittedNProducts[productSelected._id]) || ( getNProductFormGroup(productSelected._id).quantity?.touched &&  getNProductFormGroup(productSelected._id).quantity?.errors?.min)">
+            Sasia nuk mundet të jëtë më vogël se 1
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Çmimi:</label>
+          <br>
+          {{(productSelected.price) | currency: order?.currency:'symbol':'1.2':'fr'}}
+        </div>
+
+        <div class="float-right">
+          <button type="submit" class="btn btn-primary">Ruaj</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

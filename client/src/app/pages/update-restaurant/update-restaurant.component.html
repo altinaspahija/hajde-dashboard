@@ -1,0 +1,2757 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4>Shto restorantin</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="companyFormGroup" (submit)="addCompany()">
+          <div class="form-group col-md-3">
+            <label for="orderBy">Radhitja</label>
+            <input
+              type="text"
+              name="orderBy"
+              formControlName="orderBy"
+              class="form-control"
+            />
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="companyName">Emri i restorantin</label>
+              <input
+                type="text"
+                class="form-control"
+                name="company"
+                formControlName="company"
+                [ngClass]="{
+                  'is-invalid':
+                    (getCompanyFormGroup.company?.errors && submittedCompany) ||
+                    (getCompanyFormGroup.company?.touched &&
+                      getCompanyFormGroup.company?.errors)
+                }"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.company?.errors?.required &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.company?.touched &&
+                    getCompanyFormGroup.company?.errors?.required)
+                "
+              >
+                Ju lutemi, shkruani emrin e restorantin
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-12">
+                <h6 class="ml-2">Adresat</h6>
+              </div>
+            </div>
+            <div class="col-12" formArrayName="addresses">
+              <div *ngFor="let address of addresses.controls; let i = index">
+                <div class="form-row" [formGroupName]="i">
+                  <div class="form-group col-md-3">
+                    <label for="companyAdress">Shteti</label>
+
+                    <div>
+                      <app-countries
+                        (onCountryChange)="handleCountryChange($event,i)"
+                        (onCountryLoad)="handleCountryLoad($event,i)"
+                        [selected]="addresses.controls[i].get('country').value"
+                      ></app-countries>
+                    </div>
+                  
+               
+                    <!-- <input
+                      type="text"
+                      name="country"
+                      formControlName="country"
+                      [ngClass]="{
+                        'is-invalid':
+                          (getCompanyFormGroup.addresses?.controls[i].controls
+                            ?.country?.errors &&
+                            submittedCompany) ||
+                          (getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.country.touched &&
+                            getCompanyFormGroup.addresses?.controls[i]?.controls
+                              ?.country?.errors)
+                      }"
+                      class="form-control"
+                    /> -->
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        (getCompanyFormGroup.addresses?.controls[i].controls
+                          .country?.errors?.required &&
+                          submittedCompany) ||
+                        (getCompanyFormGroup.addresses?.controls[i]?.controls
+                          ?.country?.touched &&
+                          getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.country?.errors?.required)
+                      "
+                    >
+                      Ju lutemi, shkruani shtetin e kompanisë
+                    </div>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="companyAdress">Qyteti</label>
+
+                    <div>
+                      <app-cities
+                        [cities]="countryCities[i]"
+                        [selected]="addresses.controls[i].get('city').value"
+                        (onCityChange)="handleCityChange($event,i)">
+                      </app-cities>
+                    </div>
+                  
+                    <!-- <input
+                      type="text"
+                      name="city"
+                      formControlName="city"
+                      [ngClass]="{
+                        'is-invalid':
+                          (getCompanyFormGroup.addresses?.controls[i].controls
+                            .city?.errors &&
+                            submittedCompany) ||
+                          (getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.city?.touched &&
+                            getCompanyFormGroup.addresses?.controls[i]?.controls
+                              ?.city?.errors)
+                      }"
+                      class="form-control"
+                    /> -->
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        (getCompanyFormGroup.addresses?.controls[i]?.controls
+                          ?.city?.errors?.required &&
+                          submittedCompany) ||
+                        (getCompanyFormGroup.addresses?.controls[i]?.controls
+                          ?.city?.touched &&
+                          getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.city?.errors?.required)
+                      "
+                    >
+                      Ju lutemi, shkruani qytetin e kompanisë
+                    </div>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="companyAdress">Rruga</label>
+                    <input
+                      type="text"
+                      name="street"
+                      formControlName="street"
+                      [ngClass]="{
+                        'is-invalid':
+                          (getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.street?.errors &&
+                            submittedCompany) ||
+                          (getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.street?.touched &&
+                            getCompanyFormGroup.addresses?.controls[i]?.controls
+                              ?.street?.errors)
+                      }"
+                      class="form-control"
+                    />
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        (getCompanyFormGroup.addresses?.controls[i]?.controls
+                          ?.street?.errors?.required &&
+                          submittedCompany) ||
+                        (getCompanyFormGroup.addresses?.controls[i]?.controls
+                          ?.street?.touched &&
+                          getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.street?.errors?.required)
+                      "
+                    >
+                      Ju lutemi, shkruani rrugen e kompanisë
+                    </div>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label for="companyAdress">Latitude</label>
+                    <input
+                      type="text"
+                      name="latitude"
+                      formControlName="latitude"
+                      [ngClass]="{
+                        'is-invalid':
+                          (getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.latitude?.errors &&
+                            submittedCompany) ||
+                          (getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.latitude?.touched &&
+                            getCompanyFormGroup.addresses?.controls[i]?.controls
+                              ?.latitude?.errors)
+                      }"
+                      class="form-control"
+                    />
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        (getCompanyFormGroup.addresses?.controls[i]?.controls
+                          ?.latitude?.errors?.required &&
+                          submittedCompany) ||
+                        (getCompanyFormGroup.addresses?.controls[i]?.controls
+                          ?.latitude?.touched &&
+                          getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.latitude?.errors?.required)
+                      "
+                    >
+                      Ju lutemi, shkruani latituden e kompanisë
+                    </div>
+                  </div>
+
+                  <div class="form-group col-md-3">
+                    <label for="companyAdress">Longitude</label>
+                    <input
+                      type="text"
+                      name="longitude"
+                      formControlName="longitude"
+                      [ngClass]="{
+                        'is-invalid':
+                          (getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.longitude?.errors &&
+                            submittedCompany) ||
+                          (getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.longitude?.touched &&
+                            getCompanyFormGroup.addresses?.controls[i]?.controls
+                              ?.longitude?.errors)
+                      }"
+                      class="form-control"
+                    />
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        (getCompanyFormGroup.addresses?.controls[i]?.controls
+                          ?.longitude?.errors?.required &&
+                          submittedCompany) ||
+                        (getCompanyFormGroup.addresses?.controls[i]?.controls
+                          ?.longitude?.touched &&
+                          getCompanyFormGroup.addresses?.controls[i]?.controls
+                            ?.longitude?.errors?.required)
+                      "
+                    >
+                      Ju lutemi, shkruani longituden e kompanisë
+                    </div>
+                  </div>
+                  <button
+                    class="btn btn-sm btn-primary"
+                    *ngIf="i != 0"
+                    (click)="removeAddress($event, i)"
+                  >
+                    -
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" (click)="addAddress($event)">
+            +
+          </button>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="companyLink">Website i restorantit</label>
+              <input
+                type="text"
+                name="url"
+                formControlName="url"
+                [ngClass]="{
+                  'is-invalid':
+                    (getCompanyFormGroup.url?.errors && submittedCompany) ||
+                    (getCompanyFormGroup.url?.touched &&
+                      getCompanyFormGroup.url?.errors)
+                }"
+                class="form-control"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.url?.errors?.required &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.url?.touched &&
+                    getCompanyFormGroup.url?.errors?.required)
+                "
+              >
+                Ju lutemi, shkruani linkun e restorantit
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="companyPhone">Numri i restorantit</label>
+              <input
+                type="text"
+                name="phone"
+                formControlName="phone"
+                [ngClass]="{
+                  'is-invalid':
+                    (getCompanyFormGroup.phone?.errors && submittedCompany) ||
+                    (getCompanyFormGroup.phone?.touched &&
+                      getCompanyFormGroup.phone?.errors)
+                }"
+                class="form-control"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.phone?.errors?.required &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.phone?.touched &&
+                    getCompanyFormGroup.phone?.errors?.required)
+                "
+              >
+                Ju lutemi, shkruani numrin e telefonit e restorantit
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="companyEmail">Përshkrimi</label>
+              <textarea
+                name="description"
+                formControlName="description"
+                [ngClass]="{
+                  'is-invalid':
+                    (getCompanyFormGroup.description?.errors &&
+                      submittedCompany) ||
+                    (getCompanyFormGroup.description?.touched &&
+                      getCompanyFormGroup.description?.errors)
+                }"
+                class="form-control"
+                cols="30"
+                rows="100"
+              ></textarea>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.description?.errors?.required &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.description?.touched &&
+                    getCompanyFormGroup.description?.errors?.required)
+                "
+              >
+                Ju lutemi, shkruani përshkrimin e restorantit
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-row col-12 p-0">
+            <div class="form-group col-md-12 d-flex align-items-center">
+              <label class="fast-delivery-lbl" for="fastDelivery">Vlera minimale për porosi:</label>
+              <input class="m-2 col-1 pt-1 form-control" type="number" formControlName="minimumValueOrder">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="row">
+              <div class="col-6">
+                <div class="image-container d-flex flex-column justify-content-center align-items-center m-3">
+                  <label for="logo">Logo</label>
+                  <img id="logo" fallbackSrc="assets/img/angular.png" class="img-fluid hajde-company-logo" src="{{logo.value}}" alt="...">
+                </div>
+              </div>
+              <div class="col-6">
+                <label for="logo" class="mr-2">Foto Image</label><br />
+                <input
+                        type="file"
+                        id="logo"
+                        (change)="onFileChange($event, 'logo')"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="col-6">
+                  <div class="image-container d-flex flex-column justify-content-center align-items-center m-3">
+                    <label for="cover">Cover</label>
+                    <img id="cover" fallbackSrc="assets/img/angular.png" class="img-fluid hajde-company-logo" src="{{cover.value}}" alt="...">
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <label for="cover" class="mr-2">Cover Image</label><br />
+                <input
+                        type="file"
+                        id="cover"
+                        (change)="onFileChange($event, 'cover')"
+                />
+              </div>
+            </div>
+            </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="companyLink">Valuta</label>
+              <select
+                class="custom-select"
+                name="currencyType"
+                formControlName="currencyType"
+                [ngClass]="{
+                  'is-invalid':
+                    (getCompanyFormGroup.currencyType?.errors &&
+                      submittedCompany) ||
+                    (getCompanyFormGroup.currencyType?.touched &&
+                      getCompanyFormGroup.currencyType?.errors)
+                }"
+              >
+                <option value="">Zgjedhe valutën</option>
+                <option value="Euro">Euro</option>
+                <option value="Lekë">Lekë</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.currencyType?.errors?.required &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.currencyType?.touched &&
+                    getCompanyFormGroup.currencyType?.errors?.required)
+                "
+              >
+                Ju lutemi, zgjedhni valutën
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="companyLink">Kohën e dërgesēs</label>
+              <select
+                class="custom-select"
+                name="deliveryTime"
+                formControlName="deliveryTime"
+                [ngClass]="{
+                  'is-invalid':
+                    (getCompanyFormGroup.deliveryTime?.errors &&
+                      submittedCompany) ||
+                    (getCompanyFormGroup.deliveryTime?.touched &&
+                      getCompanyFormGroup.deliveryTime?.errors)
+                }"
+              >
+                <option value="">Kohën e dërgesēs</option>
+                <option value="10-20min">10-20min</option>
+                <option value="30-60min">30-60min</option>
+                <option value="1:00-2:00 hours">1:00-2:00 hours</option>
+                <option value="2:00-3:00 hours">2:00-3:00 hours</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.deliveryTime?.errors?.required &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.deliveryTime?.touched &&
+                    getCompanyFormGroup.deliveryTime?.errors?.required)
+                "
+              >
+                Ju lutemi, zgjedhni kohēn e dërgesēs
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-12">
+              <h5>Orari</h5>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h6>E Hënē</h6>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label *ngIf="companyFormGroup.value.availabilityHanIsOpen" for=""
+                >Hapja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityHanIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityHanOpenHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityHanIsOpen == true &&
+                      getCompanyFormGroup.availabilityHanOpenHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityHanOpenHour?.touched &&
+                      getCompanyFormGroup.availabilityHanOpenHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+              </select>
+
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.availabilityHanOpenHour?.errors
+                    ?.requiredChecked &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.availabilityHanOpenHour?.touched &&
+                    getCompanyFormGroup.availabilityHanOpenHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                class="custom-select mt-4"
+                *ngIf="companyFormGroup.value.availabilityHanIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityHanOpenMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityHanIsOpen == true &&
+                      getCompanyFormGroup.availabilityHanOpenMinutes?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityHanOpenMinutes?.touched &&
+                      getCompanyFormGroup.availabilityHanOpenMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.availabilityHanOpenMinutes?.errors
+                    ?.requiredChecked &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.availabilityHanOpenMinutes?.touched &&
+                    getCompanyFormGroup.availabilityHanOpenMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label *ngIf="companyFormGroup.value.availabilityHanIsOpen" for=""
+                >Mbyllja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityHanIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityHanCloseHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityHanIsOpen == true &&
+                      getCompanyFormGroup.availabilityHanCloseHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityHanCloseHour?.touched &&
+                      getCompanyFormGroup.availabilityHanCloseHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option *ngFor="let hour of closedHoursMonday" [value]="hour">{{hour}}</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityHanIsOpen == true &&
+                    getCompanyFormGroup.availabilityHanCloseHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityHanCloseHour?.touched &&
+                    getCompanyFormGroup.availabilityHanCloseHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                *ngIf="companyFormGroup.value.availabilityHanIsOpen"
+                class="custom-select mt-4"
+                name="deliveryTime"
+                formControlName="availabilityHanCloseMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityHanIsOpen == true &&
+                      getCompanyFormGroup.availabilityHanCloseMinutes?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityHanCloseMinutes?.touched &&
+                      getCompanyFormGroup.availabilityHanCloseMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityHanIsOpen == true &&
+                    getCompanyFormGroup.availabilityHanCloseMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityHanCloseMinutes?.touched &&
+                    getCompanyFormGroup.availabilityHanCloseMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-5">
+            <div class="col-md-4">
+              <div class="hajde-checkbox ml-4">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="defaultCheck1"
+                  formControlName="availabilityHanIsOpen"
+                />
+                <label class="form-check-label" for="defaultCheck1">
+                  E Hapur
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <h6>E Martë</h6>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label *ngIf="companyFormGroup.value.availabilityMarIsOpen" for=""
+                >Hapja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityMarIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityMarOpenHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityMarIsOpen == true &&
+                      getCompanyFormGroup.availabilityMarOpenHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityMarOpenHour?.touched &&
+                      getCompanyFormGroup.availabilityMarOpenHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+              </select>
+
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityMarIsOpen == true &&
+                    getCompanyFormGroup.availabilityMarOpenHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityMarOpenHour?.touched &&
+                    getCompanyFormGroup.availabilityMarOpenHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                class="custom-select mt-4"
+                *ngIf="companyFormGroup.value.availabilityMarIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityMarOpenMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityMarIsOpen == true &&
+                      getCompanyFormGroup.availabilityMarOpenMinutes?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityMarOpenMinutes?.touched &&
+                      getCompanyFormGroup.availabilityMarOpenMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityMarIsOpen == true &&
+                    getCompanyFormGroup.availabilityMarOpenMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityMarOpenMinutes?.touched &&
+                    getCompanyFormGroup.availabilityMarOpenMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label *ngIf="companyFormGroup.value.availabilityMarIsOpen" for=""
+                >Mbyllja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityMarIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityMarCloseHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityMarIsOpen == true &&
+                      getCompanyFormGroup.availabilityMarCloseHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityMarCloseHour?.touched &&
+                      getCompanyFormGroup.availabilityMarCloseHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option *ngFor="let hour of closedHoursTuesDay" [value]="hour">{{hour}}</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityMarIsOpen == true &&
+                    getCompanyFormGroup.availabilityMarCloseHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityMarCloseHour?.touched &&
+                    getCompanyFormGroup.availabilityMarCloseHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                *ngIf="companyFormGroup.value.availabilityMarIsOpen"
+                class="custom-select mt-4"
+                name="deliveryTime"
+                formControlName="availabilityMarCloseMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityMarIsOpen == true &&
+                      getCompanyFormGroup.availabilityMarCloseMinutes?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityMarCloseMinutes?.touched &&
+                      getCompanyFormGroup.availabilityMarCloseMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityMarIsOpen == true &&
+                    getCompanyFormGroup.availabilityMarCloseMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityMarCloseMinutes?.touched &&
+                    getCompanyFormGroup.availabilityMarCloseMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-5">
+            <div class="col-md-4">
+              <div class="hajde-checkbox ml-4">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="defaultCheck2"
+                  formControlName="availabilityMarIsOpen"
+                />
+                <label class="form-check-label" for="defaultCheck2">
+                  E Hapur
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <h6>E Mërkurë</h6>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label *ngIf="companyFormGroup.value.availabilityMerIsOpen" for=""
+                >Hapja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityMerIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityMerOpenHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityMerIsOpen == true &&
+                      getCompanyFormGroup.availabilityMerOpenHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityMarOpenHour?.touched &&
+                      getCompanyFormGroup.availabilityMarOpenHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+              </select>
+
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityMerIsOpen == true &&
+                    getCompanyFormGroup.availabilityMerOpenHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityMerOpenHour?.touched &&
+                    getCompanyFormGroup.availabilityMerOpenHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                class="custom-select mt-4"
+                *ngIf="companyFormGroup.value.availabilityMerIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityMerOpenMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityMerIsOpen == true &&
+                      getCompanyFormGroup.availabilityMerOpenMinutes?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityMerOpenMinutes?.touched &&
+                      getCompanyFormGroup.availabilityMerOpenMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityMerIsOpen == true &&
+                    getCompanyFormGroup.availabilityMerOpenMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityMerOpenMinutes?.touched &&
+                    getCompanyFormGroup.availabilityMerOpenMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label *ngIf="companyFormGroup.value.availabilityMerIsOpen" for=""
+                >Mbyllja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityMerIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityMerCloseHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityMerIsOpen == true &&
+                      getCompanyFormGroup.availabilityMerCloseHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityMerCloseHour?.touched &&
+                      getCompanyFormGroup.availabilityMerCloseHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option *ngFor="let hour of closedHoursWednesDay" [value]="hour">{{hour}}</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityMerIsOpen == true &&
+                    getCompanyFormGroup.availabilityMerCloseHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityMerCloseHour?.touched &&
+                    getCompanyFormGroup.availabilityMerCloseHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                *ngIf="companyFormGroup.value.availabilityMerIsOpen"
+                class="custom-select mt-4"
+                name="deliveryTime"
+                formControlName="availabilityMerCloseMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityMerIsOpen == true &&
+                      getCompanyFormGroup.availabilityMerCloseHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityMerCloseMinutes?.touched &&
+                      getCompanyFormGroup.availabilityMerCloseMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityMerIsOpen == true &&
+                    getCompanyFormGroup.availabilityMerCloseMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityMerCloseMinutes?.touched &&
+                    getCompanyFormGroup.availabilityMerCloseMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-5">
+            <div class="col-md-4">
+              <div class="hajde-checkbox ml-4">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="defaultCheck3"
+                  formControlName="availabilityMerIsOpen"
+                />
+                <label class="form-check-label" for="defaultCheck3">
+                  E Hapur
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <h6>E Enjte</h6>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label *ngIf="companyFormGroup.value.availabilityEjnIsOpen" for=""
+                >Hapja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityEjnIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityEjnOpenHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityEjnIsOpen == true &&
+                      getCompanyFormGroup.availabilityEjnOpenHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityEjnOpenHour?.touched &&
+                      getCompanyFormGroup.availabilityEjnOpenHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+              </select>
+
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityEjnIsOpen == true &&
+                    getCompanyFormGroup.availabilityEjnOpenHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityEjnOpenHour?.touched &&
+                    getCompanyFormGroup.availabilityEjnOpenHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                class="custom-select mt-4"
+                *ngIf="companyFormGroup.value.availabilityEjnIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityEjnOpenMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityEjnIsOpen == true &&
+                      getCompanyFormGroup.availabilityEjnOpenMinutes?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityEjnOpenMinutes?.touched &&
+                      getCompanyFormGroup.availabilityEjnOpenMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityEjnIsOpen == true &&
+                    getCompanyFormGroup.availabilityEjnOpenMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityEjnOpenMinutes?.touched &&
+                    getCompanyFormGroup.availabilityEjnOpenMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label *ngIf="companyFormGroup.value.availabilityEjnIsOpen" for=""
+                >Mbyllja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityEjnIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityEjnCloseHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityEjnIsOpen == true &&
+                      getCompanyFormGroup.availabilityEjnCloseHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityEjnCloseHour?.touched &&
+                      getCompanyFormGroup.availabilityEjnCloseHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option *ngFor="let hour of closedHoursThursDay" [value]="hour">{{hour}}</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityEjnIsOpen == true &&
+                    getCompanyFormGroup.availabilityEjnCloseHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityEjnCloseHour?.touched &&
+                    getCompanyFormGroup.availabilityEjnCloseHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                *ngIf="companyFormGroup.value.availabilityEjnIsOpen"
+                class="custom-select mt-4"
+                name="deliveryTime"
+                formControlName="availabilityEjnCloseMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityEjnIsOpen == true &&
+                      getCompanyFormGroup.availabilityEjnCloseMinutes?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityEjnCloseMinutes?.touched &&
+                      getCompanyFormGroup.availabilityEjnCloseMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityEjnIsOpen == true &&
+                    getCompanyFormGroup.availabilityEjnCloseMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityEjnCloseMinutes?.touched &&
+                    getCompanyFormGroup.availabilityEjnCloseMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-5">
+            <div class="col-md-4">
+              <div class="hajde-checkbox ml-4">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="defaultCheck4"
+                  formControlName="availabilityEjnIsOpen"
+                />
+                <label class="form-check-label" for="defaultCheck4">
+                  E Hapur
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <h6>E Premte</h6>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label
+                *ngIf="companyFormGroup.value.availabilityPremIsOpen"
+                for=""
+                >Hapja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityPremIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityPremOpenHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityPremIsOpen == true &&
+                      getCompanyFormGroup.availabilityPremOpenHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityPremOpenHour?.touched &&
+                      getCompanyFormGroup.availabilityPremOpenHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+              </select>
+
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityPremIsOpen == true &&
+                    getCompanyFormGroup.availabilityPremOpenHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityPremOpenHour?.touched &&
+                    getCompanyFormGroup.availabilityPremOpenHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                class="custom-select mt-4"
+                *ngIf="companyFormGroup.value.availabilityPremIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityPremOpenMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityPremIsOpen == true &&
+                      getCompanyFormGroup.availabilityPremOpenMinutes?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityPremOpenMinutes?.touched &&
+                      getCompanyFormGroup.availabilityPremOpenMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityPremIsOpen == true &&
+                    getCompanyFormGroup.availabilityPremOpenMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityPremOpenMinutes?.touched &&
+                    getCompanyFormGroup.availabilityPremOpenMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label
+                *ngIf="companyFormGroup.value.availabilityPremIsOpen"
+                for=""
+                >Mbyllja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityPremIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityPremCloseHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityPremIsOpen == true &&
+                      getCompanyFormGroup.availabilityPremCloseHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityPremCloseHour?.touched &&
+                      getCompanyFormGroup.availabilityPremCloseHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option *ngFor="let hour of closedHoursFriday" [value]="hour">{{hour}}</option>
+
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityPremIsOpen == true &&
+                    getCompanyFormGroup.availabilityPremCloseHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityPremCloseHour?.touched &&
+                    getCompanyFormGroup.availabilityPremCloseHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                *ngIf="companyFormGroup.value.availabilityPremIsOpen"
+                class="custom-select mt-4"
+                name="deliveryTime"
+                formControlName="availabilityPremCloseMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityPremIsOpen == true &&
+                      getCompanyFormGroup.availabilityPremCloseMinutes
+                        ?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityPremCloseMinutes
+                      ?.touched &&
+                      getCompanyFormGroup.availabilityPremCloseMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityPremIsOpen == true &&
+                    getCompanyFormGroup.availabilityPremCloseMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityPremCloseMinutes?.touched &&
+                    getCompanyFormGroup.availabilityPremCloseMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-5">
+            <div class="col-md-4">
+              <div class="hajde-checkbox ml-4">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="defaultCheck5"
+                  formControlName="availabilityPremIsOpen"
+                />
+                <label class="form-check-label" for="defaultCheck5">
+                  E Hapur
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <h6>E Shtune</h6>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label
+                *ngIf="companyFormGroup.value.availabilityShtnIsOpen"
+                for=""
+                >Hapja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityShtnIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityShtnOpenHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityDielIsOpen == true &&
+                      getCompanyFormGroup.availabilityShtnOpenHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityShtnOpenHour?.touched &&
+                      getCompanyFormGroup.availabilityShtnOpenHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+              </select>
+
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityShtnIsOpen == true &&
+                    getCompanyFormGroup.availabilityShtnOpenHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityShtnOpenHour?.touched &&
+                    getCompanyFormGroup.availabilityShtnOpenHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                class="custom-select mt-4"
+                *ngIf="companyFormGroup.value.availabilityShtnIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityShtnOpenMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityShtnIsOpen == true &&
+                      getCompanyFormGroup.availabilityShtnOpenMinutes?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityShtnOpenMinutes?.touched &&
+                      getCompanyFormGroup.availabilityShtnOpenMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityShtnIsOpen == true &&
+                    getCompanyFormGroup.availabilityShtnOpenMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityShtnOpenMinutes?.touched &&
+                    getCompanyFormGroup.availabilityShtnOpenMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label
+                *ngIf="companyFormGroup.value.availabilityShtnIsOpen"
+                for=""
+                >Mbyllja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityShtnIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityShtnCloseHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityShtnIsOpen == true &&
+                      getCompanyFormGroup.availabilityShtnCloseHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityShtnCloseHour?.touched &&
+                      getCompanyFormGroup.availabilityShtnCloseHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option *ngFor="let hour of closedHoursSaturday" [value]="hour">{{hour}}</option>
+
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityShtnIsOpen == true &&
+                    getCompanyFormGroup.availabilityShtnCloseHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityShtnCloseHour?.touched &&
+                    getCompanyFormGroup.availabilityShtnCloseHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                *ngIf="companyFormGroup.value.availabilityShtnIsOpen"
+                class="custom-select mt-4"
+                name="deliveryTime"
+                formControlName="availabilityShtnCloseMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityShtnIsOpen == true &&
+                      getCompanyFormGroup.availabilityPremCloseMinutes
+                        ?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityPremCloseMinutes
+                      ?.touched &&
+                      getCompanyFormGroup.availabilityPremCloseMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityShtnIsOpen == true &&
+                    getCompanyFormGroup.availabilityShtnCloseMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityShtnCloseMinutes?.touched &&
+                    getCompanyFormGroup.availabilityShtnCloseMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-5">
+            <div class="col-md-4">
+              <div class="hajde-checkbox ml-4">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="defaultCheck6"
+                  formControlName="availabilityShtnIsOpen"
+                />
+                <label class="form-check-label" for="defaultCheck6">
+                  E Hapur
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <h6>E Diel</h6>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label
+                *ngIf="companyFormGroup.value.availabilityDielIsOpen"
+                for=""
+                >Hapja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityDielIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityDielOpenHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityDielIsOpen == true &&
+                      getCompanyFormGroup.availabilityDielOpenHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityDielOpenHour?.touched &&
+                      getCompanyFormGroup.availabilityDielOpenHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+              </select>
+
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityDielIsOpen == true &&
+                    getCompanyFormGroup.availabilityDielOpenHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityDielOpenHour?.touched &&
+                    getCompanyFormGroup.availabilityDielOpenHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                class="custom-select mt-4"
+                *ngIf="companyFormGroup.value.availabilityDielIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityDielOpenMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityDielIsOpen == true &&
+                      getCompanyFormGroup.availabilityDielOpenMinutes?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityDielOpenMinutes?.touched &&
+                      getCompanyFormGroup.availabilityDielOpenMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityDielIsOpen == true &&
+                    getCompanyFormGroup.availabilityDielOpenMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityDielOpenMinutes?.touched &&
+                    getCompanyFormGroup.availabilityDielOpenMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-1">
+            <div class="col-md-2">
+              <label
+                *ngIf="companyFormGroup.value.availabilityDielIsOpen"
+                for=""
+                >Mbyllja</label
+              >
+              <select
+                class="custom-select"
+                *ngIf="companyFormGroup.value.availabilityDielIsOpen"
+                name="deliveryTime"
+                formControlName="availabilityDielCloseHour"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityDielIsOpen == true &&
+                      getCompanyFormGroup.availabilityDielCloseHour?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityDielCloseHour?.touched &&
+                      getCompanyFormGroup.availabilityDielCloseHour?.errors)
+                }"
+              >
+                <option value="">Ora</option>
+                <option *ngFor="let hour of closedHoursSunday" [value]="hour">{{hour}}</option>
+
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityDielIsOpen == true &&
+                    getCompanyFormGroup.availabilityDielCloseHour?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityDielCloseHour?.touched &&
+                    getCompanyFormGroup.availabilityDielCloseHour?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni orën
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select
+                *ngIf="companyFormGroup.value.availabilityDielIsOpen"
+                class="custom-select mt-4"
+                name="deliveryTime"
+                formControlName="availabilityDielCloseMinutes"
+                [ngClass]="{
+                  'is-invalid':
+                    (companyFormGroup.value.availabilityDielIsOpen == true &&
+                      getCompanyFormGroup.availabilityDielCloseMinutes
+                        ?.errors &&
+                        submittedCompany) ||
+                    (getCompanyFormGroup.availabilityDielCloseMinutes
+                      ?.touched &&
+                      getCompanyFormGroup.availabilityDielCloseMinutes?.errors)
+                }"
+              >
+                <option value="">Minuta</option>
+                <option value="00">00</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
+                <option value="34">34</option>
+                <option value="35">35</option>
+                <option value="36">36</option>
+                <option value="37">37</option>
+                <option value="38">38</option>
+                <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
+                <option value="49">49</option>
+                <option value="50">50</option>
+                <option value="51">51</option>
+                <option value="52">52</option>
+                <option value="53">53</option>
+                <option value="54">54</option>
+                <option value="55">55</option>
+                <option value="56">56</option>
+                <option value="57">57</option>
+                <option value="58">58</option>
+                <option value="59">59</option>
+              </select>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (companyFormGroup.value.availabilityDielIsOpen == true &&
+                    getCompanyFormGroup.availabilityDielCloseMinutes?.errors
+                      ?.requiredChecked &&
+                      submittedCompany) ||
+                  (getCompanyFormGroup.availabilityDielCloseMinutes?.touched &&
+                    getCompanyFormGroup.availabilityDielCloseMinutes?.errors
+                      ?.requiredChecked)
+                "
+              >
+                Ju lutemi, zgjedhni minutat
+              </div>
+            </div>
+          </div>
+          <div class="form-row mb-5">
+            <div class="col-md-4">
+              <div class="hajde-checkbox ml-4">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="defaultCheck7"
+                  formControlName="availabilityDielIsOpen"
+                />
+                <label class="form-check-label" for="defaultCheck7">
+                  E Hapur
+                </label>
+              </div>
+            </div>
+          </div>
+          
+
+          <div class="form-row">
+            <div class="col-12 mt-3 mb-3">
+              <h6>Informatat e llogarisë</h6>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="companyDescription">Emri</label>
+              <input
+                type="text"
+                name="firstName"
+                formControlName="firstName"
+                [ngClass]="{
+                  'is-invalid':
+                    (getCompanyFormGroup.firstName?.errors &&
+                      submittedCompany) ||
+                    (getCompanyFormGroup.firstName?.touched &&
+                      getCompanyFormGroup.firstName?.errors)
+                }"
+                class="form-control"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.firstName?.errors?.required &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.firstName?.touched &&
+                    getCompanyFormGroup.firstName?.errors?.required)
+                "
+              >
+                Ju lutemi, shrkuani emrin
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="companyDescription">Mbiemri</label>
+              <input
+                type="text"
+                name="lastName"
+                formControlName="lastName"
+                [ngClass]="{
+                  'is-invalid':
+                    (getCompanyFormGroup.lastName?.errors &&
+                      submittedCompany) ||
+                    (getCompanyFormGroup.lastName?.touched &&
+                      getCompanyFormGroup.lastName?.errors)
+                }"
+                class="form-control"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.lastName?.errors?.required &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.lastName?.touched &&
+                    getCompanyFormGroup.lastName?.errors?.required)
+                "
+              >
+                Ju lutemi, shrkuani mbiemrin
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="companyDescription">Email</label>
+              <input
+                type="email"
+                name="email"
+                formControlName="email"
+                [ngClass]="{
+                  'is-invalid':
+                    (getCompanyFormGroup.email?.errors && submittedCompany) ||
+                    (getCompanyFormGroup.email?.touched &&
+                      getCompanyFormGroup.email?.errors)
+                }"
+                class="form-control"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.email?.errors?.required &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.email?.touched &&
+                    getCompanyFormGroup.email?.errors?.required)
+                "
+              >
+                Ju lutemi vendosni e-mail adresën
+              </div>
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  (getCompanyFormGroup.email?.errors?.email &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.email?.touched &&
+                    getCompanyFormGroup.email.errors?.email)
+                "
+                [ngClass]="{
+                  'is-invalid':
+                    (getCompanyFormGroup.email?.errors && submittedCompany) ||
+                    (getCompanyFormGroup.email?.touched &&
+                      getCompanyFormGroup.email?.errors)
+                }"
+              >
+                Ju lutemi vendosni një e-mail të vlefshëm
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="categoryId">Kategoria</label>
+              <select class="custom-select" name="categoryId" formControlName="categoryId"
+              [ngClass]="{
+                'is-invalid':
+                  (getCompanyFormGroup.categoryId?.errors &&
+                    submittedCompany) ||
+                  (getCompanyFormGroup.categoryId?.touched &&
+                    getCompanyFormGroup.categoryId?.errors)
+              }"
+              >
+                <option value="">Zgjedh kategorinë</option>
+                <option value="{{cat._id}}" *ngFor="let cat of categories">
+                  {{cat.name}}
+                </option>
+              </select>
+              <div class="invalid-feedback"
+              *ngIf="
+              (getCompanyFormGroup.categoryId?.errors?.required &&
+                submittedCompany) ||
+              (getCompanyFormGroup.categoryId?.touched &&
+                getCompanyFormGroup.categoryId?.errors?.required)
+            "
+                >
+                Ju lutemi, zgjedhni kategorinë
+              </div>
+            </div>
+          </div>
+          <div class="float-right">
+            <button class="btn">Ruaj</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

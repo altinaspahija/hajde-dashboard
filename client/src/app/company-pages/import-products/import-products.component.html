@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4>Importo Produktet</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="productFormGroup" (submit)="addProduct()">
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="companyName">Linku i sheet</label>
+              <input type="text" class="form-control" name="sheetUrl" formControlName="sheetUrl" [ngClass]="{'is-invalid': (getProductFormGroup.sheetUrl?.errors && submittedProduct) || ( getProductFormGroup.sheetUrl?.touched &&  getProductFormGroup.sheetUrl?.errors)}">
+              <div class="invalid-feedback"
+                      *ngIf="(getProductFormGroup.sheetUrl?.errors?.required && submittedProduct) || ( getProductFormGroup.sheetUrl?.touched &&  getProductFormGroup.sheetUrl?.errors?.required)">
+                      Ju lutemi, shkruani linkun sheet 
+              </div>
+            </div>
+          </div>          
+          <div class="float-right">
+            <button class="btn" (click)="saveConfig($event)">Ruaj konfigurimin</button>
+            <button class="btn" (click)="generateSheet($event)">Gjenero shabllonin </button>
+            <button class="btn">Importo</button>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>

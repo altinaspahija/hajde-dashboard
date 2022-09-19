@@ -1,0 +1,64 @@
+.companyName {
+  margin-top: 25%;
+}
+
+.info-data {
+  font-size: 60%;
+}
+
+.hajde-company-logo {
+  width: 150px;
+  height: 150px;
+}
+
+.hajde-select {
+  height: 31px;
+  font-size: 13px;
+
+}
+
+.hajde-input {
+  width: 210px;
+}
+
+.card-header {
+  z-index: 9999;
+}
+
+.hajde-btn  {
+  border: none;
+  background: none;
+  color: #000;
+  font-size: 17px;
+}
+
+.hajde-btn:hover  {
+  border: none !important;
+  background: none !important;
+  color: #51cbce !important;
+  font-size: 17px !important;
+}
+
+
+.my-pagination {
+  margin-top: 25px;
+}
+
+.my-pagination > li{
+ display: inline;
+}
+
+.my-pagination > li > .page-link {
+  width: 35px;
+  display: inline;
+  margin-left: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.my-pagination > li > p {
+  display: inline;
+}
+.my-pagination > li > input {
+  width: 50px;
+  display: inline;
+}

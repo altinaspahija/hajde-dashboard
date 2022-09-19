@@ -1,0 +1,93 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4>Shto Produktin</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="productFormGroup" (submit)="addProduct()">
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="companyName">Nr i produktit</label>
+              <input type="text" class="form-control" name="productCode" formControlName="productCode" [ngClass]="{'is-invalid': (getProductFormGroup.productCode?.errors && submittedProduct) || ( getProductFormGroup.productCode?.touched &&  getProductFormGroup.productCode?.errors)}">
+              <div class="invalid-feedback"
+                      *ngIf="(getProductFormGroup.productCode?.errors?.required && submittedProduct) || ( getProductFormGroup.productCode?.touched &&  getProductFormGroup.productCode?.errors?.required)">
+                      Ju lutemi, shkruani numrin e produktin
+                </div>
+          </div>
+            <div class="form-group col-md-3">
+                <label for="companyName">Emri i produktit</label>
+                <input type="text" class="form-control" name="name" formControlName="name" [ngClass]="{'is-invalid': (getProductFormGroup.name?.errors && submittedProduct) || ( getProductFormGroup.name?.touched &&  getProductFormGroup.name?.errors)}">
+                <div class="invalid-feedback"
+                        *ngIf="(getProductFormGroup.name?.errors?.required && submittedProduct) || ( getProductFormGroup.name?.touched &&  getProductFormGroup.name?.errors?.required)">
+                        Ju lutemi, shkruani emrin e produktin
+                  </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="companyName">Kategoria</label>
+              <select class="custom-select" (change)="changeCat($event)" name="category" formControlName="category" [ngClass]="{'is-invalid': (getProductFormGroup.category?.errors && submittedProduct) || ( getProductFormGroup?.category?.touched &&  getProductFormGroup.category?.errors)}">
+                <option value="">Zgjedh kategorinë</option>
+                <option value="{{cat._id}}" *ngFor="let cat of categories">{{cat.name}}</option>
+              </select>
+              <div class="invalid-feedback"
+                      *ngIf="(getProductFormGroup.subcategory?.errors?.required && submittedProduct) || ( getProductFormGroup.subcategory?.touched &&  getProductFormGroup.subcategory?.errors?.required)">
+                      Ju lutemi, zgjedhni kategorinë
+              </div>
+            </div>
+            <div class="form-group col-md-3" *ngIf='getProductFormValue("category") !== ""'>
+              
+              <label for="companyName">Nënkategoria</label>
+              <select class="custom-select" name="subcategory" formControlName="subcategory" [ngClass]="{'is-invalid': (getProductFormGroup.subcategory?.errors && submittedProduct) || ( getProductFormGroup.subcategory?.touched &&  getProductFormGroup.subcategory?.errors)}">
+                <option value="">Zgjedh nënkategorinë</option>
+                <option value="{{cat._id}}" *ngFor="let cat of subcategories">{{cat.name}}</option>
+              </select>
+              <div class="invalid-feedback"
+                      *ngIf="(getProductFormGroup.category?.errors?.required && submittedProduct) || ( getProductFormGroup.category?.touched &&  getProductFormGroup.category?.errors?.required)">
+                      Ju lutemi, zgjedhni nënkategorinë
+              </div>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label for="companyEmail">Përshkrimi</label>
+              <textarea name="description" formControlName="description" [ngClass]="{'is-invalid': (getProductFormGroup.description?.errors && submittedProduct) || ( getProductFormGroup.description?.touched &&  getProductFormGroup.description?.errors)}" class="form-control my-textarea" cols="30" ></textarea>
+              <div class="invalid-feedback"
+                *ngIf="(getProductFormGroup.description?.errors?.required && submittedProduct) || ( getProductFormGroup.description?.touched &&  getProductFormGroup.description?.errors?.required)">
+                  Ju lutemi, shkruani përshkrimin e produktit
+              </div>
+            </div>
+            <div class="form-row">
+             
+            </div>
+            <div class="form-group col-md-6">
+              <label for="companyAdress">Fotografia</label>
+              <input type="text" name="imageURL" formControlName="imageURL" [ngClass]="{'is-invalid': (getProductFormGroup.imageURL?.errors && submittedProduct) || ( getProductFormGroup.imageURL?.touched &&  getProductFormGroup.imageURL?.errors)}"  class="form-control">
+              <div class="invalid-feedback"
+                  *ngIf="(getProductFormGroup.imageURL?.errors?.required && submittedProduct) || ( getProductFormGroup.imageURL?.touched &&  getProductFormGroup.imageURL?.errors?.required)">
+                    Ju lutemi, shkruani linkun e fotografis të produktit
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="companyAdress">Njësia</label>
+              <input type="text"  name="unit" formControlName="unit" [ngClass]="{'is-invalid': (getProductFormGroup.unit?.errors && submittedProduct) || ( getProductFormGroup.unit?.touched &&  getProductFormGroup.unit?.errors)}" class="form-control">
+              <div class="invalid-feedback"
+                *ngIf="(getProductFormGroup.unit?.errors?.required && submittedProduct) || ( getProductFormGroup.unit?.touched &&  getProductFormGroup.unit?.errors?.required)">
+                  Ju lutemi, shkruani njësinë e produktit
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="companyAdress">Çmimi</label>
+              <input type="number"  name="price" formControlName="price" [ngClass]="{'is-invalid': (getProductFormGroup.price?.errors && submittedProduct) || ( getProductFormGroup.price?.touched &&  getProductFormGroup.price?.errors)}" class="form-control">
+              <div class="invalid-feedback"
+                *ngIf="(getProductFormGroup.price?.errors?.required && submittedProduct) || ( getProductFormGroup.price?.touched &&  getProductFormGroup.price?.errors?.required)">
+                  Ju lutemi, shkruani çmimin e produktit
+              </div>
+            </div>
+          </div>          
+          <div class="float-right">
+            <button class="btn">Ruaj</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,242 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4>Profili</h4>
+      </div>
+      <div class="card-body">
+          <form [formGroup]="userFormGroup" (submit)="updateInfo()">
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="name">Emri</label>
+                <input type="text" name="name" id="name" formControlName="name" [ngClass]="{'is-invalid': (getUserForm.name.errors && submittedUser) || ( getUserForm.name.touched &&  getUserForm.name.errors)}" class="form-control">
+                <div class="invalid-feedback"
+                    *ngIf="(getUserForm.name.errors?.required && submittedUser) || ( getUserForm.name.touched &&  getUserForm.name.errors?.required)">
+                      Ju lutemi vendosni emrin
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="surname">Mbiemri</label>
+                <input type="text" name="lastName" formControlName="lastName" [ngClass]="{'is-invalid': (getUserForm.lastName.errors && submittedUser) || ( getUserForm.lastName.touched &&  getUserForm.lastName.errors)}" id="surname" class="form-control">
+                <div class="invalid-feedback"
+                  *ngIf="(getUserForm.lastName.errors?.required && submittedUser) || ( getUserForm.lastName.touched &&  getUserForm.lastName.errors?.required)">
+                    Ju lutemi vendosni mbiemrin
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-secondary">Ndrysho</button>
+          </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4>Ndrysho fjalëkalimin</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="changePasswordFormGroup" (submit)="changePassowrd()">
+          <div class="mt-3">
+            <label for="password">Fjalëkalimi i vjeter:</label>
+            <input type="password" class="form-control login-input mb-1" placeholder="" name="oldPassword" formControlName="oldPassword" [ngClass]="{'is-invalid': (getChangePasswordForm.oldPassword.errors && submitted) || ( getChangePasswordForm.oldPassword.touched &&  getChangePasswordForm.oldPassword.errors)}">
+            <div class="invalid-feedback"
+            *ngIf="(getChangePasswordForm.oldPassword.errors?.required && submitted) || ( getChangePasswordForm.oldPassword.touched &&  getChangePasswordForm.oldPassword.errors?.required)">
+               Ju lutemi vendosni fjalëkalimin i vjetër
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="(getChangePasswordForm.oldPassword.errors?.minlength && submitted) || ( getChangePasswordForm.oldPassword.touched &&  getChangePasswordForm.oldPassword.errors?.minlength)">
+              Fjalëkalimi i vjetër duhet të jetë me 8 karaktere ose më i gjatë
+          </div>
+         </div> 
+          
+         <div class="mt-3">
+           <label for="password">Fjalëkalimi i ri:</label>
+           <input type="password" class="form-control login-input mb-1" placeholder="" name="password" formControlName="password" [ngClass]="{'is-invalid': (getChangePasswordForm.password.errors && submitted) || ( getChangePasswordForm.password.touched &&  getChangePasswordForm.password.errors)}">
+           <div class="imnvalid-feedback"
+           *ngIf="(getChangePasswordForm.password.errors?.required && submitted) || ( getChangePasswordForm.password.touched &&  getChangePasswordForm.password.errors?.required)">
+              Ju lutemi vendosni fjalëkalimin
+         </div>
+         <div class="invalid-feedback"
+           *ngIf="(getChangePasswordForm.password.errors?.minlength && submitted) || ( getChangePasswordForm.password.touched &&  getChangePasswordForm.password.errors?.minlength)">
+             Fjalëkalimi duhet të jetë me 8 karaktere ose më i gjatë
+         </div>
+         <div class="invalid-feedback"
+           *ngIf="(getChangePasswordForm.password.errors?.mustMatch && submitted) || ( getChangePasswordForm.password.touched &&  getChangePasswordForm.password.errors?.mustNotMatch)">
+              Fjalëkalimi i ri nuk duhet të përputhet me fjalëkalimin e vjetër
+         </div>
+        </div>
+
+       <div class="mt-3">
+            <label for="password">Konfirmo fjalëkalimin:</label>
+           <input type="password" class="form-control login-input mb-1" placeholder="" name="comparePassword" formControlName="comparePassword" [ngClass]="{'is-invalid': (getChangePasswordForm.comparePassword.errors && submitted) || ( getChangePasswordForm.comparePassword.touched &&  getChangePasswordForm.comparePassword.errors)}">
+           <div class="invalid-feedback"
+           *ngIf="(getChangePasswordForm.comparePassword.errors?.required && submitted) || ( getChangePasswordForm.comparePassword.touched &&  getChangePasswordForm.comparePassword.errors?.required)">
+              Ju lutemi vendosni fjalëkalimin
+         </div>
+         <div class="invalid-feedback"
+           *ngIf="(getChangePasswordForm.comparePassword.errors?.minlength && submitted) || ( getChangePasswordForm.comparePassword.touched &&  getChangePasswordForm.comparePassword.errors?.minlength)">
+              Fjalëkalimi duhet të jetë me 8 karaktere ose më i gjatë
+         </div>
+         <div class="invalid-feedback"
+           *ngIf="(getChangePasswordForm.comparePassword.errors?.mustMatch && submitted) || ( getChangePasswordForm.comparePassword.touched &&  getChangePasswordForm.comparePassword.errors?.mustMatch)">
+              Fjalëkalimet nuk përputhen
+         </div>
+       </div>
+       <div class="form-group">
+         <label for=""></label>
+       </div>
+       <input class="btn  btn-apply float-right" style="margin-top: -20px" type="submit" value="Ndrysho">
+      </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4>Ndrysho Kompaninë</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="companyFormGroup" (submit)="addCompany()">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="companyName">Emri i kompanisë</label>
+                <input type="text" class="form-control" name="company" formControlName="company" [ngClass]="{'is-invalid': (getCompanyFormGroup.company?.errors && submittedCompany) || ( getCompanyFormGroup.company?.touched &&  getCompanyFormGroup.company?.errors)}">
+                <div class="invalid-feedback"
+                        *ngIf="(getCompanyFormGroup.company?.errors?.required && submittedCompany) || ( getCompanyFormGroup.company?.touched &&  getCompanyFormGroup.company?.errors?.required)">
+                        Ju lutemi, shkruani emrin e kompanisë
+                  </div>
+            </div>
+           
+          
+            <div class="form-row">
+              <div class="col-12">
+                <h6 class="ml-2">Adresat</h6>
+              </div>
+            </div>
+            <div class="col-12" formArrayName="addresses">
+              <div *ngFor="let address of addresses.controls; let i=index">
+                  <div class="form-row" [formGroupName]="i">
+                   
+                    <div class="form-group col-md-3">
+                      <label for="companyAdress">Shteti</label>
+                      
+                      <input type="text" name="country" formControlName="country" [ngClass]="{'is-invalid': (getCompanyFormGroup.addresses?.controls[i].controls?.country?.errors && submittedCompany) || ( getCompanyFormGroup.addresses?.controls[i]?.controls?.country.touched &&  getCompanyFormGroup.addresses?.controls[i]?.controls?.country?.errors)}" class="form-control">
+                      <div class="invalid-feedback"
+                          *ngIf="(getCompanyFormGroup.addresses?.controls[i].controls.country?.errors?.required && submittedCompany) || ( getCompanyFormGroup.addresses?.controls[i]?.controls?.country?.touched &&  getCompanyFormGroup.addresses?.controls[i]?.controls?.country?.errors?.required)">
+                            Ju lutemi, shkruani shtetin e kompanisë
+                      </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="companyAdress">Qyteti</label>
+                      <input type="text" name="city" formControlName="city" [ngClass]="{'is-invalid': (getCompanyFormGroup.addresses?.controls[i].controls.city?.errors && submittedCompany) || ( getCompanyFormGroup.addresses?.controls[i]?.controls?.city?.touched &&  getCompanyFormGroup.addresses?.controls[i]?.controls?.city?.errors)}"  class="form-control">
+                      <div class="invalid-feedback"
+                          *ngIf="(getCompanyFormGroup.addresses?.controls[i]?.controls?.city?.errors?.required && submittedCompany) || ( getCompanyFormGroup.addresses?.controls[i]?.controls?.city?.touched &&  getCompanyFormGroup.addresses?.controls[i]?.controls?.city?.errors?.required)">
+                            Ju lutemi, shkruani qytetin e kompanisë
+                      </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                      <label for="companyAdress">Rruga</label>
+                      <input type="text"  name="street" formControlName="street" [ngClass]="{'is-invalid': (getCompanyFormGroup.addresses?.controls[i]?.controls?.street?.errors && submittedCompany) || ( getCompanyFormGroup.addresses?.controls[i]?.controls?.street?.touched &&  getCompanyFormGroup.addresses?.controls[i]?.controls?.street?.errors)}" class="form-control">
+                      <div class="invalid-feedback"
+                        *ngIf="(getCompanyFormGroup.addresses?.controls[i]?.controls?.street?.errors?.required && submittedCompany) || ( getCompanyFormGroup.addresses?.controls[i]?.controls?.street?.touched &&  getCompanyFormGroup.addresses?.controls[i]?.controls?.street?.errors?.required)">
+                          Ju lutemi, shkruani rrugen e kompanisë
+                      </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                      <label for="companyAdress">Latitude</label>
+                      <input type="text"  name="latitude" formControlName="latitude" [ngClass]="{'is-invalid': (getCompanyFormGroup.addresses?.controls[i]?.controls?.latitude?.errors && submittedCompany) || ( getCompanyFormGroup.addresses?.controls[i]?.controls?.latitude?.touched &&  getCompanyFormGroup.addresses?.controls[i]?.controls?.latitude?.errors)}" class="form-control">
+                      <div class="invalid-feedback"
+                        *ngIf="(getCompanyFormGroup.addresses?.controls[i]?.controls?.latitude?.errors?.required && submittedCompany) || ( getCompanyFormGroup.addresses?.controls[i]?.controls?.latitude?.touched &&  getCompanyFormGroup.addresses?.controls[i]?.controls?.latitude?.errors?.required)">
+                          Ju lutemi, shkruani latituden e kompanisë
+                      </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                      <label for="companyAdress">Longitude</label>
+                      <input type="text"  name="longitude" formControlName="longitude" [ngClass]="{'is-invalid': (getCompanyFormGroup.addresses?.controls[i]?.controls?.longitude?.errors && submittedCompany) || ( getCompanyFormGroup.addresses?.controls[i]?.controls?.longitude?.touched &&  getCompanyFormGroup.addresses?.controls[i]?.controls?.longitude?.errors)}" class="form-control">
+                      <div class="invalid-feedback"
+                        *ngIf="(getCompanyFormGroup.addresses?.controls[i]?.controls?.longitude?.errors?.required && submittedCompany) || ( getCompanyFormGroup.addresses?.controls[i]?.controls?.longitude?.touched &&  getCompanyFormGroup.addresses?.controls[i]?.controls?.longitude?.errors?.required)">
+                          Ju lutemi, shkruani longituden e kompanisë
+                      </div>
+                    </div>
+                    <button class="btn btn-sm btn-primary" *ngIf="i != 0" (click)="removeAddress($event,i)"> - </button>
+                  </div>
+              </div>
+            </div>
+            <button class="btn btn-primary" (click)="addAddress($event)"> + </button>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="companyLink">Website i kompanisë</label>
+              <input type="text" name="url" formControlName="url" [ngClass]="{'is-invalid': (getCompanyFormGroup.url?.errors && submittedCompany) || ( getCompanyFormGroup.url?.touched &&  getCompanyFormGroup.url?.errors)}" class="form-control">
+              <div class="invalid-feedback"
+                *ngIf="(getCompanyFormGroup.url?.errors?.required && submittedCompany) || ( getCompanyFormGroup.url?.touched &&  getCompanyFormGroup.url?.errors?.required)">
+                  Ju lutemi, shkruani linkun e kompanisë
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="companyPhone">Numri i telefonit</label>
+              <input type="text" name="phone" formControlName="phone" [ngClass]="{'is-invalid': (getCompanyFormGroup.phone?.errors && submittedCompany) || ( getCompanyFormGroup.phone?.touched &&  getCompanyFormGroup.phone?.errors)}" class="form-control">
+              <div class="invalid-feedback"
+                *ngIf="(getCompanyFormGroup.phone?.errors?.required && submittedCompany) || ( getCompanyFormGroup.phone?.touched &&  getCompanyFormGroup.phone?.errors?.required)">
+                  Ju lutemi, shkruani numrin e telefonit e kompanisë
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="companyEmail">Përshkrimi</label>
+              <textarea name="description" formControlName="description" [ngClass]="{'is-invalid': (getCompanyFormGroup.description?.errors && submittedCompany) || ( getCompanyFormGroup.description?.touched &&  getCompanyFormGroup.description?.errors)}" class="form-control" cols="30" rows="100"></textarea>
+              <div class="invalid-feedback"
+                *ngIf="(getCompanyFormGroup.description?.errors?.required && submittedCompany) || ( getCompanyFormGroup.description?.touched &&  getCompanyFormGroup.description?.errors?.required)">
+                  Ju lutemi, shkruani përshkrimin e kompanisë
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-4">
+              <img  *ngIf="companyData?.urlImage !== undefined && companyData?.urlImage !== '' && companyData?.urlImage !== null" class="img-fluid hajde-company-logo" src="{{imageUrl}}{{companyData?.urlImage}}" alt="...">
+            </div>
+            <div class="col-md-12">
+              <label for="urlImage" class="mr-2">Fotografia</label><br>
+              <input type="file" id="urlImage" (change)="onFileChange($event, 'urlImage')" >
+              
+            </div>
+
+
+            <div class="form-group col-md-4">
+              <label for="companyLink">Valuta</label>
+              <select class="custom-select"  name="currencyType" formControlName="currencyType" [ngClass]="{'is-invalid': (getCompanyFormGroup.currencyType?.errors && submittedCompany) || ( getCompanyFormGroup.currencyType?.touched &&  getCompanyFormGroup.currencyType?.errors)}">
+                <option value="">Zgjedhe valutën</option>
+                <option value="Euro">Euro</option>
+                <option value="Lekë">Lekë</option>
+              </select>
+              <div class="invalid-feedback"
+                *ngIf="(getCompanyFormGroup.currencyType?.errors?.required && submittedCompany) || ( getCompanyFormGroup.currencyType?.touched &&  getCompanyFormGroup.currencyType?.errors?.required)">
+                  Ju lutemi, zgjedhni valutën
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="companyLink">Kohën e dërgesēs</label>
+              <select class="custom-select"  name="deliveryTime" formControlName="deliveryTime" [ngClass]="{'is-invalid': (getCompanyFormGroup.deliveryTime?.errors && submittedCompany) || ( getCompanyFormGroup.deliveryTime?.touched &&  getCompanyFormGroup.deliveryTime?.errors)}">
+                <option value="">Kohën e dërgesēs</option>
+                <option value="10-20min">10-20min</option>
+                <option value="30-60min">30-60min</option>
+                <option value="1:00-2:00 hours">1:00-2:00 hours</option>
+                <option value="2:00-3:00 hours">2:00-3:00 hours</option>
+              </select>
+              <div class="invalid-feedback"
+                *ngIf="(getCompanyFormGroup.deliveryTime?.errors?.required && submittedCompany) || ( getCompanyFormGroup.deliveryTime?.touched &&  getCompanyFormGroup.deliveryTime?.errors?.required)">
+                  Ju lutemi, zgjedhni kohēn e dërgesēs
+              </div>
+            </div>
+          </div>
+          <div class="float-right">
+            <button class="btn">Ruaj</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

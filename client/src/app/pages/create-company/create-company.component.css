@@ -1,0 +1,12 @@
+.form-control.ng-invalid.ng-touched, .form-control.ng-invalid.is-invalid{
+  border-color: red !important;
+}
+
+.fast-delivery-chk {
+  width: 1rem;
+  height: 1rem;
+}
+
+.fast-delivery-lbl {
+  margin-top: 3px;
+}

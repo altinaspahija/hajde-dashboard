@@ -1,0 +1,158 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Krijimi i nje porosie</h4>
+            </div>
+            <div class="card-body">
+                <div>
+                    <fieldset>
+                        <legend>Klienti</legend>
+                        <div class="container-fluid">
+                            <div class="row d-flex align-items-center">
+                                <div class="col-2">
+                                    <label for="prefix">Prefiksi</label>
+                                    <select 
+                                        [attr.disabled]="prefixDisable ? prefixDisable: null"
+                                        class="custom-select input-height"
+                                        name="prefix"
+                                        [(ngModel)]="prefixId"
+                                        #prefix 
+                                        (change)="prefixChange($event, prefix.value)">
+                                        <option *ngFor="let country of countries" value="{{country.prefix}}">
+                                            {{country.prefix}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="client">Numri i telefonit</label>
+                                    <div class="d-flex" style="height: 42px;">
+                                        <input type="text" (focusout)="onfocusLeavePhone($event)" [(ngModel)]="phone" class="form-control input-height"
+                                            placeholder="Numri i telefonit" />
+                                        <button class="ml-3 btn btn-primary m-0" (click)="findUser()">Gjej</button>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="client">Komenti i klientit</label>
+                                    <textarea type="text" [(ngModel)]="comment" class="form-control"
+                                        style="padding-left: 1rem;"
+                                        placeholder="Koment"></textarea>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="form-group pl-3">
+                            
+                            <div *ngIf="addresses && addresses.length > 0" class="row">
+                                <div class="col-4">
+                                    <label for="clientAddress">Adresat e klientit</label>
+                                    <ng-select
+                                        (change)="addressIdChange()"
+                                        [items]="addresses"
+                                        bindLabel="street"
+                                        bindValue="_id"
+                                        id="clientAddress"
+                                        [(ngModel)]="addressId">
+                                    </ng-select>
+                                    <label *ngIf="addressId !== 'newAddress' && userZone" class="d-block p5" for="userZone">{{userZone}}</label>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div [ngStyle]="{'width': addressId === 'newAddress' ? '100%': '0', 'height': addressId === 'newAddress' ? '40rem': '0'}" class="form-group d-flex flex-column">                            
+                            <div class="mapbox">
+                                <div class="map" id="map"></div>
+                            </div>
+                            <label *ngIf="addressId === 'newAddress' && userZone" class="d-block p5" for="userZone">{{userZone}}</label>
+                        </div>
+
+                        <div class="form-group ml-3">
+                            <div class="row" *ngIf="companyData && companyData.role === 'admin'">
+                                <div class="form-group col-4">
+                                    <label for="companyLink">Marketin / Restaurant</label>
+                                    <select class="custom-select" name="companyId" [(ngModel)]="supplierType"
+                                        (change)="supplierTypeChange(supplierType)">
+                                        <option value="market">Market</option>
+                                        <option value="restaurant">Restaurant</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4" *ngIf="companyData && companyData.role === 'admin'">
+                                    <label for="supplier">Furnitori</label>
+                                    <ng-select (change)="supplierChange($event)" [items]="suppliers"
+                                        [bindLabel]="supplierType === 'restaurant' ? 'name': 'company'" bindValue="_id"
+                                        id="supplier" [(ngModel)]="supplierId">
+                                    </ng-select>
+                                </div>
+                                <div class="col-4" *ngIf="supplier">
+                                    <label for="furnitorAddress">Adresa e furnitorit</label>
+                                    <select
+                                        class="custom-select"
+                                        name="supplierAdress"
+                                        [(ngModel)]="supplierAddressId"
+                                        (change)="supplierAddressChange($event)"
+                                    >
+                                        <option value=""></option>
+                                        <option *ngFor="let supplierAddress of supplierAddresses" value="{{supplierAddress._id}}">
+                                            {{supplierAddress.street}}, {{supplierAddress.city}}, {{supplierAddress.country}}</option>
+                                    </select>
+                                    <label *ngIf="supplierZone" class="d-block p5" for="supplierZone">{{supplierZone}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group pl-3" *ngIf="companyData && companyData.role === 'admin'">
+                            <div class="row">
+                                <div class="form-group col-4">
+                                    <label for="courierId">Shperndaresi</label>
+                                    <select class="custom-select" name="courierId" [(ngModel)]="courierId">
+                                        <option value=""></option>
+                                        <option *ngFor="let courier of couriers" value="{{courier._id}}">
+                                            {{courier.firstName}} {{courier.lastName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    <fieldset>
+                        <legend>Transport</legend>
+                        <div class="form-group d-flex">
+                            <div class="col-4">
+                                <label for="client">Qmimi i transportit ({{getCurrency()}})</label>
+                                <input type="number" [(ngModel)]="transport" value="0" min="0" step="0.1"
+                                    class="form-control" placeholder="Qmimi" />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Porosia</legend>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 d-flex">
+                                <div class="col">
+                                    <label for="quantity">Qmimi</label>
+                                    <input type="number" [(ngModel)]="totalPrice" min="0" value="0" class="form-control"
+                                        placeholder="Qmimi total" />
+                                </div>
+                            </div>                            
+                        </div>
+
+                        <div class="m-3">
+                            <span class="d-block">Qmimi pa transport: {{totalPrice}} {{getCurrency()}}</span>
+                            <span class="d-block">Transporti: {{transport}} {{getCurrency()}}</span>
+                            <span class="d-block">Totali: {{(totalPrice) + ( transport)}} {{getCurrency()}}</span>
+                        </div>
+                    </fieldset>
+
+                    <div class="col-12 d-flex flex-row-reverse">
+                        <button type="button" class="btn btn-secondary float-right" (click)="save()">Ruaj</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

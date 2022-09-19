@@ -1,0 +1,69 @@
+<div *ngIf="country">
+    <h3>{{country.name}}</h3>
+    <table class="table col-6">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Emri</th>
+                <td>{{country.name}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Iniciali</th>
+                <td>{{country.abbv}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Prefixi</th>
+                <td>{{country.prefix}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Monedha</th>
+                <td>{{country.currency}}</td>
+            </tr>
+        </tbody>
+        <br><br>
+        <table class="table table-hover col-12">
+            <thead>
+              <tr>
+                <th scope="col">Shteti</th>
+                <th scope="col">Geolocation Mapimi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{country.name}}</td>
+                <td *ngIf="countryMapping">
+                    <span class="d-block px-1" *ngFor="let m of countryMapping">
+                        {{m.name}}
+                    </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        <table class="table table-hover col-12">
+            <thead>
+              <tr>
+                <th scope="col">Qytetet</th>
+                <th scope="col">Kryeqytet</th>
+                <th scope="col">Geolocation Mapimi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let city of country.cities">
+                <td>{{city.name}}</td>
+                <td>{{city.capital ? "✔" : ""}}</td>
+                <td *ngIf="city && city.mapping">
+                    <span class="d-block px-1" *ngFor="let m of city.mapping">
+                        {{m}}
+                    </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </table>
+</div>

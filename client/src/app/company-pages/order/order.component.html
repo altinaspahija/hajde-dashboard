@@ -1,0 +1,81 @@
+
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Kompania
+          </h6>
+        </div>
+        <div class="card-body">
+          <p><label for="" class="mr-2"><strong>Kompania:</strong></label>  {{order?.supplier?.name}}</p>
+          <p><label for="" class="mr-2"><strong>Telefoni:</strong></label>  {{order?.company?.phone}}</p>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="card">
+      <div class="card-header mt-4 ">
+        <h6>
+          Porosia: #{{order?.orderNumber}}
+        </h6>
+      </div>
+      <div class="card-body">
+        <p><label for="" class="mr-2"><strong>Statusi:</strong></label> {{langStatus[order?.status]}}</p>
+        <p><label for="" class="mr-2"><strong>Porositurë më:</strong></label> {{order?.orderDate | date:'dd.MM.yyyy'}}</p>
+        <p><label for="" class="mr-2"><strong>Data e dërgesës	:</strong></label> {{order?.estimatedArrival | date:'dd.MM.yyyy'}}</p>        
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive mt-3">
+            <table class="table">
+              <thead class="text-primary">
+                <tr>
+                  <th>
+                    Kodi i produktit
+                  </th>
+                  <th>
+                    Produkti
+                  </th>
+                  <th>
+                    Sasia
+                  </th>
+                  <th>
+                    Çmimi
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of order?.products">
+                  <td>
+                    {{product.productCode}}
+                  </td>
+                  <td>
+                   {{product.name}}
+                  </td>
+                  <td>
+                    {{product.quantity}}
+                  </td>
+                  <td>
+                    {{(product.price * product.quantity)}} {{order?.currency}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="float-right mt-3 mb-3 mr-3">
+              <b>Transporti:</b> {{order?.transport}}  {{order?.currency}}<br>
+              <b>Totali: </b> {{order?.total | currency: order?.currency:'symbol':'1.2':'fr'}} <br>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

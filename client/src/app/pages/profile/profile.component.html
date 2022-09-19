@@ -1,0 +1,93 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4>Profili</h4>
+      </div>
+      <div class="card-body">
+          <form [formGroup]="userFormGroup" (submit)="updateInfo()">
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="name">Emri</label>
+                <input type="text" name="name" id="name" formControlName="name" [ngClass]="{'is-invalid': (getUserForm.name.errors && submittedUser) || ( getUserForm.name.touched &&  getUserForm.name.errors)}" class="form-control">
+                <div class="invalid-feedback"
+                    *ngIf="(getUserForm.name.errors?.required && submittedUser) || ( getUserForm.name.touched &&  getUserForm.name.errors?.required)">
+                      Ju lutemi vendosni emrin
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="surname">Mbiemri</label>
+                <input type="text" name="lastName" formControlName="lastName" [ngClass]="{'is-invalid': (getUserForm.lastName.errors && submittedUser) || ( getUserForm.lastName.touched &&  getUserForm.lastName.errors)}" id="surname" class="form-control">
+                <div class="invalid-feedback"
+                  *ngIf="(getUserForm.lastName.errors?.required && submittedUser) || ( getUserForm.lastName.touched &&  getUserForm.lastName.errors?.required)">
+                    Ju lutemi vendosni mbiemrin
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-secondary">Ndrysho</button>
+          </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h4>Ndrysho fjalëkalimin</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="changePasswordFormGroup" (submit)="changePassowrd()">
+          <div class="mt-3">
+            <label for="password">Fjalëkalimi i vjeter:</label>
+            <input type="password" class="form-control login-input mb-1" placeholder="" name="oldPassword" formControlName="oldPassword" [ngClass]="{'is-invalid': (getChangePasswordForm.oldPassword.errors && submitted) || ( getChangePasswordForm.oldPassword.touched &&  getChangePasswordForm.oldPassword.errors)}">
+            <div class="invalid-feedback"
+            *ngIf="(getChangePasswordForm.oldPassword.errors?.required && submitted) || ( getChangePasswordForm.oldPassword.touched &&  getChangePasswordForm.oldPassword.errors?.required)">
+               Ju lutemi vendosni fjalëkalimin i vjetër
+          </div>
+          <div class="invalid-feedback"
+            *ngIf="(getChangePasswordForm.oldPassword.errors?.minlength && submitted) || ( getChangePasswordForm.oldPassword.touched &&  getChangePasswordForm.oldPassword.errors?.minlength)">
+              Fjalëkalimi i vjetër duhet të jetë me 8 karaktere ose më i gjatë
+          </div>
+         </div> 
+          
+         <div class="mt-3">
+           <label for="password">Fjalëkalimi i ri:</label>
+           <input type="password" class="form-control login-input mb-1" placeholder="" name="password" formControlName="password" [ngClass]="{'is-invalid': (getChangePasswordForm.password.errors && submitted) || ( getChangePasswordForm.password.touched &&  getChangePasswordForm.password.errors)}">
+           <div class="imnvalid-feedback"
+           *ngIf="(getChangePasswordForm.password.errors?.required && submitted) || ( getChangePasswordForm.password.touched &&  getChangePasswordForm.password.errors?.required)">
+              Ju lutemi vendosni fjalëkalimin
+         </div>
+         <div class="invalid-feedback"
+           *ngIf="(getChangePasswordForm.password.errors?.minlength && submitted) || ( getChangePasswordForm.password.touched &&  getChangePasswordForm.password.errors?.minlength)">
+             Fjalëkalimi duhet të jetë me 8 karaktere ose më i gjatë
+         </div>
+         <div class="invalid-feedback"
+           *ngIf="(getChangePasswordForm.password.errors?.mustMatch && submitted) || ( getChangePasswordForm.password.touched &&  getChangePasswordForm.password.errors?.mustNotMatch)">
+              Fjalëkalimi i ri nuk duhet të përputhet me fjalëkalimin e vjetër
+         </div>
+        </div>
+
+       <div class="mt-3">
+            <label for="password">Konfirmo fjalëkalimin:</label>
+           <input type="password" class="form-control login-input mb-1" placeholder="" name="comparePassword" formControlName="comparePassword" [ngClass]="{'is-invalid': (getChangePasswordForm.comparePassword.errors && submitted) || ( getChangePasswordForm.comparePassword.touched &&  getChangePasswordForm.comparePassword.errors)}">
+           <div class="invalid-feedback"
+           *ngIf="(getChangePasswordForm.comparePassword.errors?.required && submitted) || ( getChangePasswordForm.comparePassword.touched &&  getChangePasswordForm.comparePassword.errors?.required)">
+              Ju lutemi vendosni fjalëkalimin
+         </div>
+         <div class="invalid-feedback"
+           *ngIf="(getChangePasswordForm.comparePassword.errors?.minlength && submitted) || ( getChangePasswordForm.comparePassword.touched &&  getChangePasswordForm.comparePassword.errors?.minlength)">
+              Fjalëkalimi duhet të jetë me 8 karaktere ose më i gjatë
+         </div>
+         <div class="invalid-feedback"
+           *ngIf="(getChangePasswordForm.comparePassword.errors?.mustMatch && submitted) || ( getChangePasswordForm.comparePassword.touched &&  getChangePasswordForm.comparePassword.errors?.mustMatch)">
+              Fjalëkalimet nuk përputhen
+         </div>
+       </div>
+       <div class="form-group">
+         <label for=""></label>
+       </div>
+       <input class="btn  btn-apply float-right" style="margin-top: -20px" type="submit" value="Ndrysho">
+      </form>
+      </div>
+    </div>
+  </div>
+</div>

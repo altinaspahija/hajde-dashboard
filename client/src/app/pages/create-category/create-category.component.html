@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4>Shto Kategorine</h4>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="categoryFormGroup"   (submit)="addCategory()">
+          <div class="form-row">
+            <div class="col-md-6">
+                <label for="name">Emri</label>
+                <input type="text" class="form-control" name="name" formControlName="name" [ngClass]="{'is-invalid': (getCategoryFormGroup.name?.errors && submitted) || ( getCategoryFormGroup.name?.touched &&  getCategoryFormGroup.name?.errors)}">
+                <div class="invalid-feedback"
+                *ngIf="(getCategoryFormGroup.name?.errors?.required && submitted) || ( getCategoryFormGroup.name?.touched &&  getCategoryFormGroup.name?.errors?.required)">
+                  Ju lutemi, shkruani emrin
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="type">Tipi</label>
+              <select class="custom-select"  name="type" formControlName="type" [ngClass]="{'is-invalid': (getCategoryFormGroup.type?.errors && submitted) || ( getCategoryFormGroup.type?.touched &&  getCategoryFormGroup.type?.errors)}">
+                <option value="">Zgjedh Tipin</option>
+                <option value="market">Market</option>
+                <option value="restaurant">Restaurant</option>
+              </select>
+              <div class="invalid-feedback"
+              *ngIf="(getCategoryFormGroup.type?.errors?.required && submitted) || ( getCategoryFormGroup.type?.touched &&  getCategoryFormGroup.type?.errors?.required)">
+                Ju lutemi, zgjedhni tipin
+            </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="type">Statusi</label>
+              <select class="custom-select"  name="isActive" formControlName="isActive" [ngClass]="{'is-invalid': (getCategoryFormGroup.isActive?.errors && submitted) || ( getCategoryFormGroup.isActive?.touched &&  getCategoryFormGroup.isActive?.errors)}">
+                <option value="">Zgjedh Statusin</option>
+                <option value="true">Active</option>
+                <option value="false">Jo Active</option>
+              </select>
+              <div class="invalid-feedback"
+              *ngIf="(getCategoryFormGroup.isActive?.errors?.required && submitted) || ( getCategoryFormGroup.isActive?.touched &&  getCategoryFormGroup.isActive?.errors?.required)">
+                Ju lutemi, zgjedhni statusin
+            </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="type">Parent Category *(Opsionale)</label>
+              <select class="custom-select"  name="parentId" formControlName="parentId">
+                <option value="null">Zgjedh Parent Category</option>
+                <option value="{{cat._id}}" *ngFor="let cat of categories">{{cat.name}}</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label for="name">Category Code</label>
+              <input type="text" class="form-control" name="code" formControlName="code" [ngClass]="{'is-invalid': (getCategoryFormGroup.code?.errors && submitted) || ( getCategoryFormGroup.code?.touched &&  getCategoryFormGroup.code?.errors)}">
+              <div class="invalid-feedback"
+              *ngIf="(getCategoryFormGroup.code?.errors?.required && submitted) || ( getCategoryFormGroup.code?.touched &&  getCategoryFormGroup.code?.errors?.required)">
+                Ju lutemi, shkruani kodin e kategorise
+            </div>
+          </div>
+          </div>
+            <div class="col-md-6">
+              <label for="imageUrl" class="mr-2">Fotografia *(Opsionale)</label><br>
+              <input type="file" id="imageUrl" (change)="onFileChange($event, 'imageUrl')" >
+            </div>
+            <button class="btn" type="submit">Ruaj</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

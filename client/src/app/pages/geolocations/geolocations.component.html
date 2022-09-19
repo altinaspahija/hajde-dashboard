@@ -1,0 +1,67 @@
+<div *ngIf="!loading">
+    <div style="display: grid; place-items: center; margin-top: 20rem;">
+        <app-spinner></app-spinner>
+    </div>
+</div>
+<div *ngIf="loading">
+    <div class="row">
+        <div class="col-md-12">
+
+            <h3>Geolocation mappings</h3>
+
+            <div class="card">
+                <div class="col-12">
+                    <div class="float-right">
+                        <button class="btn btn-primary" [routerLink]="['create']">Krijo nje shtet mapping te ri</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <th>
+                                    Shteti
+                                </th>
+                                <th>Mappingu</th>
+                                <th>
+                                    Qyteti
+                                </th>
+                                <th>Mappingu</th>
+                                <th class="text-right">
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let country of countries;">
+                                    <td>
+                                        <span>{{country.countryName}}</span>
+                                    </td>
+                                    <td *ngIf="country.countryMapping">
+                                        <span class="d-block px-1" *ngFor="let m of country.countryMapping">
+                                            {{m.name}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>{{country.cityName}}</span>
+                                    </td>
+                                    <td *ngIf="country.cityMapping">
+                                        <span class="d-block px-1" *ngFor="let m of country.cityMapping">
+                                            {{m.name}}
+                                        </span>
+                                    </td>
+
+                                    <td class="text-right">
+                                        <button class="btn btn-sm btn-secondary mr-2"
+                                            [routerLink]="[country._id,'edit']">Ndrysho</button>
+                                        <button class="btn btn-sm btn-danger"
+                                            (click)="delete(country._id)">Fshi</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

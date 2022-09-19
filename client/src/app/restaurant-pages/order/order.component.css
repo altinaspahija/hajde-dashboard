@@ -1,0 +1,12 @@
+.img-cls {
+  width: 220px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 5px 10px;
+  border: 1px solid #555;
+  cursor: pointer;
+}

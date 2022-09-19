@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4>Shto shpërndarësit</h4>
+      </div>
+      <div class="card-body">
+          <form [formGroup]="courierFormGroup" (submit)="addCourier()">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="name">Emri</label>
+                <input type="text" name="firstName" formControlName="firstName" [ngClass]="{'is-invalid': (getCourierFormGroup.firstName?.errors && submittedCourier) || ( getCourierFormGroup.firstName?.touched &&  getCourierFormGroup.firstName?.errors)}" class="form-control" id="name" class="form-control">
+                <div class="invalid-feedback"
+                  *ngIf="(getCourierFormGroup.firstName?.errors?.required && submittedCourier) || ( getCourierFormGroup.firstName?.touched &&  getCourierFormGroup.firstName?.errors?.required)">
+                    Ju lutemi, shrkuani emrin
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="surname">Mbiemri</label>
+                <input type="text"  name="lastName" formControlName="lastName" [ngClass]="{'is-invalid': (getCourierFormGroup.lastName?.errors && submittedCourier) || ( getCourierFormGroup.lastName?.touched &&  getCourierFormGroup.lastName?.errors)}" id="surname" class="form-control">
+                <div class="invalid-feedback"
+                    *ngIf="(getCourierFormGroup.lastName?.errors?.required && submittedCourier) || ( getCourierFormGroup.lastName?.touched &&  getCourierFormGroup.lastName?.errors?.required)">
+                  Ju lutemi, shrkuani mbiemrin
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="email">Numri Telefonit</label>
+                <input type="text" name="phone" formControlName="phone" [ngClass]="{'is-invalid': (getCourierFormGroup.phone?.errors && submittedCourier) || ( getCourierFormGroup.phone?.touched &&  getCourierFormGroup.phone?.errors)}" id="email" class="form-control">
+                <div class="invalid-feedback"
+                    *ngIf="(getCourierFormGroup.phone?.errors?.required && submittedCourier) || ( getCourierFormGroup.phone?.touched &&  getCourierFormGroup.phone?.errors?.required)">
+                    Ju lutemi, shrkuani numrin e telefonit
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="password">Fjalëkalimi</label>
+                <input type="password" name="password" formControlName="password" [ngClass]="{'is-invalid': (getCourierFormGroup.password.errors && submittedCourier) || ( getCourierFormGroup.password.touched &&  getCourierFormGroup.password.errors)}" id="password" class="form-control">
+                <div class="invalid-feedback"
+                  *ngIf="(getCourierFormGroup.password.errors?.required && submittedCourier) || ( getCourierFormGroup.password.touched &&  getCourierFormGroup.password.errors?.required)">
+                    Ju lutem shkruani fjalëkalimin tuaj
+              </div>
+              <div class="invalid-feedback"
+                 *ngIf="(getCourierFormGroup.password.errors?.minlength && submittedCourier) || ( getCourierFormGroup.password.touched &&  getCourierFormGroup.password.errors?.minlength)">
+                    Fjalëkalimi duhet të jetë me 8 karaktere ose më i gjatë
+              </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-secondary">Krijo</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>

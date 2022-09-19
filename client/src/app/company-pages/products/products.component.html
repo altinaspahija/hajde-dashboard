@@ -1,0 +1,130 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row mt-3 mb-3">
+          <div class="col-2">
+            <input type="text" class="form-control hajde-input" placeholder="Emri" name="name" [(ngModel)]="name"  (keyup)="search()">
+          </div>
+          <div class="col-2">
+            <input type="text" class="form-control hajde-input" placeholder="Numri i produktit" name="productCode" [(ngModel)]="productCode"  (keyup)="search()">
+          </div>
+
+      <div class="col-2">
+        <select class="form-control hajde-input" [(ngModel)]="status"  (change)="search()">
+          <option selected value="">Statusi</option>
+          <option selected value="true">Në stok</option>
+          <option selected value="false">Jasht stokut</option>
+        </select>
+      </div>
+          <div class="col-6">
+            <div class="float-right">
+              <button class="btn btn-primary" [routerLink]="['add']">
+                Krijo
+              </button>
+              <button class="btn btn-primary ml-2" [routerLink]="['import']">
+                Importo
+              </button>
+              <button class="btn btn-primary" (click)="export()">Eksporto</button>
+            </div>
+          </div>
+        
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    Nr produktit
+                  </th>
+                  <th>
+                    Emri produktit
+                  </th>
+                  <th>
+                    Njësia
+                  </th>
+                  <th>
+                    Çmimi
+                  </th>
+                   <th>
+
+                   </th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of products">
+                    <td>
+                     {{product.productCode}}
+                    </td>
+                    <td>
+                      {{product.name}}
+                    </td>
+                    <td>
+                    {{product.unit}}
+                    </td>
+                    <td>
+                      {{product.price | currency: currencyType:'symbol':'1.2':'fr'}}
+                    </td>
+
+                   
+                    <td class="d-flex">
+                      <div class="d-flex flex-row-reverse">
+                        <div class="d-flex flex-column justify-content-center align-items-center">
+                          <div class="custom-control custom-switch d-flex">
+                            <label class="custom-control mx-3" for="{{product._id}}">Inaktiv</label>
+                            <input type="checkbox" class="custom-control-input" id="{{product._id}}" [checked]="product.isAvailable" (change)="changeStatus(product._id, !product.isAvailable)">
+                            <label class="custom-control-label mx-4" for="{{product._id}}">Aktiv</label>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <button class="btn btn-sm ml-2" [routerLink]="[product._id]">
+                        Shiko
+                      </button>
+                      <button class="btn btn-sm ml-2" [routerLink]="[product._id,'edit']">
+                        Ndrysho
+                      </button>
+                      <button class="btn btn-sm ml-2" *ngIf="!product.isRecommended" (click)="makeReccomend(product._id, true)" >
+                        Rekomando
+                      </button>
+                      <button class="btn btn-sm ml-2" *ngIf="product.isRecommended" (click)="makeReccomend(product._id, false)" >
+                        Mos rekomando
+                      </button>
+                      <button class="btn btn-sm ml-2" (click)="delete(product._id)">
+                        Fshi
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="products?.length ===0 ">
+                    <td colspan="9" class="text-center">
+                      Nuk ka të dhëna
+                    </td>
+                  </tr> 
+                </tbody>
+              </table>
+            </div>
+            <div class="float-right mr-3" *ngIf="pages > 1">
+              <ul class="my-pagination">
+                <li>
+                  <a class="page-link"  aria-label="Previous" (click)="prevPage($event)">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Prev</span>
+                  </a>
+                </li>
+                <li> <input type="text" name="" id="" [disabled]="pages === 1"  (keyup)="changePage($event)" [(ngModel)]="currentPage">
+                  <p> / {{pages}}</p>
+                </li>
+                <li>
+                  <a class="page-link"  aria-label="Next" (click)="nextPage($event)">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

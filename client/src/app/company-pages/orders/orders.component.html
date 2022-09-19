@@ -1,0 +1,128 @@
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex flex-row-reverse">
+      <button [routerLink]="['new']" class="btn btn-primary">Krijo nje porosi</button>
+    </div> 
+    <div class="card">
+      
+      <div class="card-body">
+        <div class="row mt-3 mb-3">
+          <div class="col-3">
+            <input type="text" class="form-control hajde-input " placeholder="Nr prosisë" [(ngModel)]="orderNr"  (keyup)="search()">
+          </div>
+          <div class="col-3">
+            <input type="text" class="form-control hajde-input " placeholder="Numëri i telefonit korierit" [(ngModel)]="courier"  (keyup)="search()">
+          </div>
+          <div class="col-3">
+            <input type="date" name="fromDate"  class="form-control hajde-input" [(ngModel)]="fromDate">
+          </div>
+          <div class="col-3">
+            <input type="date" name="toDate" [disabled]="!fromDate"  class="form-control hajde-input mt-3" [(ngModel)]="toDate" (change)="search()">
+          </div>
+          <div class="col-3">
+            <select class="custom-select hajde-input mt-3 " [(ngModel)]="status"  (change)="changeStatus()">
+              <option selected value="">Statusi</option>
+              <option value="PENDING">{{langStatus['PENDING']}}</option>
+              <option value="CONFIRM">{{langStatus['CONFIRM']}}</option>
+              <option value="IN_PROGRESS">{{langStatus['IN_PROGRESS']}}</option>
+              <option value="COMPLETED">{{langStatus['COMPLETED']}}</option>
+              <option value="ISSUE">{{langStatus['ISSUE']}}</option>
+              <option value="REJECTED">{{langStatus['REJECTED']}}</option>
+              <option value="CANCELLED">{{langStatus['CANCELLED']}}</option>
+            </select>
+          </div>
+          <div class="col-3">
+            <button class="btn btn-primary" (click)="exportAdmin()">Eksporto</button>
+          </div>  
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    Nr porosisë
+                  </th>
+                  <th>
+                   Statusi
+                  </th>
+                  <th>
+                    Numëri i telefonit korierit
+                   </th>
+                  <th>
+                    Totali
+                   </th>
+                   <th>
+                    Transporti
+                   </th>
+                   <th>
+                     Porositurë më
+                   </th>
+                   <th>
+                    Data e dërgesës	
+                   </th>
+                   <th>
+
+                   </th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of orders">
+                    <td>
+                     {{order.orderNumber}}
+                    </td>
+                     <td>
+                      {{langStatus[order.status]}}
+                    </td>
+                    <td>
+                      {{order.courier.phone}}
+                    </td>
+                     
+                    <td>
+                      {{order?.total | currency: order?.currency:'symbol':'1.2':'fr'}}
+                    </td>
+                    <td>{{order.transport}} {{order?.currency}}</td>
+                    <td>
+                      {{order.orderDate | date:'dd.MM.yyyy'}}
+                    </td>
+                    <td>
+                      {{order.estimatedArrival | date:'dd.MM.yyyy'}}
+                    </td>
+                    <td>
+                      <button class="btn btn-sm" [routerLink]="[order._id]">
+                        Shiko
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="orders?.length ===0 ">
+                    <td colspan="9" class="text-center">
+                      Nuk ka të dhëna
+                    </td>
+                  </tr> 
+                </tbody>
+              </table>
+            </div>
+            <div class="float-right mr-3" *ngIf="pages > 1">
+              <ul class="my-pagination">
+              <li>
+                <a class="page-link"  aria-label="Previous" (click)="prevPage($event)">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Prev</span>
+                </a>
+              </li>
+              <li> <input type="text" name="" id="" [disabled]="pages === 1"  (keyup)="changePage($event)" [(ngModel)]="currentPage">
+                <p> / {{pages}}</p>
+              </li>
+              <li>
+                <a class="page-link"  aria-label="Next" (click)="nextPage($event)">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

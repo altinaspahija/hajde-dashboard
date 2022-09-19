@@ -1,0 +1,42 @@
+.companyName {
+  margin-top: 25%;
+}
+
+.info-data {
+  font-size: 60%;
+}
+
+.hajde-company-logo {
+  width: 150px;
+  height: 150px;
+}
+
+.hajde-select {
+  height: 31px;
+  font-size: 13px;
+}
+
+.hajde-input {
+  width: 210px;
+}
+
+.card-header {
+  z-index: 9999;
+}
+
+.hajde-btn {
+  border: none;
+  background: none;
+  color: #000;
+  font-size: 17px;
+}
+
+.hajde-btn:hover {
+  border: none !important;
+  background: none !important;
+  color: #51cbce !important;
+  font-size: 17px !important;
+}
+.couriers-pagination {
+  cursor: pointer;
+}

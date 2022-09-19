@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <form [formGroup]="notificationForm">
+        <div class="card-header">
+          <div class="row">
+            <div class="form-group col-md-5">
+              <label for="offerProvider">Dergo</label>
+              <select class="form-control" formControlName="senderType">
+                <option selected value="specificClient">Klient specifik</option>
+                <option selected value="targetGroup">Target grup</option>
+              </select>
+            </div>
+
+            <div *ngIf="senderTypeControl && senderTypeControl.value === 'targetGroup'" class="form-group col-md-5">
+              <label for="offerProvider">Target grupi</label>
+              <app-target-groups-select
+                [selected]="notificationForm.controls['targeGroup'] ? notificationForm.controls['targeGroup'].value : ''"
+                (change)="percentTargetGroupChanged($event)">
+              </app-target-groups-select>
+            </div>
+            <div *ngIf="senderTypeControl && senderTypeControl.value === 'targetGroup' && targetGroupControl && !isCustomTargetGroup()" class="form-group col-md-5">
+              <app-countries (onCountryChange)="handleCountryChange($event)"></app-countries>
+            </div>
+
+            <div *ngIf="senderTypeControl && senderTypeControl.value === 'specificClient'" class="form-group col-md-4">
+              <label for="offerProvider">Klienti</label>
+              <ng-select formControlName="client" [items]="clients" bindLabel="fullName" bindValue="phone" name="client"></ng-select>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="companyDescription">Titulli</label>
+              <input formControlName="title" type="text" name="orderBy" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="companyDescription">Pershkrimi</label>
+              <input formControlName="description" type="text" name="orderBy" class="form-control">
+            </div>
+          </div>
+          <div class="row mt-3 mb-3">
+            <div class="col-3">
+              <button *ngIf="senderTypeControl && senderTypeControl.value === 'targetGroup' && notificationForm.valid" class="btn" (click)="downloadList()">Shkarko listen e klienteve</button>
+              <button [disabled]="!notificationForm.valid" class="btn" type="submit" (click)="submit()">Dergo njoftim</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+ 
+</div>

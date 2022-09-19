@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Limitimi i produktit</h4>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <div>
+                                <label for="client">ProductId</label>
+                                <ng-select [items]="products" bindLabel="_id" bindValue="_id" id="productId"
+                                    [(ngModel)]="productId">
+                                </ng-select>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="name">Sasia</label>
+                                    <input type="number" [(ngModel)]="quantity" class="form-control"
+                                        placeholder="Sasia" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label for="name">Perioda [x][s|m|h|d|w|M|y]</label>
+                                    <input type="text" [(ngModel)]="period" class="form-control"
+                                        placeholder="Perioda: 1h, 1d, 2w, 1M, 1y .." />
+                                    <br />
+                                    <span class="d-block text-secondary">1s = 1 sekond</span>
+                                    <span class="d-block text-secondary">1m = 1 minut</span>
+                                    <span class="d-block text-secondary">1h = 1 or</span>
+                                    <span class="d-block text-secondary">1w = 1 jave</span>
+                                    <span class="d-block text-secondary">1M = 1 muaj</span>
+                                    <span class="d-block text-secondary">1y = 1 vjet</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex flex-row-reverse">
+                            <button type="button" class="btn btn-secondary float-right" (click)="save()">Ruaj</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

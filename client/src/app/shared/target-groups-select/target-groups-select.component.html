@@ -1,0 +1,8 @@
+<div>
+    <select [(ngModel)]="targetGroupInput" class="custom-select" name="value_targetGroup" (change)="onChange($event.target.value)">
+        <option value="">Zgjedhe target grupin</option>
+        <option 
+            *ngFor="let targetGroup of targetGroupService.targetGroups"
+            value="{{targetGroup._id}}">{{targetGroup.title}}</option>
+      </select>
+</div>

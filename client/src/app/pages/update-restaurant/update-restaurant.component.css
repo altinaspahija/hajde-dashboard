@@ -1,0 +1,22 @@
+.form-control.ng-invalid.ng-touched, .form-control.ng-invalid.is-invalid{
+  border-color: red !important;
+}
+
+
+.hajde-checkbox {
+  font-size: 18px;
+}
+
+.hajde-checkbox > input[type=checkbox] {
+  -ms-transform: scale(1.2); /* IE */
+  -moz-transform: scale(1.2); /* FF */
+  -webkit-transform: scale(1.2); /* Safari and Chrome */
+  -o-transform: scale(1.2); /* Opera */
+  transform: scale(1.2);
+  margin-top: 6.9px;
+}
+
+.hajde-company-logo {
+  width: 200px;
+  height: 200px;
+}

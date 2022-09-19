@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="col-12">
+                <div class="float-right"> 
+                   <button class="btn btn-primary" [routerLink]="['create']">Krijo nje shtet te ri</button>
+                 </div>
+              </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class=" text-primary">
+                            <th>
+                                Emri i shtetit
+                            </th>
+                            <th>Numri i qyteteve</th>
+                            <th>
+                                Initialet
+                            </th>
+                            <th>
+                                Prefixi
+                            </th>
+                            <th>
+                                Monedha
+                            </th>
+                            <th class="text-right">
+
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let country of countries">
+                                <td>
+                                    <a [routerLink]="[country._id]">{{country.name}}</a>
+                                </td>
+                                <td>{{country.cities.length}}</td>
+                                <td>
+                                    {{country.abbv}}
+                                </td>
+                                <td>
+                                    {{country.prefix}}
+                                </td>
+                                <td>
+                                    {{country.currency ? country.currency : ""}}
+                                </td>
+                                <td class="text-right">
+                                    <button class="btn btn-sm btn-secondary mr-2"
+                                        [routerLink]="[country._id,'edit']">Ndrysho</button>
+                                    <button class="btn btn-sm btn-danger" (click)="delete(country._id)">Fshi</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

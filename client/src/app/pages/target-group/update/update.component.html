@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Target grupi</h4>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="name">Titulli</label>
+                            <input type="text" [(ngModel)]="title" class="form-control"
+                                placeholder="Titulli i target grupit" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <div>
+                                <label for="client">Klienti</label>
+                                <ng-select [items]="clients" bindLabel="fullName" bindValue="_id" id="client" [(ngModel)]="selectedClient">
+                                </ng-select>
+                            </div>
+                            <button type="button" class="btn btn-secondary float-right" (click)="addClient()">Shto</button>
+                        </div>
+                        <table class="table">
+                            <thead class=" text-primary">
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Emri
+                                </th>
+                                <th>
+                                    Mbiemri
+                                </th>
+                                <th>
+                                    Tel
+                                </th>
+                                <th class="text-right">
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tg of clientsTable">
+                                    <td>
+                                        <span>{{tg._id}}</span>
+                                    </td>
+                                    <td>{{tg.firstName}}</td>
+                                    <td>{{tg.lastName}}</td>
+                                    <td>{{tg.phone}}</td>
+                                    <td class="text-right">
+                                        <button class="btn btn-sm btn-secondary" (click)="delete(tg._id)">Fshi</button>
+                                      </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="col-12 d-flex flex-row-reverse">
+                            <button type="button" class="btn btn-secondary float-right" (click)="save()">Ruaj</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

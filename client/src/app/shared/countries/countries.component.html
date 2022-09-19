@@ -1,0 +1,14 @@
+<div>
+    <select class="custom-select"
+        [attr.disabled]="disabled === true ? true : null"
+        [(ngModel)]="countrySelected"
+        (change)="changeCountry()">
+        <option value="">Zgjedhe shtetin</option>
+
+        <option 
+            *ngFor="let country of (countries$ | async)" [ngValue]="country.name"
+        >
+            {{country.name}}
+        </option>
+    </select>
+</div>

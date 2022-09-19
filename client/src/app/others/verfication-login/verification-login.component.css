@@ -1,0 +1,46 @@
+.verfication {
+  margin-top: 10%;
+  border-radius: 5%;
+  padding: 2em;
+  background-color: #f4f3ef;
+  box-shadow: 3px 3px 5px 6px #cccccc4f;
+}
+
+.hajde-btn {
+  background-color: #6d6d6d !important;
+}
+
+.otp-code {
+  display: flex;
+  flex-direction: column;
+  margin-top: 9px;
+  justify-content: center;
+  align-items: center;
+
+  margin: 1rem;
+}
+
+.otp-code > span {
+  outline: none;
+  padding: 3px;
+  border-radius: 10px;
+  border: 0;
+  width: 100%;
+  background: lightgray;
+  padding: 10px;
+  word-break: break-all;
+  text-align: center;
+}
+
+.otp-code > span::selection {
+  background: gray;
+}
+
+
+.otp-submit {
+  max-width: 300px;
+  text-align: center;
+  border-radius: 10px;
+  outline: none;
+  border: 1px solid black;
+}

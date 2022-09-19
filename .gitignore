@@ -1,0 +1,15 @@
+dist/
+client/node_modules/
+node_modules/
+hajde-shqiperi/
+client/.DS_Store
+client/.DS_Store
+.DS_Store
+client/.DS_Store
+.DS_Store
+client/.DS_Store
+.DS_Store
+logs/logger.log
+.env
+.idea
+client/.angular

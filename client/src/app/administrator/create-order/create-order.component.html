@@ -1,0 +1,186 @@
+
+<form [formGroup]='productForms' (submit)="saveOrder()">
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Tipi
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <select class="custom-select" id="inputGroupSelect01" formControlName="orderType" name="orderType" (change)="changeType()">
+                <option value="market">Market</option>
+                <option value="restaurant">Restaurant</option>
+              </select>
+              <div class="invalid-feedback"
+              *ngIf="(getNProductFormGroup.orderType?.errors?.required && submittedProducts) || ( getNProductFormGroup.orderType?.touched &&  getNProductFormGroup.orderType?.errors?.required)">
+              Ju lutemi, zgjedhni tipinn
+          </div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Kompania
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <ng-select [items]="companies"
+            bindLabel="company"
+            bindValue="_id"
+            formControlName="companyId" 
+            [ngClass]="{'is-invalid': (getNProductFormGroup.companyId?.errors && submittedProducts) || ( getNProductFormGroup.companyId?.touched &&  getNProductFormGroup.companyId?.errors)}"
+            name="companyId"
+            (change)="loadProducts()"
+            *ngIf="orderType.value == 'market'">
+          </ng-select>
+          <ng-select [items]="companies"
+            bindLabel="name"
+            bindValue="_id"
+            formControlName="companyId" 
+            [ngClass]="{'is-invalid': (getNProductFormGroup.companyId?.errors && submittedProducts) || ( getNProductFormGroup.companyId?.touched &&  getNProductFormGroup.companyId?.errors)}"
+            name="companyId"
+            (change)="loadProducts()"
+            *ngIf="orderType.value == 'restaurant'">
+          </ng-select>
+          <div class="invalid-feedback"
+              *ngIf="(getNProductFormGroup.companyId?.errors?.required && submittedProducts) || ( getNProductFormGroup.companyId?.touched &&  getNProductFormGroup.companyId?.errors?.required)">
+              Ju lutemi, zgjedhni kompaninë
+          </div>
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>   
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Klienti
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <ng-select [items]="clients"
+            bindLabel="fullName"
+            bindValue="_id"
+            formControlName="clientId" 
+            [ngClass]="{'is-invalid': (getNProductFormGroup.clientId?.errors && submittedProducts) || ( getNProductFormGroup.clientId?.touched &&  getNProductFormGroup.clientId?.errors)}"
+            name="clientId">
+          </ng-select>
+          <div class="invalid-feedback"
+              *ngIf="(getNProductFormGroup.clientId?.errors?.required && submittedProducts) || ( getNProductFormGroup.clientId?.touched &&  getNProductFormGroup.clientId?.errors?.required)">
+              Ju lutemi, zgjedhni klientin
+          </div>
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="card">
+        <div class="card-header mt-4 ">
+          <h6>
+            Komenti i klientit
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+           <textarea class="form-control" formControlName='clientComment' name="clientComment"></textarea>
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div  class="col-12">
+      <div class="float-right">
+        <button (click)="addNewProduc()" class="btn btn-md ml-3">
+          Shto produkt
+        </button>
+        
+      </div>
+    </div>
+  </div>
+ 
+  <div class="row" formArrayName='prdcts'>
+     <div class="col-6" *ngFor="let product of prdcts.controls; let i=index">
+      <div class="card">
+        <div class="card-body" [formGroupName]="i">
+          <div class="form-group">
+            <label for="">Produkti:</label>
+            <ng-select [items]="options"
+            bindLabel="name"
+            bindValue="_id"
+            formControlName="product_id" 
+            [ngClass]="{'is-invalid': (getNProductFormGroup.prdcts?.controls[i].controls?.product_id?.errors && submittedProducts) || ( getNProductFormGroup.prdcts?.controls[i].controls?.product_id?.touched &&  getNProductFormGroup.prdcts?.controls[i].controls?.product_id?.errors)}"
+            name="product_id">
+          </ng-select>
+          <div class="invalid-feedback"
+              *ngIf="(getNProductFormGroup.prdcts?.controls[i].controls?.productId?.errors?.required && submittedProducts) || ( getNProductFormGroup.prdcts?.controls[i].controls?.product_id?.touched &&  getNProductFormGroup.prdcts?.controls[i].controls?.product_id?.errors?.required)">
+              Ju lutemi, zgjedhni produktin
+          </div>
+          </div>
+          
+          <div class="form-group">
+          <label for="">Sasia:</label>
+           <input class="form-control" type="number" formControlName='quantity'
+           [ngClass]="{'is-invalid': (getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.errors && submittedProducts) || ( getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.touched &&  getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.errors)}"
+           >
+           <div class="invalid-feedback"
+              *ngIf="(getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.errors?.required && submittedProducts) || ( getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.touched &&  getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.errors?.required)">
+              Ju lutemi shtypeni sasinë
+          </div>
+          <div class="invalid-feedback"
+              *ngIf="(getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.errors?.max && submittedProducts) || ( getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.touched &&  getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.errors?.max)">
+              Sasia nuk mundet të jëtë më madhe se 100
+          </div>
+          <div class="invalid-feedback"
+              *ngIf="(getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.errors?.min && submittedProducts) || ( getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.touched &&  getNProductFormGroup.prdcts?.controls[i].controls?.quantity?.errors?.min)">
+              Sasia nuk mundet të jëtë më vogël se 1
+          </div>
+          </div>
+          
+        
+          <div class="float-right">
+            <br *ngIf="i == 0" />
+            <br *ngIf="i == 0" />
+            <br *ngIf="i == 0" />
+            <button *ngIf="i != 0"  class="btn btn-primary" (click)="deleteProduct($event,i)">Fshi</button>
+          </div>
+      </div>
+      </div>
+        
+        
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="float-right">
+      <input type="submit" class="btn btn-primary" value="Ruaj">
+    </div>
+  </div>
+</form>

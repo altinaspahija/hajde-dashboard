@@ -1,0 +1,39 @@
+<div class="container-fluid login-space ">
+    <div class="row justify-content-center">
+      <div class="col-10 col-md-6 col-lg-4 login-form">
+        <form [formGroup]="loginFormGroup" (submit)="loginUser()">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email adresa</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" formControlName="email" [ngClass]="{'is-invalid': (getLoginFormGroup.email?.errors && submittedLogin) || ( getLoginFormGroup.email?.touched &&  getLoginFormGroup.email?.errors)}"> 
+            <div class="invalid-feedback"
+                *ngIf="(getLoginFormGroup.email?.errors?.required && submittedLogin) || ( getLoginFormGroup.email?.touched &&  getLoginFormGroup.email?.errors?.required)">
+                    Ju lutemi vendosni e-mail adresën
+            </div>  
+            <div class="invalid-feedback"
+                 *ngIf="(getLoginFormGroup.email?.errors?.email && submittedLogin) || ( getLoginFormGroup.email?.touched &&  getLoginFormGroup.email.errors?.email)" [ngClass]="{'is-invalid': (getLoginFormGroup.email?.errors && submittedLogin) || ( getLoginFormGroup.email?.touched &&  getLoginFormGroup.email?.errors)}">
+                 Ju lutemi vendosni një e-mail të vlefshëm
+            </div>   
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Fjalëkalimi</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password" formControlName="password" [ngClass]="{'is-invalid': (getLoginFormGroup.password.errors && submittedLogin) || ( getLoginFormGroup.password.touched &&  getLoginFormGroup.password.errors)}">
+            <div class="invalid-feedback"
+            *ngIf="(getLoginFormGroup.password.errors?.required && submittedLogin) || ( getLoginFormGroup.password.touched &&  getLoginFormGroup.password.errors?.required)">
+                Ju lutem shkruani fjalëkalimin tuaj
+            </div>
+            <div class="invalid-feedback"
+                 *ngIf="(getLoginFormGroup.password.errors?.minlength && submittedLogin) || ( getLoginFormGroup.password.touched &&  getLoginFormGroup.password.errors?.minlength)">
+                 Fjalëkalimi duhet të jetë me 8 karaktere ose më i gjatë
+            </div>
+          </div>
+          <div class="form-group form-check">
+            <a class="forgot-link" [routerLink]="['forgot-password']">Keni haruar fjalëkalimin?</a>
+          </div>
+          <button type="submit" [disabled]="submittedLogin" class="btn btn-primary hajde-btn" >Kyçu</button>
+        </form>
+        <div class="alert alert-danger w-100" role="alert" *ngIf="errorMessage">
+          {{errorMessage }}
+        </div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row mt-3 mb-3">
+          <div class="col-3">
+            <select class="custom-select hajde-input hajde-select" [(ngModel)]="status"  (change)="changeStatus()">
+              <option value="">Statusi</option>
+              <option value="true">Aktiv</option>
+              <option value="false">Jo Aktiv</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <div class="float-right"> 
+               <button class="btn " [routerLink]="['create']">Krijo baner</button>
+             </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Baneri
+              </th>
+              <th>
+                Statusi
+              </th>
+              <th>
+                Kompania
+              </th>
+              <th>
+                Shteti
+              </th>
+              <th>
+                Qyteti
+              </th>
+              <th class="text-right">
+              
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let banner of banners">
+                <td>
+                 {{banner.imageURL}}
+                </td>
+                <td>
+                  {{banner.isActive ? 'Aktiv' : 'Jo Aktiv'}}
+                </td>
+                <td *ngIf="banner.availableForAll">
+                  Për të gjitha
+                </td>
+                <td *ngIf="!banner.availableForAll">
+                  {{ find(banner.companyId)}}
+                </td>
+                <td>{{banner.country}}</td>
+                <td>{{banner.city}}</td>
+                <td class="text-right">
+                  <button class="btn btn-sm btn-secondary mr-2"  [routerLink]="[banner._id,'edit']" >Ndrysho</button>
+                  <button class="btn btn-sm btn-secondary mr-2"  *ngIf="!banner.isActive"  (click)="activate(banner._id)" >Aktivizo</button>
+                  <button class="btn btn-sm btn-secondary mr-2"  *ngIf="banner.isActive"  (click)="deactivate(banner._id)" >Deaktivizo</button>
+                  <button class="btn btn-sm btn-secondary" (click)="delete(banner._id)">Fshi</button>
+                </td>
+              </tr>
+              <tr *ngIf="banners?.length ==0">
+                <td colspan="5" class="text-center">
+                  Nuk ka të dhana
+                </td>
+              </tr> 
+            </tbody>
+          </table>
+          <div class="row mt-2" *ngIf="pages != 0 && pages != 1">
+            <div class="col-12">
+              <div class="float-right mr-3">
+                <nav class="" aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <li class="page-item">
+                      <a class="page-link"  aria-label="Previous" (click)="prevPage($event)">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Prev</span>
+                      </a>
+                    </li>
+                      <li class="page-item" [ngClass]="{active: i+1 == currentPage }" *ngFor="let item of arrayOne(pages); let i = index;"><a class="page-link" [attr.data-pagenumber]="i+1" (click)="changePage($event)" >{{i+1}}</a></li>
+                      
+                    <li class="page-item">
+                      <a class="page-link"  aria-label="Next" (click)="nextPage($event)">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</div>

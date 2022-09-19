@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "f5f98041-6c3a-4379-aa29-1fd66ac85f7a",
+		"name": "hajde-dashboard",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "Find Account By Id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{hajde_app_dashboard_token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{hajde_app_base_url}}/accounts/:account_id",
+							"host": [
+								"{{hajde_app_base_url}}"
+							],
+							"path": [
+								"accounts",
+								":account_id"
+							],
+							"variable": [
+								{
+									"key": "account_id",
+									"value": "62526309a2c765005cd4dc73"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"\",\n    \"lastName\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hajde_app_base_url}}/accounts/update",
+							"host": [
+								"{{hajde_app_base_url}}"
+							],
+							"path": [
+								"accounts",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Account Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"oldPassword\": \"\",\n    \"password\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hajde_app_base_url}}/accounts/change-password",
+							"host": [
+								"{{hajde_app_base_url}}"
+							],
+							"path": [
+								"accounts",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"hajde_app_dashboard_token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"barlet.bajra@gmail.com\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hajde_app_base_url}}/auth",
+							"host": [
+								"{{hajde_app_base_url}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"barlet.bajra@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hajde_app_base_url}}/forgot-password",
+							"host": [
+								"{{hajde_app_base_url}}"
+							],
+							"path": [
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newPassword\": \"<hash>\",\n    \"newPasswordConfirm\": \"<hash>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hajde_app_base_url}}/reset-password/:token",
+							"host": [
+								"{{hajde_app_base_url}}"
+							],
+							"path": [
+								"reset-password",
+								":token"
+							],
+							"variable": [
+								{
+									"key": "token",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "companies",
+			"item": []
+		},
+		{
+			"name": "restaurants",
+			"item": []
+		},
+		{
+			"name": "couriers",
+			"item": []
+		},
+		{
+			"name": "clients",
+			"item": []
+		},
+		{
+			"name": "orders",
+			"item": []
+		},
+		{
+			"name": "products",
+			"item": []
+		},
+		{
+			"name": "menus",
+			"item": []
+		},
+		{
+			"name": "importer",
+			"item": []
+		},
+		{
+			"name": "category",
+			"item": []
+		},
+		{
+			"name": "categories",
+			"item": []
+		},
+		{
+			"name": "company-category",
+			"item": []
+		},
+		{
+			"name": "notifications",
+			"item": []
+		},
+		{
+			"name": "banners",
+			"item": []
+		},
+		{
+			"name": "offers",
+			"item": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "hajde_app_base_url",
+			"value": "http://127.0.0.1:3000/api"
+		},
+		{
+			"key": "hajde_app_dashboard_token",
+			"value": "null",
+			"type": "default"
+		}
+	]
+}

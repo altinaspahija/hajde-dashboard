@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+@import "/client/node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import '~mapbox-gl/dist/mapbox-gl.css';
+@import '~@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
+
+.btn-clear {
+  margin: 0;
+  margin-top: 3px;
+}
+
+
+.dropdown-item {
+  height: 55px !important;
+}
+
+
+.notSeen {
+  background-color: #D1D4D7 !important;
+}
